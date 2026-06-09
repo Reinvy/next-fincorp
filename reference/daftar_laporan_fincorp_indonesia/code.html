@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Daftar Laporan - FinCorp Indonesia</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#000f27",
+                        "surface": "#f8f9ff",
+                        "primary-container": "#0b2447",
+                        "inverse-surface": "#213145",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#d3e4fe",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#cbdbf5",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed": "#2f1400",
+                        "inverse-primary": "#b1c7f3",
+                        "on-secondary-fixed": "#001a43",
+                        "tertiary-fixed-dim": "#f6ba8e",
+                        "on-primary-fixed": "#011b3e",
+                        "on-secondary-fixed-variant": "#29457c",
+                        "tertiary": "#1d0a00",
+                        "on-surface": "#0b1c30",
+                        "surface-container": "#e5eeff",
+                        "primary-fixed": "#d6e3ff",
+                        "on-tertiary-fixed-variant": "#663d1b",
+                        "tertiary-container": "#3c1c00",
+                        "primary-fixed-dim": "#b1c7f3",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-fixed": "#d9e2ff",
+                        "secondary": "#435d95",
+                        "outline": "#74777f",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#a6c0ff",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-fixed-dim": "#afc6ff",
+                        "surface-muted": "#F8FAFC",
+                        "outline-variant": "#c4c6cf",
+                        "on-secondary-container": "#324e85",
+                        "on-primary-fixed-variant": "#32476c",
+                        "tertiary-fixed": "#ffdcc4",
+                        "danger-liability": "#A73121",
+                        "on-primary-container": "#778cb5",
+                        "surface-tint": "#4a5f85",
+                        "border-subtle": "#E2E8F0",
+                        "warning-deadline": "#B45309",
+                        "on-tertiary-container": "#b48059",
+                        "surface-container-low": "#eff4ff",
+                        "on-background": "#0b1c30",
+                        "background": "#f8f9ff",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#44474e",
+                        "success-positive": "#1A5D1A"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "container-max": "1440px",
+                        "unit": "4px",
+                        "table-row-height": "40px",
+                        "margin-edge": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "tabular-nums": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "tabular-nums": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md font-body-md overflow-x-hidden flex h-screen">
+<!-- SideNavBar -->
+<nav class="hidden xl:flex flex-col h-full py-margin-edge bg-primary dark:bg-primary-container docked left-0 h-screen w-64 shrink-0 transition-all duration-200 ease-in-out">
+<div class="px-margin-edge mb-8">
+<h1 class="font-headline-sm text-headline-sm text-on-primary font-bold">FinCorp Indonesia</h1>
+<p class="font-body-sm text-body-sm text-on-primary-container">Corporate Accounting</p>
+</div>
+<div class="px-margin-edge mb-8">
+<button class="w-full bg-secondary text-on-secondary font-label-md text-label-md py-2 px-4 rounded transition-colors hover:bg-secondary/90 flex items-center justify-center gap-2 scale-95 active:scale-90 transition-transform duration-200 ease-in-out">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add</span>
+                New Transaction
+            </button>
+</div>
+<ul class="flex flex-col gap-1 px-4 flex-grow overflow-y-auto">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_balance</span>
+                    Accounting
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+                    Sales
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">shopping_cart</span>
+                    Purchases
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_balance_wallet</span>
+                    Cash &amp; Bank
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">precision_manufacturing</span>
+                    Fixed Assets
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">gavel</span>
+                    Tax Module
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-primary bg-secondary/20 border-r-4 border-secondary-container transition-colors duration-200 ease-in-out scale-95 active:scale-90 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assessment</span>
+                    Reports
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-4 border-t border-secondary-container/20 pt-4">
+<ul class="flex flex-col gap-1">
+<li>
+<a class="flex items-center gap-3 px-4 py-2 rounded text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">settings</span>
+                        Settings
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 rounded text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">help_outline</span>
+                        Support
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 bg-surface-muted overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-margin-edge h-table-row-height bg-surface dark:bg-inverse-surface docked full-width top-0 border-b border-border-subtle dark:border-outline-variant flat no shadows transition-all duration-200 z-10 shrink-0 h-[64px]">
+<div class="flex items-center gap-6">
+<!-- Mobile Menu Trigger -->
+<button class="xl:hidden text-primary hover:text-primary transition-colors p-2 -ml-2 rounded-full hover:bg-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="hidden md:flex items-center gap-4 border-l border-border-subtle pl-6 h-8">
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-inverse-primary transition-all duration-200 font-label-md text-label-md uppercase tracking-wider" href="#">Companies</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-inverse-primary transition-all duration-200 font-label-md text-label-md uppercase tracking-wider" href="#">Deadlines</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1 mr-2">
+<button class="p-2 text-on-surface-variant hover:text-primary rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">search</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary rounded-full hover:bg-surface-container transition-colors relative">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">business_center</span>
+</button>
+</div>
+<button class="flex items-center gap-2 hover:bg-surface-container p-1 pr-3 rounded-full transition-colors border border-border-subtle">
+<img alt="User Avatar" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-DLX6dKgtLgM55NrKNWyI0q-ZHLOd6qPoLCQrjJ_fNULVrjrDHBHYUOnJSauKJXOt5suujsPIAtIC1o1RdEgWVAbSmRvch8N_U5qSSNc3_iYCBiFiY9yrPa2LXz3xGXylKN1VUnFewa8JkpiAokSxTDwioPDwHvbo1sAsqb7yK7r0nhOUS3SIwZWCeJXSPgZN19ullS-Bp7ymSvgnd6NbuGvd4WpE2zMq0oXTNr-wvYo23kM4hObQxwL_oVG6YC9a0oFdAE1E548"/>
+<span class="font-label-md text-label-md text-primary">Profile</span>
+</button>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 overflow-y-auto p-margin-edge">
+<div class="max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary mb-2">Daftar Laporan</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Akses dan kelola seluruh laporan keuangan, operasional, dan perpajakan Anda dalam satu pusat kendali.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-border-subtle rounded bg-surface-container-lowest text-primary hover:bg-surface-container transition-colors font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                            Filter Laporan
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded bg-primary text-on-primary hover:bg-primary-container transition-colors font-label-md text-label-md shadow-sm">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                            Periode: Okt 2023
+                        </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Kategori: Laporan Keuangan -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+<div class="p-6 border-b border-border-subtle bg-surface-container-low flex items-start gap-4">
+<div class="w-12 h-12 rounded bg-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-fixed" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Laporan Keuangan</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Ringkasan performa finansial dan posisi kas perusahaan secara menyeluruh.</p>
+</div>
+</div>
+<div class="p-0 flex-1 flex flex-col">
+<!-- Report Item -->
+<div class="p-4 border-b border-border-subtle hover:bg-surface-muted transition-colors flex items-center justify-between group">
+<div class="pr-4">
+<h4 class="font-tabular-nums text-tabular-nums text-primary mb-1">Neraca Saldo (Balance Sheet)</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Posisi aset, kewajiban, dan ekuitas per tanggal tertentu.</p>
+</div>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded border border-border-subtle bg-surface flex items-center justify-center text-primary hover:bg-surface-variant" title="Lihat">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+</button>
+<button class="w-8 h-8 rounded bg-secondary text-on-secondary flex items-center justify-center hover:bg-secondary/90" title="Unduh PDF">
+<span class="material-symbols-outlined text-[16px]">download</span>
+</button>
+</div>
+</div>
+<!-- Report Item -->
+<div class="p-4 border-b border-border-subtle hover:bg-surface-muted transition-colors flex items-center justify-between group">
+<div class="pr-4">
+<h4 class="font-tabular-nums text-tabular-nums text-primary mb-1">Laba Rugi (Profit &amp; Loss)</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Rincian pendapatan, HPP, dan beban operasional.</p>
+</div>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded border border-border-subtle bg-surface flex items-center justify-center text-primary hover:bg-surface-variant" title="Lihat">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+</button>
+<button class="w-8 h-8 rounded bg-secondary text-on-secondary flex items-center justify-center hover:bg-secondary/90" title="Unduh PDF">
+<span class="material-symbols-outlined text-[16px]">download</span>
+</button>
+</div>
+</div>
+<!-- Report Item -->
+<div class="p-4 hover:bg-surface-muted transition-colors flex items-center justify-between group mt-auto">
+<div class="pr-4">
+<h4 class="font-tabular-nums text-tabular-nums text-primary mb-1">Arus Kas (Cash Flow)</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Aktivitas operasi, investasi, dan pendanaan.</p>
+</div>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded border border-border-subtle bg-surface flex items-center justify-center text-primary hover:bg-surface-variant" title="Lihat">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+</button>
+<button class="w-8 h-8 rounded bg-secondary text-on-secondary flex items-center justify-center hover:bg-secondary/90" title="Unduh Excel">
+<span class="material-symbols-outlined text-[16px]">table_chart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Kategori: Laporan Operasional -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+<div class="p-6 border-b border-border-subtle bg-surface-container-low flex items-start gap-4">
+<div class="w-12 h-12 rounded bg-secondary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-secondary-fixed" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Penjualan &amp; Pembelian</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Analisis transaksi komersial, umur piutang, dan histori vendor.</p>
+</div>
+</div>
+<div class="p-0 flex-1 flex flex-col">
+<!-- Report Item -->
+<div class="p-4 border-b border-border-subtle hover:bg-surface-muted transition-colors flex items-center justify-between group">
+<div class="pr-4">
+<h4 class="font-tabular-nums text-tabular-nums text-primary mb-1">Buku Besar Penjualan</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Rincian faktur per pelanggan dan item.</p>
+</div>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded bg-secondary text-on-secondary flex items-center justify-center hover:bg-secondary/90" title="Generate Excel">
+<span class="material-symbols-outlined text-[16px]">table_chart</span>
+</button>
+</div>
+</div>
+<!-- Report Item -->
+<div class="p-4 border-b border-border-subtle hover:bg-surface-muted transition-colors flex items-center justify-between group">
+<div class="pr-4">
+<h4 class="font-tabular-nums text-tabular-nums text-primary mb-1">Umur Piutang (AR Aging)</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Monitoring tagihan jatuh tempo.</p>
+</div>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded border border-border-subtle bg-surface flex items-center justify-center text-primary hover:bg-surface-variant" title="Lihat">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Report Item -->
+<div class="p-4 hover:bg-surface-muted transition-colors flex items-center justify-between group mt-auto">
+<div class="pr-4">
+<h4 class="font-tabular-nums text-tabular-nums text-primary mb-1">Laporan Rekonsiliasi Pembelian</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Pencocokan PO, Penerimaan Barang, dan Tagihan.</p>
+</div>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded bg-secondary text-on-secondary flex items-center justify-center hover:bg-secondary/90" title="Unduh PDF">
+<span class="material-symbols-outlined text-[16px]">download</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Kategori: Laporan Pajak -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+<div class="p-6 border-b border-border-subtle bg-error-container/40 flex items-start gap-4">
+<div class="w-12 h-12 rounded bg-surface-container-lowest border border-border-subtle flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-danger-liability" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Laporan Pajak</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Ekspor data sesuai standar e-Faktur dan pelaporan DJP.</p>
+</div>
+</div>
+<div class="p-0 flex-1 flex flex-col">
+<!-- Report Item -->
+<div class="p-4 border-b border-border-subtle hover:bg-surface-muted transition-colors flex items-center justify-between group">
+<div class="pr-4">
+<h4 class="font-tabular-nums text-tabular-nums text-primary mb-1">Rekap PPN Masukan/Keluaran</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Basis SPT Masa PPN.</p>
+</div>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded bg-primary text-on-primary flex items-center justify-center hover:bg-primary-container" title="Ekspor CSV e-Faktur">
+<span class="material-symbols-outlined text-[16px]">data_object</span>
+</button>
+</div>
+</div>
+<!-- Report Item -->
+<div class="p-4 border-b border-border-subtle hover:bg-surface-muted transition-colors flex items-center justify-between group">
+<div class="pr-4">
+<h4 class="font-tabular-nums text-tabular-nums text-primary mb-1">Bukti Potong PPh 23</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Daftar pemotongan pajak atas jasa.</p>
+</div>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded border border-border-subtle bg-surface flex items-center justify-center text-primary hover:bg-surface-variant" title="Lihat">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+</button>
+<button class="w-8 h-8 rounded bg-secondary text-on-secondary flex items-center justify-center hover:bg-secondary/90" title="Unduh Daftar">
+<span class="material-symbols-outlined text-[16px]">download</span>
+</button>
+</div>
+</div>
+<!-- Report Item -->
+<div class="p-4 hover:bg-surface-muted transition-colors flex items-center justify-between group mt-auto">
+<div class="pr-4 flex items-center gap-2">
+<h4 class="font-tabular-nums text-tabular-nums text-primary mb-1">Equalisasi Pendapatan</h4>
+<span class="px-2 py-0.5 bg-surface-variant text-on-surface-variant text-[10px] rounded uppercase font-bold tracking-wider">Premium</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-xs mt-1">Komparasi GL vs SPT PPN.</p>
+<div class="flex gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity justify-end">
+<button class="px-3 py-1.5 rounded bg-surface border border-border-subtle text-primary hover:bg-surface-variant text-xs font-label-md">
+                                        Generate
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

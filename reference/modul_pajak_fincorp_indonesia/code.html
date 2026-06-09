@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Modul Pajak - FinCorp Indonesia</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#000f27",
+                      "surface": "#f8f9ff",
+                      "primary-container": "#0b2447",
+                      "inverse-surface": "#213145",
+                      "surface-container-lowest": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "surface-container-highest": "#d3e4fe",
+                      "error": "#ba1a1a",
+                      "surface-dim": "#cbdbf5",
+                      "surface-variant": "#d3e4fe",
+                      "on-tertiary-fixed": "#2f1400",
+                      "inverse-primary": "#b1c7f3",
+                      "on-secondary-fixed": "#001a43",
+                      "tertiary-fixed-dim": "#f6ba8e",
+                      "on-primary-fixed": "#011b3e",
+                      "on-secondary-fixed-variant": "#29457c",
+                      "tertiary": "#1d0a00",
+                      "on-surface": "#0b1c30",
+                      "surface-container": "#e5eeff",
+                      "primary-fixed": "#d6e3ff",
+                      "on-tertiary-fixed-variant": "#663d1b",
+                      "tertiary-container": "#3c1c00",
+                      "primary-fixed-dim": "#b1c7f3",
+                      "error-container": "#ffdad6",
+                      "surface-container-high": "#dce9ff",
+                      "secondary-fixed": "#d9e2ff",
+                      "secondary": "#435d95",
+                      "outline": "#74777f",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-primary": "#ffffff",
+                      "secondary-container": "#a6c0ff",
+                      "on-secondary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "surface-bright": "#f8f9ff",
+                      "secondary-fixed-dim": "#afc6ff",
+                      "surface-muted": "#F8FAFC",
+                      "outline-variant": "#c4c6cf",
+                      "on-secondary-container": "#324e85",
+                      "on-primary-fixed-variant": "#32476c",
+                      "tertiary-fixed": "#ffdcc4",
+                      "danger-liability": "#A73121",
+                      "on-primary-container": "#778cb5",
+                      "surface-tint": "#4a5f85",
+                      "border-subtle": "#E2E8F0",
+                      "warning-deadline": "#B45309",
+                      "on-tertiary-container": "#b48059",
+                      "surface-container-low": "#eff4ff",
+                      "on-background": "#0b1c30",
+                      "background": "#f8f9ff",
+                      "on-tertiary": "#ffffff",
+                      "on-surface-variant": "#44474e",
+                      "success-positive": "#1A5D1A"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "container-max": "1440px",
+                      "unit": "4px",
+                      "table-row-height": "40px",
+                      "margin-edge": "24px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Hanken Grotesk"
+                      ],
+                      "tabular-nums": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "tabular-nums": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+        .fill-icon .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Scrollbar styles for data-density tables */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav aria-label="Sidebar" class="hidden md:flex flex-col h-screen w-64 bg-primary text-secondary-fixed py-margin-edge flex-shrink-0">
+<!-- Brand / Header -->
+<div class="px-margin-edge mb-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-secondary-container flex items-center justify-center text-primary-container font-bold flex-shrink-0">
+                F
+            </div>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-on-primary font-bold">FinCorp Indonesia</h1>
+<p class="font-label-md text-label-md text-on-primary/70">Corporate Accounting</p>
+</div>
+</div>
+<!-- CTA -->
+<div class="px-margin-edge mb-6">
+<button class="w-full bg-secondary-container text-on-secondary-container font-label-md text-label-md py-2 px-4 rounded transition-all duration-200 hover:bg-secondary-fixed-dim flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                New Transaction
+            </button>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto">
+<ul class="space-y-1 px-3">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span class="font-body-md text-body-md">Accounting</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-body-md text-body-md">Sales</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-body-md text-body-md">Purchases</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-body-md text-body-md">Cash &amp; Bank</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">precision_manufacturing</span>
+<span class="font-body-md text-body-md">Fixed Assets</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary bg-secondary/20 border-r-4 border-secondary-container transition-colors duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-body-md text-body-md">Tax Module</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+</li>
+</ul>
+</div>
+<!-- Footer Links -->
+<div class="mt-auto px-3 pt-4 border-t border-secondary/30">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-secondary/10 transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-body-md text-body-md">Support</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col h-screen overflow-hidden bg-surface-muted">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-margin-edge h-table-row-height bg-surface border-b border-border-subtle flex-shrink-0">
+<!-- Left: Mobile Menu & Search (Placeholder structure) -->
+<div class="flex items-center gap-4">
+<button class="md:hidden text-primary p-1">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="hidden sm:flex items-center bg-surface-container-low rounded-full px-3 py-1">
+<span class="material-symbols-outlined text-outline text-[18px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm font-body-sm text-on-surface ml-2 w-48 placeholder-outline" placeholder="Search transactions..." type="text"/>
+</div>
+</div>
+<!-- Center: Navigation Links (Web) -->
+<div class="hidden md:flex items-center h-full gap-6">
+<a class="flex items-center h-full text-on-surface-variant hover:text-primary transition-all duration-200 font-label-md text-label-md" href="#">
+                    Companies
+                </a>
+<a class="flex items-center h-full text-on-surface-variant hover:text-primary transition-all duration-200 font-label-md text-label-md" href="#">
+                    Deadlines
+                </a>
+</div>
+<!-- Right: Actions & Profile -->
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-all duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all duration-200">
+<span class="material-symbols-outlined">business_center</span>
+</button>
+<div class="h-6 w-px bg-border-subtle mx-1"></div>
+<button class="flex items-center gap-2 text-primary font-label-md text-label-md transition-all duration-200 hover:opacity-80">
+<span>Profile</span>
+<div class="w-7 h-7 rounded-full bg-surface-container-highest border border-border-subtle overflow-hidden">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="Professional headshot of an Indonesian male accountant wearing a neat business shirt. The portrait is well-lit with soft studio lighting, set against a clean, light-colored corporate background, conveying trust and precision suitable for a financial software interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMJ-c0-PY0V6syhesU1bHG9VQwnkOoPxNpvCH9QnszMNFU0qMRb9hSs0vCQe4GUyA2FtlPw4u2QapbsQKRRjBFhGVcdLbKBlZ40yZMfB05bmZ8xaVC2SkzYhrP7nYnEz0b9Ytzozh1ocx1rSpIZYtyF5wJDCll3FqpHWGZJGBLM8fsJysE2acGuuvstbRsspL9H0F7BVtVYXxidKHoWe2HVD2f4Gi_Uonht3k0TpOTBPGewPaoXtfAHViiYczyxE5NXulg8ABH7Kc"/>
+</div>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-gutter md:p-margin-edge">
+<!-- Page Header -->
+<div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">Tax Module (Modul Pajak)</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Periode: September 2023 | PT FinCorp Makmur Jaya</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2 border border-border-subtle rounded bg-surface text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+                        Sync e-Faktur
+                    </button>
+<button class="px-4 py-2 bg-primary text-on-primary rounded font-label-md text-label-md hover:bg-primary-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+                        Export CSV
+                    </button>
+</div>
+</div>
+<!-- PPN Summary Bento Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mb-6">
+<!-- PPN Keluaran -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-5 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary">upload</span>
+<span class="font-label-md text-label-md">PPN KELUARAN (OUT)</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-surface-container-high text-primary">124 FAKTUR</span>
+</div>
+<div>
+<div class="font-tabular-nums text-headline-sm font-bold text-on-surface">Rp 450.250.000</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">DPP: Rp 4.093.181.818</div>
+</div>
+</div>
+<!-- PPN Masukan -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-5 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary">download</span>
+<span class="font-label-md text-label-md">PPN MASUKAN (IN)</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-surface-container-high text-primary">86 FAKTUR</span>
+</div>
+<div>
+<div class="font-tabular-nums text-headline-sm font-bold text-on-surface">Rp 310.100.000</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">DPP: Rp 2.819.090.909</div>
+</div>
+</div>
+<!-- Status Kurang Bayar -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-5 flex flex-col justify-between relative overflow-hidden">
+<div class="absolute right-0 top-0 w-2 h-full bg-danger-liability"></div>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2 text-danger-liability">
+<span class="material-symbols-outlined">warning</span>
+<span class="font-label-md text-label-md">PPN KURANG BAYAR</span>
+</div>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-error-container text-on-error-container border border-error/20">BELUM LUNAS</span>
+</div>
+<div>
+<div class="font-tabular-nums text-headline-md font-bold text-danger-liability">Rp 140.150.000</div>
+<div class="flex items-center justify-between mt-2">
+<div class="font-body-sm text-body-sm text-on-surface-variant">Jatuh Tempo: 31 Okt 2023</div>
+<a class="text-secondary font-label-md text-label-md hover:underline" href="#">Buat ID Billing</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Data Tables Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Main Area: Daftar Faktur Pajak -->
+<div class="lg:col-span-2 bg-surface-container-lowest border border-border-subtle rounded-xl flex flex-col">
+<div class="p-4 border-b border-border-subtle flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Daftar Faktur Pajak</h3>
+<div class="flex gap-2">
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-container-low rounded">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-container-low rounded">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-muted border-b border-border-subtle font-label-md text-label-md text-on-surface-variant">
+<th class="py-2 px-4 whitespace-nowrap">No. Faktur</th>
+<th class="py-2 px-4 whitespace-nowrap">Tanggal</th>
+<th class="py-2 px-4 whitespace-nowrap">Lawan Transaksi</th>
+<th class="py-2 px-4 text-right whitespace-nowrap">DPP (Rp)</th>
+<th class="py-2 px-4 text-right whitespace-nowrap">PPN (Rp)</th>
+<th class="py-2 px-4 text-center whitespace-nowrap">Status Approval</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<tr class="border-b border-border-subtle hover:bg-surface-container-lowest transition-colors h-table-row-height">
+<td class="py-1 px-4 font-tabular-nums text-secondary">010.000-23.98765432</td>
+<td class="py-1 px-4 font-tabular-nums">12/09/2023</td>
+<td class="py-1 px-4 truncate max-w-[150px]">PT Maju Bersama Abadi</td>
+<td class="py-1 px-4 text-right font-tabular-nums">50.000.000</td>
+<td class="py-1 px-4 text-right font-tabular-nums">5.500.000</td>
+<td class="py-1 px-4 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800 border border-green-200">
+                                            APPROVAL SUKSES
+                                        </span>
+</td>
+</tr>
+<tr class="border-b border-border-subtle hover:bg-surface-container-lowest transition-colors h-table-row-height bg-surface-muted/30">
+<td class="py-1 px-4 font-tabular-nums text-secondary">010.000-23.98765433</td>
+<td class="py-1 px-4 font-tabular-nums">14/09/2023</td>
+<td class="py-1 px-4 truncate max-w-[150px]">CV Karya Nusa</td>
+<td class="py-1 px-4 text-right font-tabular-nums">12.500.000</td>
+<td class="py-1 px-4 text-right font-tabular-nums">1.375.000</td>
+<td class="py-1 px-4 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 text-gray-800 border border-gray-200">
+                                            BELUM APPROVE
+                                        </span>
+</td>
+</tr>
+<tr class="border-b border-border-subtle hover:bg-surface-container-lowest transition-colors h-table-row-height">
+<td class="py-1 px-4 font-tabular-nums text-secondary">010.000-23.98765434</td>
+<td class="py-1 px-4 font-tabular-nums">15/09/2023</td>
+<td class="py-1 px-4 truncate max-w-[150px]">PT Teknologi Solusi</td>
+<td class="py-1 px-4 text-right font-tabular-nums">85.000.000</td>
+<td class="py-1 px-4 text-right font-tabular-nums">9.350.000</td>
+<td class="py-1 px-4 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800 border border-red-200">
+                                            REJECT
+                                        </span>
+</td>
+</tr>
+<tr class="border-b border-border-subtle hover:bg-surface-container-lowest transition-colors h-table-row-height bg-surface-muted/30">
+<td class="py-1 px-4 font-tabular-nums text-secondary">010.000-23.98765435</td>
+<td class="py-1 px-4 font-tabular-nums">18/09/2023</td>
+<td class="py-1 px-4 truncate max-w-[150px]">PT Indah Sentosa</td>
+<td class="py-1 px-4 text-right font-tabular-nums">25.000.000</td>
+<td class="py-1 px-4 text-right font-tabular-nums">2.750.000</td>
+<td class="py-1 px-4 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800 border border-green-200">
+                                            APPROVAL SUKSES
+                                        </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-3 border-t border-border-subtle bg-surface-muted text-center">
+<a class="text-secondary font-label-md text-label-md hover:underline" href="#">Lihat Semua Faktur</a>
+</div>
+</div>
+<!-- Side Panel: Status SPT & PPh -->
+<div class="flex flex-col gap-gutter">
+<!-- Status SPT Masa PPN -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-5">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-4">Status SPT Masa PPN</h3>
+<div class="relative">
+<!-- Timeline Line -->
+<div class="absolute left-[11px] top-2 bottom-2 w-0.5 bg-border-subtle"></div>
+<!-- Step 1 -->
+<div class="flex gap-4 mb-4 relative z-10">
+<div class="w-6 h-6 rounded-full bg-success-positive text-white flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Posting Data</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Selesai (15 Okt)</div>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex gap-4 mb-4 relative z-10">
+<div class="w-6 h-6 rounded-full bg-surface-container-high border-2 border-primary text-primary flex items-center justify-center flex-shrink-0">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface font-bold">Bayar SSP</div>
+<div class="font-body-sm text-body-sm text-danger-liability">Batas: 31 Okt 2023</div>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex gap-4 relative z-10">
+<div class="w-6 h-6 rounded-full bg-surface border border-border-subtle flex items-center justify-center flex-shrink-0">
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface-variant">Lapor SPT (Web e-Faktur)</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Ringkasan PPh -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-5">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">PPh Pot/Put</h3>
+<a class="text-secondary font-label-md text-[10px] hover:underline" href="#">e-Bupot Unifikasi</a>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-end border-b border-border-subtle pb-2">
+<div>
+<div class="font-label-md text-label-md text-on-surface-variant">PPh Pasal 21</div>
+<div class="font-body-sm text-[11px] text-outline">Gaji &amp; Upah</div>
+</div>
+<div class="font-tabular-nums text-body-md font-medium text-on-surface text-right">
+                                    Rp 12.500.000
+                                </div>
+</div>
+<div class="flex justify-between items-end border-b border-border-subtle pb-2">
+<div>
+<div class="font-label-md text-label-md text-on-surface-variant">PPh Pasal 23</div>
+<div class="font-body-sm text-[11px] text-outline">Jasa &amp; Sewa</div>
+</div>
+<div class="font-tabular-nums text-body-md font-medium text-on-surface text-right">
+                                    Rp 3.250.000
+                                </div>
+</div>
+<div class="flex justify-between items-end pb-1">
+<div>
+<div class="font-label-md text-label-md text-on-surface-variant">PPh Pasal 4(2)</div>
+<div class="font-body-sm text-[11px] text-outline">Final</div>
+</div>
+<div class="font-tabular-nums text-body-md font-medium text-on-surface text-right">
+                                    Rp 1.100.000
+                                </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
