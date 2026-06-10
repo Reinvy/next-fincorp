@@ -135,6 +135,36 @@ export default function LabaRugiPage() {
     { name: 'LABA BERSIH', isTotal: true, currentPeriod: currentNetProfit, previousPeriod: prevNetProfit, variance: calcVariance(currentNetProfit, prevNetProfit) },
   ];
 
+  // Export P&L Report to CSV
+  const handleExportCSV = () => {
+    const headers = ['Keterangan', '2026 (Berjalan)', '2025 (Lalu)', 'Variance'];
+    const rows = reportItems.map(item => {
+      const valText = (val: number | undefined) => {
+        if (val === undefined) return '';
+        const formatted = formatCurrency(Math.abs(val)).replace('Rp ', '');
+        return val < 0 ? `(${formatted})` : formatted;
+      };
+      return [
+        item.name,
+        valText(item.currentPeriod),
+        valText(item.previousPeriod),
+        item.variance !== undefined ? `${item.variance >= 0 ? '+' : ''}${item.variance.toFixed(1)}%` : ''
+      ];
+    });
+
+    const filename = `Laporan_Laba_Rugi_${new Date().toISOString().split('T')[0]}.csv`;
+    const csvContent = "data:text/csv;charset=utf-8,\uFEFF"
+      + [headers.join(','), ...rows.map(e => e.map(val => `"${val.replace(/"/g, '""')}"`).join(','))].join('\n');
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <Layout>
       <div className="space-y-6 animate-slide-up">
@@ -171,8 +201,8 @@ export default function LabaRugiPage() {
                   </div>
                 )}
               </div>
-              <Button variant="outline" icon="picture_as_pdf" onClick={() => alert('Mengunduh Laporan dalam format PDF...')}>PDF</Button>
-              <Button variant="outline" icon="table_view" onClick={() => alert('Mengekspor Laporan dalam format Excel...')}>Excel</Button>
+              <Button variant="outline" icon="print" onClick={() => window.print()}>Cetak / PDF</Button>
+              <Button variant="outline" icon="table_view" onClick={handleExportCSV}>Ekspor Excel</Button>
             </div>
           }
         />
