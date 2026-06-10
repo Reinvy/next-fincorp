@@ -41,6 +41,7 @@ interface AppContextType {
   fixedAssets: FixedAsset[];
   addFixedAsset: (asset: Omit<FixedAsset, 'id' | 'accumulatedDepreciation' | 'netBookValue' | 'status'>) => void;
   runDepreciation: () => void;
+  disposeFixedAsset: (id: string) => void;
   bankAccounts: BankAccount[];
   recentTransactions: CashTransaction[];
   addBankTransfer: (transfer: { fromAccountId: string; toAccountId: string; amount: number; description: string; date: string }) => void;
@@ -343,6 +344,46 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
     }
   };
 
+  const disposeFixedAsset = (id: string) => {
+    const targetAsset = fixedAssets.find(a => a.id === id);
+    if (!targetAsset || targetAsset.status === 'DISPOSED') return;
+
+    const remainingValue = targetAsset.netBookValue;
+
+    const updated = fixedAssets.map(asset => {
+      if (asset.id === id) {
+        return {
+          ...asset,
+          status: 'DISPOSED' as const,
+          accumulatedDepreciation: asset.purchasePrice,
+          netBookValue: 0
+        };
+      }
+      return asset;
+    });
+
+    setFixedAssets(updated);
+    save('fincorp_assets', updated);
+
+    if (remainingValue > 0) {
+      const targetAcc = accounts.find(a => a.code.startsWith('5')) || accounts[0];
+      const tx: CashTransaction = {
+        id: `tx-disp-${Date.now()}`,
+        date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+        description: `Rugi Pelepasan / Penghapusan Aset Tetap: ${targetAsset.name}`,
+        accountId: targetAcc.id,
+        accountName: targetAcc.name,
+        category: 'Biaya Operasional',
+        amount: remainingValue,
+        type: 'OUT',
+        balance: 0,
+      };
+      const updatedTxs = [tx, ...recentTransactions];
+      setRecentTransactions(updatedTxs);
+      save('fincorp_txs', updatedTxs);
+    }
+  };
+
   const addBankTransfer = (transfer: { fromAccountId: string; toAccountId: string; amount: number; description: string; date: string }) => {
     const fromAcc = bankAccounts.find(b => b.id === transfer.fromAccountId);
     const toAcc = bankAccounts.find(b => b.id === transfer.toAccountId);
@@ -608,6 +649,7 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
         fixedAssets,
         addFixedAsset,
         runDepreciation,
+        disposeFixedAsset,
         bankAccounts,
         recentTransactions,
         addBankTransfer,
