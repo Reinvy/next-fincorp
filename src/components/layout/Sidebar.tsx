@@ -42,6 +42,7 @@ const navGroups: NavGroup[] = [
     title: 'ANALISIS & SISTEM',
     items: [
       { label: 'Laporan Keuangan', href: '/reports', icon: 'assessment' },
+      { label: 'Tenggat Waktu', href: '/deadlines', icon: 'event_upcoming' },
       { label: 'Pengaturan', href: '/settings', icon: 'settings' },
     ],
   },
