@@ -98,6 +98,130 @@
   --font-tabular-nums: 'Inter', system-ui, sans-serif;
 }
 
+.dark {
+  /* Primary Colors */
+  --color-primary: #8ab4f8;
+  --color-primary-container: #1b355e;
+  --color-on-primary: #002d5b;
+  --color-on-primary-container: #d6e3ff;
+
+  /* Secondary Colors */
+  --color-secondary: #adc6ff;
+  --color-secondary-container: #2b4676;
+  --color-on-secondary: #002d5f;
+  --color-on-secondary-container: #d9e2ff;
+
+  /* Surface Colors */
+  --color-surface: #0a0f1d;
+  --color-surface-muted: #0e1628;
+  --color-surface-container-lowest: #050811;
+  --color-surface-container-low: #10192d;
+  --color-surface-container: #17233c;
+  --color-surface-container-high: #202e4d;
+  --color-surface-container-highest: #28395f;
+  --color-surface-dim: #050811;
+  --color-surface-bright: #1c2a4a;
+  --color-surface-tint: #8ab4f8;
+
+  /* On Surface Colors */
+  --color-on-surface: #e2e8f0;
+  --color-on-surface-variant: #94a3b8;
+  --color-on-background: #e2e8f0;
+  --color-background: #0a0f1d;
+
+  /* Semantic Colors */
+  --color-success-positive: #4ade80;
+  --color-danger-liability: #f87171;
+  --color-warning-deadline: #fbbf24;
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  /* Border Colors */
+  --color-border-subtle: #1e293b;
+}
+
+/* Hardcoded Tailwind overrides for Dark Mode */
+.dark .bg-white {
+  background-color: var(--color-surface-container-lowest) !important;
+}
+
+.dark .bg-slate-50,
+.dark .bg-gray-50,
+.dark .bg-neutral-50 {
+  background-color: var(--color-surface-muted) !important;
+}
+
+.dark .bg-slate-100,
+.dark .bg-gray-100,
+.dark .bg-neutral-100 {
+  background-color: var(--color-surface-container-low) !important;
+}
+
+.dark .bg-slate-200,
+.dark .bg-gray-200,
+.dark .bg-neutral-200 {
+  background-color: var(--color-surface-container) !important;
+}
+
+.dark .text-slate-900,
+.dark .text-gray-900,
+.dark .text-neutral-900,
+.dark .text-slate-800,
+.dark .text-gray-800,
+.dark .text-neutral-800 {
+  color: var(--color-on-surface) !important;
+}
+
+.dark .text-slate-700,
+.dark .text-gray-700,
+.dark .text-neutral-700,
+.dark .text-slate-600,
+.dark .text-gray-600,
+.dark .text-neutral-600,
+.dark .text-slate-500,
+.dark .text-gray-500,
+.dark .text-neutral-500 {
+  color: var(--color-on-surface-variant) !important;
+}
+
+.dark .border-slate-100,
+.dark .border-gray-100,
+.dark .border-neutral-100,
+.dark .border-slate-200,
+.dark .border-gray-200,
+.dark .border-neutral-200,
+.dark .border-slate-300,
+.dark .border-gray-300,
+.dark .border-neutral-300 {
+  border-color: var(--color-border-subtle) !important;
+}
+
+/* Ensure inputs, select boxes, and textareas have high contrast text in dark mode */
+.dark input,
+.dark select,
+.dark textarea {
+  color: var(--color-on-surface) !important;
+  background-color: var(--color-surface-container-low) !important;
+  border-color: var(--color-border-subtle) !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: var(--color-on-surface-variant) !important;
+  opacity: 0.6;
+}
+
+.dark option {
+  background-color: var(--color-surface-container-lowest) !important;
+  color: var(--color-on-surface) !important;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #334155;
+}
+
 @theme inline {
   /* Colors */
   --color-primary: var(--color-primary);
