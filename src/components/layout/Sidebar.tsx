@@ -10,20 +10,41 @@ interface NavItem {
   icon: string;
 }
 
-const mainNavItems: NavItem[] = [
-  { label: 'Dashboard', href: '/dashboard', icon: 'dashboard' },
-  { label: 'Accounting', href: '/accounting', icon: 'account_balance' },
-  { label: 'Sales', href: '/sales', icon: 'receipt_long' },
-  { label: 'Purchases', href: '/purchases', icon: 'shopping_cart' },
-  { label: 'Cash & Bank', href: '/cash-bank', icon: 'account_balance_wallet' },
-  { label: 'Fixed Assets', href: '/fixed-assets', icon: 'precision_manufacturing' },
-  { label: 'Tax Module', href: '/tax', icon: 'gavel' },
-  { label: 'Reports', href: '/reports', icon: 'assessment' },
-];
+interface NavGroup {
+  title: string;
+  items: NavItem[];
+}
 
-const bottomNavItems: NavItem[] = [
-  { label: 'Settings', href: '/settings', icon: 'settings' },
-  { label: 'Support', href: '/support', icon: 'help_outline' },
+const navGroups: NavGroup[] = [
+  {
+    title: 'MENU UTAMA',
+    items: [
+      { label: 'Dashboard', href: '/dashboard', icon: 'dashboard' },
+      { label: 'Kas & Bank', href: '/cash-bank', icon: 'account_balance_wallet' },
+    ],
+  },
+  {
+    title: 'PEMBUKUAN & PAJAK',
+    items: [
+      { label: 'Buku Besar', href: '/accounting', icon: 'account_balance' },
+      { label: 'Aset Tetap', href: '/fixed-assets', icon: 'precision_manufacturing' },
+      { label: 'Modul Pajak', href: '/tax', icon: 'gavel' },
+    ],
+  },
+  {
+    title: 'TRANSAKSI',
+    items: [
+      { label: 'Penjualan (Sales)', href: '/sales', icon: 'receipt_long' },
+      { label: 'Pembelian (Purchases)', href: '/purchases', icon: 'shopping_cart' },
+    ],
+  },
+  {
+    title: 'ANALISIS & SISTEM',
+    items: [
+      { label: 'Laporan Keuangan', href: '/reports', icon: 'assessment' },
+      { label: 'Pengaturan', href: '/settings', icon: 'settings' },
+    ],
+  },
 ];
 
 export default function Sidebar() {
@@ -38,69 +59,70 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="hidden xl:flex flex-col h-screen w-64 bg-gradient-premium text-on-primary py-margin-edge fixed left-0 top-0 z-20 border-r border-primary-container/20 shadow-2xl">
+    <aside className="hidden xl:flex flex-col h-screen w-64 bg-gradient-premium text-on-primary pt-8 pb-6 fixed left-0 top-0 z-20 border-r border-primary-container/20 shadow-2xl overflow-hidden">
       {/* Brand Header */}
-      <div className="px-margin-edge mb-8 flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-on-primary border border-white/10 shadow-lg shadow-black/10">
-          <span className="material-symbols-outlined text-secondary-container">domain</span>
+      <div className="px-6 mb-6 flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-secondary to-secondary-container flex items-center justify-center text-white border border-white/10 shadow-[0_0_15px_rgba(67,93,149,0.35)] relative overflow-hidden group">
+          <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <span className="material-symbols-outlined text-[22px] font-bold text-white">insights</span>
         </div>
         <div>
-          <h1 className="font-headline-sm text-on-primary font-bold tracking-tight truncate max-w-[150px]">{company.name}</h1>
-          <p className="font-label-md text-secondary-container/70 text-[10px]">Corporate Accounting</p>
+          <h1 className="text-sm font-black tracking-widest text-white uppercase">FINCORP</h1>
+          <p className="text-[10px] font-bold text-secondary-container/80 uppercase tracking-widest">FISCAL SUITE</p>
         </div>
       </div>
 
-      {/* New Transaction Button */}
-      <div className="px-margin-edge mb-6">
-        <Link
-          href="/sales/invoice"
-          className="w-full bg-gradient-accent-premium text-on-primary hover:shadow-lg hover:shadow-secondary/20 hover:-translate-y-0.5 active:translate-y-0 py-2.5 px-4 rounded-xl font-label-md text-label-md flex items-center justify-center gap-2 transition-all transform duration-300"
-        >
-          <span className="material-symbols-outlined text-[18px]">add</span>
-          New Transaction
-        </Link>
+      {/* Active Tenant Profile Badge */}
+      <div className="px-4 mb-4">
+        <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center gap-2.5 shadow-inner">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success-positive opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-success-positive"></span>
+          </span>
+          <span className="text-xs font-semibold text-on-primary/80 truncate" title={company.name}>
+            {company.name}
+          </span>
+        </div>
       </div>
 
-      {/* Main Navigation */}
-      <nav className="flex-1 overflow-y-auto px-4 space-y-1.5 custom-scrollbar">
-        {mainNavItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`
-              flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all transform duration-300
-              ${
-                isActive(item.href)
-                  ? 'bg-secondary/30 text-on-primary font-semibold shadow-md border-l-4 border-secondary-container translate-x-1'
-                  : 'text-on-primary/60 hover:text-on-primary hover:bg-secondary/10 hover:translate-x-1'
-              }
-            `}
-          >
-            <span className="material-symbols-outlined">{item.icon}</span>
-            <span className="font-body-md text-[13.5px]">{item.label}</span>
-          </Link>
+      {/* Main Grouped Navigation */}
+      <nav className="flex-1 overflow-y-auto px-3 space-y-4 custom-scrollbar pb-6">
+        {navGroups.map((group) => (
+          <div key={group.title} className="space-y-1">
+            <div className="text-[9px] font-bold text-on-primary/40 tracking-widest px-3 uppercase">
+              {group.title}
+            </div>
+            {group.items.map((item) => {
+              const active = isActive(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`
+                    flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-300 cursor-pointer
+                    ${
+                      active
+                        ? 'bg-secondary text-on-primary font-bold shadow-md shadow-secondary/15 border-l-4 border-l-secondary-container pl-4'
+                        : 'text-on-primary/60 hover:text-on-primary hover:bg-white/5 pl-3 hover:pl-4'
+                    }
+                  `}
+                >
+                  <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
+                  <span className="text-body-md text-[13px]">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
         ))}
       </nav>
 
-      {/* Bottom Navigation */}
-      <div className="px-4 pt-4 border-t border-white/5 space-y-1.5">
-        {bottomNavItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`
-              flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all transform duration-300
-              ${
-                isActive(item.href)
-                  ? 'bg-secondary/30 text-on-primary font-semibold shadow-md border-l-4 border-secondary-container translate-x-1'
-                  : 'text-on-primary/60 hover:text-on-primary hover:bg-secondary/10 hover:translate-x-1'
-              }
-            `}
-          >
-            <span className="material-symbols-outlined">{item.icon}</span>
-            <span className="font-body-sm">{item.label}</span>
-          </Link>
-        ))}
+      {/* Footer Support Info */}
+      <div className="px-6 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] text-on-primary/40 font-medium shrink-0">
+        <span>Version 1.2.0</span>
+        <Link href="/support" className="hover:text-white transition-colors flex items-center gap-0.5">
+          <span className="material-symbols-outlined text-[12px]">help</span>
+          Bantuan
+        </Link>
       </div>
     </aside>
   );
