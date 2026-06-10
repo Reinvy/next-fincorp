@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Layout } from '@/components/layout';
 import { PageHeader, Button } from '@/components/ui';
 import { useApp } from '@/context/AppContext';
@@ -7,6 +8,11 @@ import { formatCurrency } from '@/data';
 
 export default function LabaRugiPage() {
   const { salesInvoices, purchaseInvoices } = useApp();
+
+  // Dropdown Period State
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedPeriod, setSelectedPeriod] = useState('Jan - Des 2026');
+  const periods = ['Jan - Des 2026', 'Jan - Des 2025', 'Semester II 2026', 'Kuartal IV 2026'];
 
   // Filter new transactions added via forms (ID length > 7 for new sales, > 8 for new purchases)
   const newSales = salesInvoices.filter(inv => inv.id.length > 7);
@@ -78,7 +84,6 @@ export default function LabaRugiPage() {
   // Calculate Variance Percentage helper
   const calcVariance = (curr: number, prev: number) => {
     if (prev === 0) return 0;
-    const isNegative = prev < 0;
     const diff = curr - prev;
     const pct = (diff / Math.abs(prev)) * 100;
     return pct;
@@ -132,60 +137,84 @@ export default function LabaRugiPage() {
 
   return (
     <Layout>
-      <div className="space-y-6">
+      <div className="space-y-6 animate-slide-up">
         {/* Page Header */}
         <PageHeader
           title="Laporan Laba Rugi (LAP-02)"
           description="Laporan Laba Rugi Komprehensif (Statement of Profit or Loss) sesuai standar PSAK."
           actions={
-            <>
-              <div className="bg-surface border border-border-subtle rounded px-3 py-1.5 flex items-center gap-2">
-                <span className="material-symbols-outlined text-on-surface-variant text-[18px]">calendar_month</span>
-                <select className="bg-transparent border-none p-0 font-body-sm text-body-sm text-primary focus:ring-0 cursor-pointer outline-none">
-                  <option>Jan - Des 2026</option>
-                  <option>Jan - Des 2025</option>
-                </select>
+            <div className="flex items-center gap-2">
+              {/* Interactive Custom Select Dropdown */}
+              <div className="relative">
+                <button 
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="bg-white/80 dark:bg-black/40 border border-border-subtle/70 rounded-xl px-4 py-2 flex items-center gap-2 font-body-sm text-body-sm text-primary dark:text-secondary-container hover:bg-surface-container-low transition-all cursor-pointer font-semibold shadow-sm"
+                >
+                  <span className="material-symbols-outlined text-[18px] text-secondary">calendar_month</span>
+                  <span>{selectedPeriod}</span>
+                  <span className="material-symbols-outlined text-[16px] transition-transform duration-200" style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0)' }}>arrow_drop_down</span>
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 border border-border-subtle/80 dark:border-white/10 rounded-xl shadow-xl z-20 py-1 overflow-hidden animate-slide-up">
+                    {periods.map((p) => (
+                      <div
+                        key={p}
+                        onClick={() => {
+                          setSelectedPeriod(p);
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`px-4 py-2 text-body-sm text-on-surface hover:bg-primary/5 dark:hover:bg-white/5 cursor-pointer transition-colors ${selectedPeriod === p ? 'bg-secondary/10 text-secondary dark:text-secondary-container font-semibold' : ''}`}
+                      >
+                        {p}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-              <Button variant="outline" icon="picture_as_pdf">PDF</Button>
-              <Button variant="outline" icon="table_view">Excel</Button>
-            </>
+              <Button variant="outline" icon="picture_as_pdf" onClick={() => alert('Mengunduh Laporan dalam format PDF...')}>PDF</Button>
+              <Button variant="outline" icon="table_view" onClick={() => alert('Mengekspor Laporan dalam format Excel...')}>Excel</Button>
+            </div>
           }
         />
 
         {/* KPI Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-surface border border-border-subtle rounded-xl p-4 shadow-[0_4px_4px_-2px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_8px_-4px_rgba(0,0,0,0.05)] transition-shadow">
-            <p className="font-label-md text-label-md text-on-surface-variant mb-2 uppercase tracking-wider">Total Pendapatan</p>
-            <div className="flex items-end justify-between">
-              <h3 className="font-headline-md text-headline-md text-primary font-tabular-nums text-tabular-nums">
+          <div className="glass-card p-5 flex flex-col justify-between rounded-2xl relative overflow-hidden group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 border-l-4 border-l-secondary">
+            <div className="absolute -right-4 -top-4 w-24 h-24 bg-secondary-container/10 rounded-full blur-xl group-hover:scale-125 transition-transform duration-500"></div>
+            <p className="font-label-md text-label-md text-on-surface-variant mb-2 uppercase tracking-wider relative z-10">Total Pendapatan</p>
+            <div className="flex items-end justify-between relative z-10">
+              <h3 className="font-headline-md text-headline-md text-primary dark:text-secondary-container font-bold font-tabular-nums">
                 {formatCurrency(currentRevenueUsaha)}
               </h3>
-              <div className="flex items-center gap-1 text-success-positive bg-success-positive/10 px-2 py-0.5 rounded-full font-label-md text-[10px]">
+              <div className="flex items-center gap-1 text-success-positive bg-success-positive/10 px-2.5 py-0.5 rounded-full font-label-md text-[10px] font-bold">
                 <span className="material-symbols-outlined text-[14px]">trending_up</span>
                 {calcVariance(currentRevenueUsaha, prevRevenueUsaha).toFixed(1)}%
               </div>
             </div>
           </div>
-          <div className="bg-surface border border-border-subtle rounded-xl p-4 shadow-[0_4px_4px_-2px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_8px_-4px_rgba(0,0,0,0.05)] transition-shadow">
-            <p className="font-label-md text-label-md text-on-surface-variant mb-2 uppercase tracking-wider">Laba Kotor</p>
-            <div className="flex items-end justify-between">
-              <h3 className="font-headline-md text-headline-md text-primary font-tabular-nums text-tabular-nums">
+
+          <div className="glass-card p-5 flex flex-col justify-between rounded-2xl relative overflow-hidden group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 border-l-4 border-l-success-positive">
+            <div className="absolute -right-4 -top-4 w-24 h-24 bg-success-positive/10 rounded-full blur-xl group-hover:scale-125 transition-transform duration-500"></div>
+            <p className="font-label-md text-label-md text-on-surface-variant mb-2 uppercase tracking-wider relative z-10">Laba Kotor</p>
+            <div className="flex items-end justify-between relative z-10">
+              <h3 className="font-headline-md text-headline-md text-primary dark:text-secondary-container font-bold font-tabular-nums">
                 {formatCurrency(currentGrossProfit)}
               </h3>
-              <div className="flex items-center gap-1 text-success-positive bg-success-positive/10 px-2 py-0.5 rounded-full font-label-md text-[10px]">
+              <div className="flex items-center gap-1 text-success-positive bg-success-positive/10 px-2.5 py-0.5 rounded-full font-label-md text-[10px] font-bold">
                 <span className="material-symbols-outlined text-[14px]">trending_up</span>
                 {calcVariance(currentGrossProfit, prevGrossProfit).toFixed(1)}%
               </div>
             </div>
           </div>
-          <div className="bg-surface border border-border-subtle rounded-xl p-4 shadow-[0_4px_4px_-2px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_8px_-4px_rgba(0,0,0,0.05)] transition-shadow relative overflow-hidden">
-            <div className="absolute right-0 top-0 w-2 h-full bg-secondary"></div>
-            <p className="font-label-md text-label-md text-on-surface-variant mb-2 uppercase tracking-wider">Laba Bersih</p>
-            <div className="flex items-end justify-between">
-              <h3 className="font-headline-md text-headline-md text-secondary font-tabular-nums text-tabular-nums">
+
+          <div className="bg-gradient-premium border-none text-white p-5 flex flex-col justify-between rounded-2xl relative overflow-hidden group hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+            <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-xl group-hover:scale-125 transition-transform duration-500"></div>
+            <p className="font-label-md text-label-md text-white/80 mb-2 uppercase tracking-wider relative z-10">Laba Bersih</p>
+            <div className="flex items-end justify-between relative z-10">
+              <h3 className="font-headline-md text-headline-md text-white font-bold font-tabular-nums">
                 {formatCurrency(currentNetProfit)}
               </h3>
-              <div className="flex items-center gap-1 text-success-positive bg-success-positive/10 px-2 py-0.5 rounded-full font-label-md text-[10px]">
+              <div className="flex items-center gap-1 text-white bg-white/10 px-2.5 py-0.5 rounded-full font-label-md text-[10px] font-bold">
                 <span className="material-symbols-outlined text-[14px]">trending_up</span>
                 {calcVariance(currentNetProfit, prevNetProfit).toFixed(1)}%
               </div>
@@ -193,34 +222,39 @@ export default function LabaRugiPage() {
           </div>
         </div>
 
-        {/* Main Report Table */}
-        <div className="bg-surface border border-border-subtle rounded-xl shadow-[0_4px_4px_-2px_rgba(0,0,0,0.05)] overflow-hidden">
+        {/* Main Report Table - Digital Paper Layout */}
+        <div className="bg-white dark:bg-slate-900 border border-border-subtle/80 dark:border-white/10 rounded-2xl shadow-xl p-8 max-w-4xl mx-auto border-t-[8px] border-t-primary dark:border-t-secondary relative overflow-hidden">
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/15 to-transparent"></div>
+          
+          {/* Official Letterhead Details */}
+          <div className="text-center mb-8 border-b border-border-subtle/50 dark:border-white/10 pb-6">
+            <h2 className="text-xl font-bold tracking-widest text-primary dark:text-secondary-container uppercase">PT FinCorp Indonesia Tbk</h2>
+            <h1 className="text-lg font-bold text-on-surface mt-1 tracking-wide">LAPORAN LABA RUGI DAN PENDAPATAN KOMPREHENSIF LAIN</h1>
+            <p className="text-xs text-on-surface-variant mt-1.5 font-medium">Untuk Periode-Periode yang Berakhir pada 31 Desember 2026 dan 2025</p>
+            <p className="text-[11px] text-outline mt-2 italic">(Disajikan dalam Rupiah, kecuali dinyatakan lain)</p>
+          </div>
+
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-surface-muted border-b border-border-subtle">
-                  <th className="py-3 px-4 font-label-md text-label-md text-on-surface-variant w-1/2">Keterangan</th>
-                  <th className="py-3 px-4 font-label-md text-label-md text-on-surface-variant text-right">
-                    Periode Berjalan<br />
-                    <span className="font-normal text-outline text-[11px]">Jan - Des 2026</span>
-                  </th>
-                  <th className="py-3 px-4 font-label-md text-label-md text-on-surface-variant text-right">
-                    Periode Lalu<br />
-                    <span className="font-normal text-outline text-[11px]">Jan - Des 2025</span>
-                  </th>
-                  <th className="py-3 px-4 font-label-md text-label-md text-on-surface-variant text-right">Variance</th>
+                <tr className="border-b border-on-surface/20 text-on-surface-variant font-label-md text-[11px]">
+                  <th className="py-3 px-4 font-semibold uppercase tracking-wider w-1/2">Keterangan</th>
+                  <th className="py-3 px-4 font-semibold uppercase tracking-wider text-right">2026 (Berjalan)</th>
+                  <th className="py-3 px-4 font-semibold uppercase tracking-wider text-right">2025 (Lalu)</th>
+                  <th className="py-3 px-4 font-semibold uppercase tracking-wider text-right">Variance</th>
                 </tr>
               </thead>
-              <tbody className="font-body-sm text-body-sm">
+              <tbody className="font-body-sm text-body-sm text-on-surface divide-y divide-border-subtle/10">
                 {reportItems.map((item, index) => {
                   const isSectionHeader = item.isSectionHeader;
                   const isTotal = item.isTotal;
+                  const isLabaBersih = item.name === 'LABA BERSIH';
                   const indent = item.indent || (isSectionHeader ? 0 : isTotal ? 4 : 8);
 
                   if (isSectionHeader) {
                     return (
-                      <tr key={index} className="bg-surface-container border-b border-border-subtle font-label-md">
-                        <td className="py-2 px-4 text-primary uppercase" colSpan={4}>
+                      <tr key={index} className="bg-slate-50/50 dark:bg-black/10 border-t border-b border-border-subtle/50 font-label-md font-semibold text-[11px] tracking-wider text-primary dark:text-secondary-container uppercase">
+                        <td className="py-2.5 px-4" colSpan={4}>
                           {item.name}
                         </td>
                       </tr>
@@ -233,23 +267,27 @@ export default function LabaRugiPage() {
                     return val < 0 ? `(${formatted})` : formatted;
                   };
 
+                  let rowStyle = "hover:bg-primary/[0.01] dark:hover:bg-white/[0.01] transition-colors";
+                  if (isLabaBersih) {
+                    rowStyle = "bg-success-positive/10 text-success-positive font-bold border-t-2 border-b-4 border-double border-success-positive/30 shadow-[0_0_12px_rgba(26,93,26,0.12)] h-[44px]";
+                  } else if (isTotal) {
+                    rowStyle = "bg-slate-50/35 dark:bg-black/5 font-semibold text-primary dark:text-secondary-container border-t border-b-4 border-double border-t-on-surface/20 border-b-on-surface/30 h-[40px]";
+                  }
+
                   return (
-                    <tr
-                      key={index}
-                      className={`${isTotal ? 'bg-surface-muted border-b-2 border-border-subtle font-bold text-primary h-[40px]' : 'border-b border-border-subtle'} hover:bg-surface-container-low transition-colors`}
-                    >
+                    <tr key={index} className={rowStyle}>
                       <td className="py-2 px-4" style={{ paddingLeft: `${indent + 16}px` }}>
                         {item.name}
                       </td>
-                      <td className="py-2 px-4 text-right font-tabular-nums text-tabular-nums">
+                      <td className="py-2 px-4 text-right font-tabular-nums">
                         {valText(item.currentPeriod)}
                       </td>
-                      <td className="py-2 px-4 text-right font-tabular-nums text-tabular-nums">
+                      <td className="py-2 px-4 text-right font-tabular-nums text-on-surface-variant">
                         {valText(item.previousPeriod)}
                       </td>
                       <td className="py-2 px-4 text-right">
                         {item.variance !== undefined ? (
-                          <span className={`font-tabular-nums text-tabular-nums font-semibold ${
+                          <span className={`font-tabular-nums font-semibold text-xs ${
                             item.variance >= 0 ? 'text-success-positive' : 'text-danger-liability'
                           }`}>
                             {item.variance >= 0 ? '+' : ''}{item.variance.toFixed(1)}%

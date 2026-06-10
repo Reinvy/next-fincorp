@@ -169,16 +169,16 @@ export default function SalesInvoicePage() {
           {/* Left Column: Form Details */}
           <div className="lg:col-span-2 flex flex-col gap-6">
             {/* Customer Details Section */}
-            <section className="bg-surface-container-lowest rounded-xl border border-border-subtle p-5 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.02)]">
-              <h3 className="font-headline-sm text-headline-sm text-primary mb-4 flex items-center gap-2">
+            <section className="glass-card rounded-2xl p-5 hover:border-secondary-container/30 transition-all duration-300 shadow-sm animate-slide-up">
+              <h3 className="font-headline-sm text-headline-sm text-primary mb-5 flex items-center gap-2 font-semibold">
                 <span className="material-symbols-outlined text-secondary">domain</span>
                 Detail Pelanggan & Tanggal
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5 md:col-span-2">
-                  <label className="font-label-md text-label-md text-on-surface-variant">Pelanggan</label>
+                  <label className="font-label-md text-[11px] uppercase tracking-wider text-on-surface-variant font-medium">Pelanggan</label>
                   <select
-                    className="w-full h-10 px-3 bg-surface-muted border border-border-subtle rounded-lg font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none appearance-none cursor-pointer"
+                    className="w-full h-10 px-3 bg-surface-muted/50 border border-border-subtle rounded-lg font-body-md text-body-md text-on-surface focus:ring-4 focus:ring-secondary/10 focus:border-secondary outline-none appearance-none cursor-pointer transition-all"
                     value={selectedCustomerId}
                     onChange={(e) => setSelectedCustomerId(e.target.value)}
                   >
@@ -189,81 +189,81 @@ export default function SalesInvoicePage() {
                   </select>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="font-label-md text-label-md text-on-surface-variant">Tanggal Faktur</label>
+                  <label className="font-label-md text-[11px] uppercase tracking-wider text-on-surface-variant font-medium">Tanggal Faktur</label>
                   <input
                     type="date"
                     value={invoiceDate}
                     onChange={(e) => setInvoiceDate(e.target.value)}
-                    className="w-full h-10 px-3 bg-surface-muted border border-border-subtle rounded-lg font-tabular-nums text-tabular-nums text-on-surface focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
+                    className="w-full h-10 px-3 bg-surface-muted/50 border border-border-subtle rounded-lg font-tabular-nums text-tabular-nums text-on-surface focus:ring-4 focus:ring-secondary/10 focus:border-secondary outline-none transition-all"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="font-label-md text-label-md text-on-surface-variant">Tanggal Jatuh Tempo</label>
+                  <label className="font-label-md text-[11px] uppercase tracking-wider text-on-surface-variant font-medium">Tanggal Jatuh Tempo</label>
                   <input
                     type="date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
-                    className="w-full h-10 px-3 bg-surface-muted border border-border-subtle rounded-lg font-tabular-nums text-tabular-nums text-on-surface focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
+                    className="w-full h-10 px-3 bg-surface-muted/50 border border-border-subtle rounded-lg font-tabular-nums text-tabular-nums text-on-surface focus:ring-4 focus:ring-secondary/10 focus:border-secondary outline-none transition-all"
                   />
                 </div>
               </div>
             </section>
 
             {/* Line Items Section */}
-            <section className="bg-surface-container-lowest rounded-xl border border-border-subtle overflow-hidden shadow-[0_4px_6px_-1px_rgba(0,0,0,0.02)]">
-              <div className="p-4 border-b border-border-subtle flex justify-between items-center bg-surface-muted/50">
-                <h3 className="font-headline-sm text-headline-sm text-primary flex items-center gap-2">
+            <section className="glass-card rounded-2xl overflow-hidden hover:border-secondary-container/30 transition-all duration-300 shadow-sm animate-slide-up">
+              <div className="p-4 border-b border-border-subtle/50 flex justify-between items-center bg-surface-muted/20">
+                <h3 className="font-headline-sm text-headline-sm text-primary flex items-center gap-2 font-semibold">
                   <span className="material-symbols-outlined text-secondary">list_alt</span>
                   Rincian Barang / Jasa
                 </h3>
                 <Button variant="ghost" size="sm" icon="add" onClick={handleAddItem}>Tambah Baris</Button>
               </div>
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto custom-scrollbar">
                 <table className="w-full text-left border-collapse min-w-[700px]">
-                  <thead className="bg-surface border-b border-border-subtle font-label-md text-label-md text-on-surface-variant">
+                  <thead className="bg-surface border-b border-border-subtle/50 font-label-md text-[10.5px] text-on-surface-variant uppercase tracking-wider">
                     <tr>
-                      <th className="py-2 px-4 w-10">No</th>
-                      <th className="py-2 px-4">Deskripsi Produk/Jasa</th>
-                      <th className="py-2 px-4 w-24 text-right">Kuantitas</th>
-                      <th className="py-2 px-4 w-36 text-right">Harga Satuan (Rp)</th>
-                      <th className="py-2 px-4 w-24 text-right">Diskon %</th>
-                      <th className="py-2 px-4 w-36 text-right">Total</th>
-                      <th className="py-2 px-4 w-12"></th>
+                      <th className="py-2.5 px-4 w-10">No</th>
+                      <th className="py-2.5 px-4">Deskripsi Produk/Jasa</th>
+                      <th className="py-2.5 px-4 w-24 text-right">Kuantitas</th>
+                      <th className="py-2.5 px-4 w-36 text-right">Harga Satuan (Rp)</th>
+                      <th className="py-2.5 px-4 w-24 text-right">Diskon %</th>
+                      <th className="py-2.5 px-4 w-36 text-right">Total</th>
+                      <th className="py-2.5 px-4 w-12"></th>
                     </tr>
                   </thead>
-                  <tbody className="font-body-sm text-body-sm align-top">
+                  <tbody className="font-body-sm text-body-sm align-top divide-y divide-border-subtle/30">
                     {items.map((item, index) => (
-                      <tr key={item.id} className="border-b border-border-subtle/50 hover:bg-surface-muted transition-colors group">
-                        <td className="py-3 px-4 text-outline pt-5 font-tabular-nums">{index + 1}</td>
-                        <td className="py-3 px-4">
+                      <tr key={item.id} className="hover:bg-surface-container-low/40 transition-colors group">
+                        <td className="py-3.5 px-4 text-outline font-tabular-nums text-center">{index + 1}</td>
+                        <td className="py-2 px-3">
                           <input
-                            className="w-full h-8 px-2 bg-transparent border border-transparent hover:border-border-subtle focus:border-secondary focus:bg-white rounded outline-none"
+                            className="w-full h-9 px-2.5 bg-surface-muted/30 border border-border-subtle/60 focus:border-secondary focus:bg-white rounded-lg outline-none transition-all focus:ring-2 focus:ring-secondary/10"
                             type="text"
                             value={item.description}
                             placeholder="Ketik deskripsi produk/jasa..."
                             onChange={(e) => handleItemChange(item.id, 'description', e.target.value)}
                           />
                         </td>
-                        <td className="py-3 px-4">
+                        <td className="py-2 px-3">
                           <input
-                            className="w-full h-8 px-2 text-right bg-transparent border border-transparent hover:border-border-subtle focus:border-secondary focus:bg-white rounded font-tabular-nums text-tabular-nums outline-none"
+                            className="w-full h-9 px-2 text-right bg-surface-muted/30 border border-border-subtle/60 focus:border-secondary focus:bg-white rounded-lg font-tabular-nums text-tabular-nums outline-none transition-all focus:ring-2 focus:ring-secondary/10"
                             type="number"
                             min={1}
                             value={item.quantity}
                             onChange={(e) => handleItemChange(item.id, 'quantity', Number(e.target.value))}
                           />
                         </td>
-                        <td className="py-3 px-4">
+                        <td className="py-2 px-3">
                           <input
-                            className="w-full h-8 px-2 text-right bg-transparent border border-transparent hover:border-border-subtle focus:border-secondary focus:bg-white rounded font-tabular-nums text-tabular-nums outline-none"
+                            className="w-full h-9 px-2 text-right bg-surface-muted/30 border border-border-subtle/60 focus:border-secondary focus:bg-white rounded-lg font-tabular-nums text-tabular-nums outline-none transition-all focus:ring-2 focus:ring-secondary/10"
                             type="number"
                             value={item.unitPrice}
                             onChange={(e) => handleItemChange(item.id, 'unitPrice', Number(e.target.value))}
                           />
                         </td>
-                        <td className="py-3 px-4">
+                        <td className="py-2 px-3">
                           <input
-                            className="w-full h-8 px-2 text-right bg-transparent border border-transparent hover:border-border-subtle focus:border-secondary focus:bg-white rounded font-tabular-nums text-tabular-nums outline-none"
+                            className="w-full h-9 px-2 text-right bg-surface-muted/30 border border-border-subtle/60 focus:border-secondary focus:bg-white rounded-lg font-tabular-nums text-tabular-nums outline-none transition-all focus:ring-2 focus:ring-secondary/10"
                             type="number"
                             min={0}
                             max={100}
@@ -271,13 +271,13 @@ export default function SalesInvoicePage() {
                             onChange={(e) => handleItemChange(item.id, 'discountPercent', Number(e.target.value))}
                           />
                         </td>
-                        <td className="py-3 px-4 text-right pt-4 font-tabular-nums text-tabular-nums font-semibold text-primary">
+                        <td className="py-3.5 px-4 text-right font-tabular-nums text-tabular-nums font-semibold text-primary">
                           {formatCurrency(item.total).replace('Rp ', '')}
                         </td>
-                        <td className="py-3 px-4 text-right pt-4">
+                        <td className="py-2 px-3 text-center">
                           <button 
                             onClick={() => handleRemoveItem(item.id)}
-                            className="text-outline hover:text-error opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center w-6 h-6 rounded hover:bg-surface-container"
+                            className="text-on-surface-variant/40 hover:text-error transition-colors flex items-center justify-center w-8 h-8 rounded-lg hover:bg-surface-container"
                           >
                             <span className="material-symbols-outlined text-[18px]">delete</span>
                           </button>
@@ -288,38 +288,38 @@ export default function SalesInvoicePage() {
                 </table>
               </div>
               {/* Totals Area */}
-              <div className="bg-surface-muted p-5 border-t border-border-subtle flex flex-col items-end gap-2">
-                <div className="flex justify-between w-full max-w-sm text-on-surface-variant font-body-sm text-body-sm">
+              <div className="bg-surface-muted/20 p-5 border-t border-border-subtle/50 flex flex-col items-end gap-2.5">
+                <div className="flex justify-between w-full max-w-sm text-on-surface-variant font-body-sm text-body-sm font-medium">
                   <span>Subtotal</span>
-                  <span className="font-tabular-nums text-tabular-nums">{formatCurrency(subtotal).replace('Rp ', '')}</span>
+                  <span className="font-tabular-nums text-tabular-nums font-semibold">{formatCurrency(subtotal).replace('Rp ', '')}</span>
                 </div>
-                <div className="flex justify-between w-full max-w-sm text-on-surface-variant font-body-sm text-body-sm">
+                <div className="flex justify-between w-full max-w-sm text-on-surface-variant font-body-sm text-body-sm font-medium">
                   <span>Diskon Total</span>
-                  <span className="font-tabular-nums text-tabular-nums">{formatCurrency(discountTotal).replace('Rp ', '')}</span>
+                  <span className="font-tabular-nums text-tabular-nums font-semibold text-danger-liability">{formatCurrency(discountTotal).replace('Rp ', '')}</span>
                 </div>
-                <div className="flex justify-between w-full max-w-sm text-on-surface-variant font-body-sm text-body-sm">
+                <div className="flex justify-between w-full max-w-sm text-on-surface-variant font-body-sm text-body-sm font-medium">
                   <span>Dasar Pengenaan Pajak (DPP)</span>
-                  <span className="font-tabular-nums text-tabular-nums font-medium text-on-surface">{formatCurrency(dpp).replace('Rp ', '')}</span>
+                  <span className="font-tabular-nums text-tabular-nums font-semibold text-primary">{formatCurrency(dpp).replace('Rp ', '')}</span>
                 </div>
-                <div className="flex justify-between w-full max-w-sm text-on-surface-variant font-body-sm text-body-sm">
+                <div className="flex justify-between w-full max-w-sm text-on-surface-variant font-body-sm text-body-sm font-medium">
                   <span className="flex items-center gap-2">
                     PPN
                     <select 
                       disabled={!hasTaxInvoice}
                       value={ppnRate}
                       onChange={(e) => setPpnRate(Number(e.target.value))}
-                      className="h-6 text-[11px] bg-white border border-border-subtle rounded px-1 cursor-pointer outline-none focus:ring-1 focus:ring-secondary disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="h-6 text-[10.5px] bg-white border border-border-subtle rounded-lg px-1 cursor-pointer outline-none focus:ring-2 focus:ring-secondary/10 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <option value={11}>11%</option>
                       <option value={0}>0%</option>
                     </select>
                   </span>
-                  <span className="font-tabular-nums text-tabular-nums">{formatCurrency(ppnAmount).replace('Rp ', '')}</span>
+                  <span className="font-tabular-nums text-tabular-nums font-semibold">{formatCurrency(ppnAmount).replace('Rp ', '')}</span>
                 </div>
-                <div className="w-full max-w-sm h-px bg-border-subtle my-2"></div>
+                <div className="w-full max-w-sm h-px bg-border-subtle/50 my-2.5"></div>
                 <div className="flex justify-between w-full max-w-sm text-primary font-headline-sm text-headline-sm">
-                  <span>Grand Total</span>
-                  <span className="font-tabular-nums text-tabular-nums font-bold text-secondary">{formatCurrency(grandTotal)}</span>
+                  <span className="font-bold">Grand Total</span>
+                  <span className="font-tabular-nums text-tabular-nums font-bold text-secondary text-xl">{formatCurrency(grandTotal)}</span>
                 </div>
               </div>
             </section>
@@ -328,15 +328,15 @@ export default function SalesInvoicePage() {
           {/* Right Column: Tax & Settings */}
           <div className="flex flex-col gap-6">
             {/* Tax Section (e-Faktur) */}
-            <section className="bg-surface-container-low rounded-xl border border-secondary-container p-5 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.02)] relative overflow-hidden">
+            <section className="glass-card rounded-2xl p-5 hover:border-secondary-container/40 transition-all duration-300 shadow-sm relative overflow-hidden bg-surface-container-low/40 border border-secondary-container/30 animate-slide-up">
               <div className="absolute top-0 right-0 w-32 h-32 bg-secondary-container/20 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
               <div className="flex items-start justify-between mb-5 relative z-10">
                 <div>
-                  <h3 className="font-headline-sm text-headline-sm text-on-secondary-container flex items-center gap-2">
+                  <h3 className="font-headline-sm text-headline-sm text-on-secondary-container flex items-center gap-2 font-semibold">
                     <span className="material-symbols-outlined text-secondary">account_balance</span>
                     Faktur Pajak
                   </h3>
-                  <p className="font-body-sm text-body-sm text-on-secondary-container/80 mt-1">Integrasi e-Faktur DJP</p>
+                  <p className="font-body-sm text-body-sm text-on-secondary-container/85 mt-1">Integrasi e-Faktur DJP</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -345,16 +345,16 @@ export default function SalesInvoicePage() {
                     className="sr-only peer"
                     type="checkbox"
                   />
-                  <div className="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary"></div>
+                  <div className="w-9 h-5 bg-outline-variant/60 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary cursor-pointer"></div>
                 </label>
               </div>
               
               {hasTaxInvoice && (
                 <div className="flex flex-col gap-4 relative z-10">
                   <div className="flex flex-col gap-1.5">
-                    <label className="font-label-md text-label-md text-on-secondary-fixed">NPWP Pelanggan</label>
+                    <label className="font-label-md text-[11px] uppercase tracking-wider text-on-secondary-fixed font-semibold">NPWP Pelanggan</label>
                     <input
-                      className="w-full h-10 px-3 bg-white border border-border-subtle rounded-lg font-tabular-nums text-tabular-nums text-on-surface focus:ring-2 focus:ring-secondary/30 focus:border-secondary outline-none"
+                      className="w-full h-10 px-3 bg-white border border-border-subtle rounded-lg font-tabular-nums text-tabular-nums text-on-surface focus:ring-4 focus:ring-secondary/10 focus:border-secondary outline-none transition-all"
                       placeholder="00.000.000.0-000.000"
                       type="text"
                       maxLength={20}
@@ -362,18 +362,18 @@ export default function SalesInvoicePage() {
                       onChange={handleNpwpChange}
                     />
                     {customerNpwp.length >= 15 ? (
-                      <span className="text-[11px] text-success-positive flex items-center gap-1 mt-0.5">
+                      <span className="text-[11px] text-success-positive flex items-center gap-1 mt-0.5 font-medium">
                         <span className="material-symbols-outlined text-[14px]">check_circle</span>
                         Format Valid DJP
                       </span>
                     ) : (
-                      <span className="text-[11px] text-warning-deadline flex items-center gap-1 mt-0.5">
+                      <span className="text-[11px] text-warning-deadline flex items-center gap-1 mt-0.5 font-medium">
                         <span className="material-symbols-outlined text-[14px]">info</span>
                         Masukkan NPWP Lengkap
                       </span>
                     )}
                   </div>
-                  <div className="p-3 bg-white/60 border border-secondary-container/50 rounded-lg mt-2 text-body-sm font-body-sm text-on-surface-variant flex gap-2">
+                  <div className="p-3 bg-white/60 border border-secondary-container/50 rounded-xl mt-2 text-body-sm font-body-sm text-on-surface-variant flex gap-2">
                     <span className="material-symbols-outlined text-secondary text-[18px] shrink-0">info</span>
                     <span>NSFP akan ditarik secara otomatis saat faktur disimpan.</span>
                   </div>
@@ -381,23 +381,23 @@ export default function SalesInvoicePage() {
               )}
               
               {!hasTaxInvoice && (
-                <div className="p-4 bg-surface-muted/80 rounded-lg text-body-sm font-body-sm text-on-surface-variant/70 border border-border-subtle relative z-10">
+                <div className="p-4 bg-surface-muted/80 rounded-xl text-body-sm font-body-sm text-on-surface-variant/70 border border-border-subtle/80 relative z-10 leading-relaxed">
                   Faktur pajak dinonaktifkan. Transaksi ini tidak akan dilaporkan ke DJP e-Faktur.
                 </div>
               )}
             </section>
 
             {/* Additional Info */}
-            <section className="bg-surface-container-lowest rounded-xl border border-border-subtle p-5 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.02)]">
-              <h3 className="font-headline-sm text-headline-sm text-primary mb-4 flex items-center gap-2">
+            <section className="glass-card rounded-2xl p-5 hover:border-secondary-container/30 transition-all duration-300 shadow-sm animate-slide-up">
+              <h3 className="font-headline-sm text-headline-sm text-primary mb-4 flex items-center gap-2 font-semibold">
                 <span className="material-symbols-outlined text-secondary">description</span>
                 Catatan & Syarat
               </h3>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5">
-                  <label className="font-label-md text-label-md text-on-surface-variant">Catatan Faktur</label>
+                  <label className="font-label-md text-[11px] uppercase tracking-wider text-on-surface-variant font-medium">Catatan Faktur</label>
                   <textarea
-                    className="w-full p-3 bg-surface-muted border border-border-subtle rounded-lg font-body-sm text-body-sm text-on-surface focus:ring-2 focus:ring-secondary/30 focus:border-secondary resize-none outline-none"
+                    className="w-full p-3 bg-surface-muted/50 border border-border-subtle rounded-lg font-body-sm text-body-sm text-on-surface focus:ring-4 focus:ring-secondary/10 focus:border-secondary resize-none outline-none transition-all"
                     placeholder="Tambahkan catatan untuk pelanggan..."
                     rows={3}
                     value={notes}
@@ -405,11 +405,11 @@ export default function SalesInvoicePage() {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="font-label-md text-label-md text-on-surface-variant">Syarat Pembayaran</label>
+                  <label className="font-label-md text-[11px] uppercase tracking-wider text-on-surface-variant font-medium">Syarat Pembayaran</label>
                   <select 
                     value={paymentTerms}
                     onChange={(e) => setPaymentTerms(e.target.value)}
-                    className="w-full h-10 px-3 bg-surface-muted border border-border-subtle rounded-lg font-body-sm text-body-sm text-on-surface focus:ring-2 focus:ring-secondary/30 focus:border-secondary appearance-none cursor-pointer outline-none"
+                    className="w-full h-10 px-3 bg-surface-muted/50 border border-border-subtle rounded-lg font-body-sm text-body-sm text-on-surface focus:ring-4 focus:ring-secondary/10 focus:border-secondary appearance-none cursor-pointer outline-none transition-all"
                   >
                     <option value="net30">Net 30</option>
                     <option value="net15">Net 15</option>

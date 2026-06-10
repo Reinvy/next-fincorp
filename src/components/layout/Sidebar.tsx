@@ -38,15 +38,15 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="hidden xl:flex flex-col h-screen w-64 bg-primary text-on-primary py-margin-edge fixed left-0 top-0 z-20">
+    <aside className="hidden xl:flex flex-col h-screen w-64 bg-gradient-premium text-on-primary py-margin-edge fixed left-0 top-0 z-20 border-r border-primary-container/20 shadow-2xl">
       {/* Brand Header */}
       <div className="px-margin-edge mb-8 flex items-center gap-3">
-        <div className="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
-          <span className="material-symbols-outlined">domain</span>
+        <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-on-primary border border-white/10 shadow-lg shadow-black/10">
+          <span className="material-symbols-outlined text-secondary-container">domain</span>
         </div>
         <div>
-          <h1 className="font-headline-sm text-on-primary font-bold truncate max-w-[150px]">{company.name}</h1>
-          <p className="font-label-md text-on-primary/70">Corporate Accounting</p>
+          <h1 className="font-headline-sm text-on-primary font-bold tracking-tight truncate max-w-[150px]">{company.name}</h1>
+          <p className="font-label-md text-secondary-container/70 text-[10px]">Corporate Accounting</p>
         </div>
       </div>
 
@@ -54,7 +54,7 @@ export default function Sidebar() {
       <div className="px-margin-edge mb-6">
         <Link
           href="/sales/invoice"
-          className="w-full bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed hover:text-on-secondary py-2 px-4 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 transition-colors"
+          className="w-full bg-gradient-accent-premium text-on-primary hover:shadow-lg hover:shadow-secondary/20 hover:-translate-y-0.5 active:translate-y-0 py-2.5 px-4 rounded-xl font-label-md text-label-md flex items-center justify-center gap-2 transition-all transform duration-300"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
           New Transaction
@@ -62,38 +62,38 @@ export default function Sidebar() {
       </div>
 
       {/* Main Navigation */}
-      <nav className="flex-1 overflow-y-auto px-4 space-y-1">
+      <nav className="flex-1 overflow-y-auto px-4 space-y-1.5 custom-scrollbar">
         {mainNavItems.map((item) => (
           <Link
             key={item.href}
             href={item.href}
             className={`
-              flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors duration-200
+              flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all transform duration-300
               ${
                 isActive(item.href)
-                  ? 'bg-secondary/20 border-r-4 border-secondary-container text-on-primary font-medium'
-                  : 'text-on-primary/70 hover:text-on-primary hover:bg-secondary/10'
+                  ? 'bg-secondary/30 text-on-primary font-semibold shadow-md border-l-4 border-secondary-container translate-x-1'
+                  : 'text-on-primary/60 hover:text-on-primary hover:bg-secondary/10 hover:translate-x-1'
               }
             `}
           >
             <span className="material-symbols-outlined">{item.icon}</span>
-            <span className="font-body-md">{item.label}</span>
+            <span className="font-body-md text-[13.5px]">{item.label}</span>
           </Link>
         ))}
       </nav>
 
       {/* Bottom Navigation */}
-      <div className="px-4 pt-4 border-t border-primary-container/30 space-y-1">
+      <div className="px-4 pt-4 border-t border-white/5 space-y-1.5">
         {bottomNavItems.map((item) => (
           <Link
             key={item.href}
             href={item.href}
             className={`
-              flex items-center gap-3 px-4 py-2 rounded-lg transition-colors duration-200
+              flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all transform duration-300
               ${
                 isActive(item.href)
-                  ? 'bg-secondary/20 border-r-4 border-secondary-container text-on-primary'
-                  : 'text-on-primary/70 hover:text-on-primary hover:bg-secondary/10'
+                  ? 'bg-secondary/30 text-on-primary font-semibold shadow-md border-l-4 border-secondary-container translate-x-1'
+                  : 'text-on-primary/60 hover:text-on-primary hover:bg-secondary/10 hover:translate-x-1'
               }
             `}
           >

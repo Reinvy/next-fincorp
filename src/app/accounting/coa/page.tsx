@@ -215,26 +215,26 @@ export default function COAPage() {
           {/* Filter Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             {/* Category Filter */}
-            <div className="bg-surface border border-border-subtle rounded-lg p-4 shadow-sm">
-              <h3 className="font-label-md text-label-md text-primary uppercase mb-3 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[16px]">filter_list</span>
+            <div className="glass-card rounded-2xl p-4 flex flex-col hover:border-secondary-container/30 transition-colors duration-300">
+              <h3 className="font-label-md text-label-md text-primary uppercase mb-3.5 flex items-center gap-2 font-bold tracking-widest">
+                <span className="material-symbols-outlined text-[16px] text-secondary">filter_list</span>
                 Kategori Akun
               </h3>
-              <div className="space-y-1">
-                <label className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-surface-container cursor-pointer transition-colors text-body-sm">
+              <div className="space-y-1.5">
+                <label className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-surface-container-low cursor-pointer transition-colors text-body-sm">
                   <input
                     type="checkbox"
                     checked={selectedCategories.length === 5}
                     onChange={() => setSelectedCategories(['ASSET', 'LIABILITY', 'EQUITY', 'REVENUE', 'EXPENSE'])}
-                    className="rounded border-outline-variant text-primary focus:ring-primary h-4 w-4"
+                    className="rounded border-outline-variant/60 text-secondary focus:ring-secondary h-4 w-4 accent-secondary cursor-pointer"
                   />
-                  <span className="font-medium">Semua Kategori</span>
+                  <span className="font-semibold text-primary">Semua Kategori</span>
                 </label>
                 {accountCategories.map((cat) => (
                   <label
                     key={cat.id}
-                    className={`flex items-center gap-2 px-2 py-1.5 rounded hover:bg-surface-container cursor-pointer transition-colors text-body-sm border-l-2 ${
-                      selectedCategories.includes(cat.id) ? 'border-primary bg-primary-fixed-dim/20 font-medium' : 'border-transparent'
+                    className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-surface-container-low cursor-pointer transition-all duration-200 text-body-sm border-l-2 ${
+                      selectedCategories.includes(cat.id) ? 'border-secondary bg-secondary/5 font-semibold text-secondary' : 'border-transparent text-on-surface-variant'
                     }`}
                     style={{ paddingLeft: '24px' }}
                   >
@@ -242,7 +242,7 @@ export default function COAPage() {
                       type="checkbox"
                       checked={selectedCategories.includes(cat.id)}
                       onChange={() => toggleCategory(cat.id)}
-                      className="rounded border-outline-variant text-primary focus:ring-primary h-4 w-4"
+                      className="rounded border-outline-variant/60 text-secondary focus:ring-secondary h-4 w-4 accent-secondary cursor-pointer"
                     />
                     <span>{cat.name}</span>
                   </label>
@@ -251,13 +251,15 @@ export default function COAPage() {
             </div>
 
             {/* Summary Card */}
-            <div className="bg-surface border border-border-subtle rounded-lg p-4 shadow-sm relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary-fixed-dim/20 to-transparent pointer-events-none"></div>
-              <h3 className="font-label-md text-label-md text-on-surface-variant mb-1">Total Aset Aktif</h3>
-              <div className="font-tabular-nums text-headline-sm font-bold text-primary mb-2">
+            <div className="glass-card rounded-2xl p-4 flex flex-col relative overflow-hidden group hover:border-secondary-container/30 transition-colors duration-300">
+              <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 to-transparent pointer-events-none"></div>
+              {/* Dynamic bottom accent bar */}
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-secondary"></div>
+              <h3 className="font-label-md text-[10.5px] text-on-surface-variant uppercase tracking-widest opacity-80 mb-1.5">Total Aset Aktif</h3>
+              <div className="font-tabular-nums text-2xl font-bold tracking-tight text-primary mb-2">
                 {formatCurrency(Math.abs(totalActiveAssets))}
               </div>
-              <div className="flex items-center gap-1 text-success-positive text-body-sm">
+              <div className="flex items-center gap-1 text-success-positive text-body-sm font-semibold">
                 <span className="material-symbols-outlined text-[16px]">trending_up</span>
                 <span>+2.4% vs bulan lalu</span>
               </div>
@@ -265,12 +267,12 @@ export default function COAPage() {
           </div>
 
           {/* Main Table Area */}
-          <div className="lg:col-span-3 bg-surface border border-border-subtle rounded-lg shadow-sm overflow-hidden flex flex-col">
+          <div className="lg:col-span-3 glass-card rounded-2xl shadow-sm overflow-hidden flex flex-col hover:border-secondary-container/30 transition-colors duration-300">
             {/* Table Header Controls */}
-            <div className="p-4 border-b border-border-subtle flex flex-col sm:flex-row justify-between gap-3 bg-surface-muted">
+            <div className="p-4 border-b border-border-subtle/50 flex flex-col sm:flex-row justify-between gap-3 bg-surface-muted/20">
               <div className="flex items-center gap-2">
                 <span className="text-body-sm text-on-surface-variant">Menampilkan</span>
-                <select className="border border-border-subtle rounded px-2 py-1 text-body-sm bg-surface focus:ring-1 focus:ring-primary focus:border-primary outline-none">
+                <select className="border border-border-subtle/80 rounded-lg px-2.5 py-1 text-body-sm bg-surface focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none cursor-pointer">
                   <option>Semua</option>
                   <option>50</option>
                   <option>100</option>
@@ -280,30 +282,30 @@ export default function COAPage() {
               <div className="flex items-center gap-2">
                 <button 
                   onClick={expandAll}
-                  className="p-1.5 border border-border-subtle rounded text-on-surface-variant hover:bg-surface-container transition-colors" 
+                  className="p-1.5 border border-border-subtle/80 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors cursor-pointer" 
                   title="Expand All"
                 >
                   <span className="material-symbols-outlined text-[18px]">unfold_more</span>
                 </button>
                 <button 
                   onClick={collapseAll}
-                  className="p-1.5 border border-border-subtle rounded text-on-surface-variant hover:bg-surface-container transition-colors" 
+                  className="p-1.5 border border-border-subtle/80 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors cursor-pointer" 
                   title="Collapse All"
                 >
                   <span className="material-symbols-outlined text-[18px]">unfold_less</span>
                 </button>
-                <div className="w-px h-6 bg-border-subtle mx-1"></div>
-                <button className="p-1.5 border border-border-subtle rounded text-on-surface-variant hover:bg-surface-container transition-colors" title="Print">
+                <div className="w-px h-6 bg-border-subtle/50 mx-1"></div>
+                <button className="p-1.5 border border-border-subtle/80 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors cursor-pointer" title="Print">
                   <span className="material-symbols-outlined text-[18px]">print</span>
                 </button>
               </div>
             </div>
 
             {/* Data Table */}
-            <div className="overflow-x-auto flex-1">
+            <div className="overflow-x-auto flex-1 custom-scrollbar">
               <table className="w-full text-left border-collapse min-w-[800px]">
                 <thead>
-                  <tr className="bg-surface-muted border-b border-border-subtle text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+                  <tr className="bg-surface-muted/30 border-b border-border-subtle/50 text-on-surface-variant font-label-md text-[10.5px] uppercase tracking-wider">
                     <th className="py-3 px-4 font-semibold w-2/5">Kode & Nama Akun</th>
                     <th className="py-3 px-4 font-semibold">Tipe</th>
                     <th className="py-3 px-4 font-semibold">Mata Uang</th>
@@ -311,21 +313,21 @@ export default function COAPage() {
                     <th className="py-3 px-4 font-semibold text-center w-16">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="text-body-sm font-body-sm divide-y divide-border-subtle/50">
+                <tbody className="text-body-sm font-body-sm divide-y divide-border-subtle/30">
                   {renderAccounts()}
                 </tbody>
               </table>
             </div>
 
             {/* Pagination */}
-            <div className="p-3 border-t border-border-subtle bg-surface-muted flex justify-between items-center text-body-sm text-on-surface-variant">
+            <div className="p-3 border-t border-border-subtle/50 bg-surface-muted/10 flex justify-between items-center text-body-sm text-on-surface-variant font-medium">
               <div>Menampilkan 1-{accounts.length} dari {accounts.length} Akun</div>
-              <div className="flex gap-1">
-                <button className="px-2 py-1 border border-border-subtle rounded bg-surface hover:bg-surface-container disabled:opacity-50" disabled>
+              <div className="flex gap-1.5">
+                <button className="px-2.5 py-1 border border-border-subtle/80 rounded-lg bg-surface hover:bg-surface-container disabled:opacity-50 cursor-pointer" disabled>
                   &lt;
                 </button>
-                <button className="px-2 py-1 border border-primary rounded bg-primary-container text-primary font-medium">1</button>
-                <button className="px-2 py-1 border border-border-subtle rounded bg-surface hover:bg-surface-container" disabled>&gt;</button>
+                <button className="px-3 py-1 border border-secondary rounded-lg bg-secondary/5 text-secondary font-bold">1</button>
+                <button className="px-2.5 py-1 border border-border-subtle/80 rounded-lg bg-surface hover:bg-surface-container cursor-pointer" disabled>&gt;</button>
               </div>
             </div>
           </div>
@@ -334,13 +336,13 @@ export default function COAPage() {
 
       {/* Tambah Akun Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-primary/40 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-          <div className="bg-white rounded-xl border border-border-subtle shadow-xl w-full max-w-lg overflow-hidden flex flex-col">
-            <div className="px-6 py-4 border-b border-border-subtle flex justify-between items-center bg-surface-muted">
+        <div className="fixed inset-0 bg-primary/40 flex items-center justify-center z-50 p-4 backdrop-blur-md animate-fade-in">
+          <div className="bg-white dark:bg-inverse-surface rounded-2xl border border-border-subtle shadow-2xl w-full max-w-lg overflow-hidden flex flex-col animate-slide-up">
+            <div className="px-6 py-4 border-b border-border-subtle/50 flex justify-between items-center bg-surface-muted/20">
               <h3 className="font-headline-sm text-headline-sm text-primary font-bold">Tambah Akun Baru</h3>
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="text-on-surface-variant hover:text-primary transition-colors w-8 h-8 rounded-full hover:bg-surface-container flex items-center justify-center"
+                className="text-on-surface-variant/60 hover:text-primary hover:bg-surface-container/60 transition-all w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[20px]">close</span>
               </button>

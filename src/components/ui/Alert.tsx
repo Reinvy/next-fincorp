@@ -11,19 +11,22 @@ interface AlertProps {
 export default function Alert({ data, onDismiss }: AlertProps) {
   const config = {
     warning: {
-      bg: 'bg-error-container border-error/20',
+      bg: 'bg-warning-deadline/5 border-warning-deadline/20',
+      leftBar: 'bg-warning-deadline',
       icon: 'warning',
-      iconColor: 'text-on-error-container',
-      textColor: 'text-on-error-container',
+      iconColor: 'text-warning-deadline',
+      textColor: 'text-on-surface',
     },
     error: {
-      bg: 'bg-error-container border-danger-liability/30',
+      bg: 'bg-error-container/15 border-error-container/40',
+      leftBar: 'bg-error',
       icon: 'error',
-      iconColor: 'text-danger-liability',
-      textColor: 'text-danger-liability',
+      iconColor: 'text-error',
+      textColor: 'text-on-surface',
     },
     info: {
-      bg: 'bg-surface-container-high border-secondary/20',
+      bg: 'bg-secondary/5 border-secondary/15',
+      leftBar: 'bg-secondary',
       icon: 'info',
       iconColor: 'text-secondary',
       textColor: 'text-on-surface',
@@ -33,28 +36,31 @@ export default function Alert({ data, onDismiss }: AlertProps) {
   const style = config[data.type] || config.info;
 
   return (
-    <div className={`${style.bg} border rounded-xl p-4 flex items-start gap-3 shadow-sm`}>
-      <span className={`material-symbols-outlined fill ${style.iconColor}`}>
+    <div className={`${style.bg} border rounded-2xl p-4 flex items-start gap-4 shadow-sm relative overflow-hidden pl-5 animate-slide-up`}>
+      {/* Vertical left accent bar */}
+      <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${style.leftBar}`}></div>
+
+      <span className={`material-symbols-outlined fill ${style.iconColor} text-[20px] mt-0.5`}>
         {style.icon}
       </span>
       <div className="flex-1">
-        <h4 className={`font-label-md text-label-md ${style.textColor}`}>{data.title}</h4>
-        <p className={`font-body-sm opacity-85 mt-0.5 ${style.textColor}`}>{data.message}</p>
+        <h4 className={`font-label-md text-[12.5px] ${style.textColor} font-semibold`}>{data.title}</h4>
+        <p className={`font-body-sm opacity-80 mt-0.5 ${style.textColor}`}>{data.message}</p>
       </div>
       {data.link && (
         <Link
           href={data.link}
-          className={`${style.textColor} font-label-md text-label-md hover:underline shrink-0 mr-1`}
+          className="text-secondary font-label-md text-[11px] hover:underline shrink-0 mr-1 mt-0.5"
         >
-          Lihat Detail
+          Lihat Detail →
         </Link>
       )}
       {onDismiss && (
         <button
           onClick={onDismiss}
-          className={`${style.textColor} opacity-60 hover:opacity-100 transition-opacity shrink-0`}
+          className="text-on-surface-variant/40 hover:text-on-surface hover:bg-surface-container/40 p-1 rounded-full transition-all shrink-0 mt-0.5"
         >
-          <span className="material-symbols-outlined text-[18px]">close</span>
+          <span className="material-symbols-outlined text-[16px]">close</span>
         </button>
       )}
     </div>

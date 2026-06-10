@@ -127,14 +127,14 @@ export default function DashboardPage() {
 
   return (
     <Layout>
-      <div className="space-y-6">
+      <div className="space-y-6 animate-fade-in">
         {/* Page Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 pb-2 border-b border-border-subtle/40">
           <div>
-            <h2 className="font-display-lg text-display-lg text-on-background">
+            <h2 className="text-3xl font-bold tracking-tight text-primary dark:text-inverse-primary font-headline-md">
               Selamat Datang, Admin {company.name.split(' ')[0]}
             </h2>
-            <p className="font-body-lg text-body-lg text-on-surface-variant mt-1">
+            <p className="font-body-md text-on-surface-variant mt-1">
               Ringkasan posisi keuangan per hari ini, {today}.
             </p>
           </div>
@@ -151,12 +151,16 @@ export default function DashboardPage() {
         </div>
 
         {/* Alert Section */}
-        {alerts.map((alert) => (
-          <Alert key={alert.id} data={alert} onDismiss={() => dismissAlert(alert.id)} />
-        ))}
+        {alerts.length > 0 && (
+          <div className="space-y-3">
+            {alerts.map((alert) => (
+              <Alert key={alert.id} data={alert} onDismiss={() => dismissAlert(alert.id)} />
+            ))}
+          </div>
+        )}
 
         {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
           {dynamicKpis.map((kpi) => (
             <KPICard key={kpi.id} data={kpi} />
           ))}
@@ -167,33 +171,35 @@ export default function DashboardPage() {
           {/* Left Column: Charts */}
           <div className="xl:col-span-2 space-y-6">
             {/* Cash Flow Chart */}
-            <CashFlowChart data={cashFlowData} height={280} />
+            <div className="glass-card rounded-2xl p-5 hover:border-secondary-container/50 transition-all duration-300">
+              <CashFlowChart data={cashFlowData} height={280} />
+            </div>
 
             {/* Income Summary */}
-            <div className="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-[0_2px_10px_rgba(0,0,0,0.02)] p-5">
-              <h3 className="font-headline-sm text-headline-sm text-on-background mb-4">Laba Rugi (YTD)</h3>
-              <div className="space-y-4">
+            <div className="glass-card rounded-2xl p-5 hover:border-secondary-container/50 transition-all duration-300">
+              <h3 className="font-headline-sm text-headline-sm text-on-background mb-4 font-semibold">Laba Rugi (YTD)</h3>
+              <div className="space-y-5">
                 <div>
-                  <div className="flex justify-between text-body-sm mb-1">
+                  <div className="flex justify-between text-body-sm mb-1.5 font-medium">
                     <span className="text-on-surface-variant">Pendapatan (DPP)</span>
-                    <span className="font-tabular-nums text-on-background">{formatCurrency(totalRevenue)}</span>
+                    <span className="font-tabular-nums text-on-background font-semibold">{formatCurrency(totalRevenue)}</span>
                   </div>
-                  <div className="w-full bg-surface-container rounded-full h-2">
-                    <div className="bg-success-positive h-2 rounded-full" style={{ width: `${revenuePercent}%` }}></div>
+                  <div className="w-full bg-surface-container rounded-full h-2.5 overflow-hidden shadow-inner">
+                    <div className="bg-gradient-success-premium h-full rounded-full shadow-[0_0_8px_rgba(26,93,26,0.3)] transition-all duration-500" style={{ width: `${revenuePercent}%` }}></div>
                   </div>
                 </div>
                 <div>
-                  <div className="flex justify-between text-body-sm mb-1">
+                  <div className="flex justify-between text-body-sm mb-1.5 font-medium">
                     <span className="text-on-surface-variant">HPP &amp; Biaya Pembelian</span>
-                    <span className="font-tabular-nums text-on-background">{formatCurrency(totalExpenses)}</span>
+                    <span className="font-tabular-nums text-on-background font-semibold">{formatCurrency(totalExpenses)}</span>
                   </div>
-                  <div className="w-full bg-surface-container rounded-full h-2">
-                    <div className="bg-warning-deadline h-2 rounded-full" style={{ width: `${expensePercent}%` }}></div>
+                  <div className="w-full bg-surface-container rounded-full h-2.5 overflow-hidden shadow-inner">
+                    <div className="bg-gradient-warning-premium h-full rounded-full shadow-[0_0_8px_rgba(180,83,9,0.3)] transition-all duration-500" style={{ width: `${expensePercent}%` }}></div>
                   </div>
                 </div>
-                <div className="pt-3 border-t border-border-subtle flex justify-between items-center">
-                  <span className="font-label-md text-label-md text-on-surface">Laba Bersih</span>
-                  <span className="font-headline-sm text-headline-sm font-tabular-nums text-primary">
+                <div className="pt-4 border-t border-border-subtle/50 flex justify-between items-center">
+                  <span className="font-label-md text-label-md text-on-surface font-bold">Laba Bersih</span>
+                  <span className="text-2xl font-bold tracking-tight font-tabular-nums text-secondary">
                     {formatCurrency(netProfit)}
                   </span>
                 </div>
@@ -204,23 +210,23 @@ export default function DashboardPage() {
           {/* Right Column: Tables */}
           <div className="xl:col-span-1 space-y-6">
             {/* Aging Receivables */}
-            <div className="bg-surface-container-lowest border border-border-subtle rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col max-h-[400px]">
-              <div className="px-5 py-4 border-b border-border-subtle flex justify-between items-center bg-surface-muted/50 shrink-0">
-                <h3 className="font-headline-sm text-headline-sm text-on-background">Piutang Jatuh Tempo</h3>
-                <button className="text-secondary hover:text-primary transition-colors">
+            <div className="glass-card rounded-2xl flex flex-col max-h-[400px] hover:border-secondary-container/50 transition-all duration-300">
+              <div className="px-5 py-4 border-b border-border-subtle/50 flex justify-between items-center bg-surface-muted/20 shrink-0">
+                <h3 className="font-headline-sm text-headline-sm text-on-background font-semibold">Piutang Jatuh Tempo</h3>
+                <button className="text-on-surface-variant/60 hover:text-primary transition-colors p-1 rounded-lg hover:bg-surface-container-low">
                   <span className="material-symbols-outlined text-[20px]">more_vert</span>
                 </button>
               </div>
               <div className="overflow-y-auto custom-scrollbar p-0">
                 <table className="w-full text-left border-collapse">
-                  <thead className="sticky top-0 bg-surface-muted z-10 border-b border-border-subtle">
+                  <thead className="sticky top-0 bg-surface/90 backdrop-blur-sm z-10 border-b border-border-subtle/50">
                     <tr>
-                      <th className="py-2 px-4 font-label-md text-label-md text-on-surface-variant font-medium">No. Faktur</th>
-                      <th className="py-2 px-4 font-label-md text-label-md text-on-surface-variant font-medium text-right">Jumlah</th>
-                      <th className="py-2 px-4 font-label-md text-label-md text-on-surface-variant font-medium text-center">Status</th>
+                      <th className="py-2.5 px-4 font-label-md text-[10.5px] text-on-surface-variant font-semibold tracking-wider">No. Faktur</th>
+                      <th className="py-2.5 px-4 font-label-md text-[10.5px] text-on-surface-variant font-semibold tracking-wider text-right">Jumlah</th>
+                      <th className="py-2.5 px-4 font-label-md text-[10.5px] text-on-surface-variant font-semibold tracking-wider text-center">Status</th>
                     </tr>
                   </thead>
-                  <tbody className="text-body-sm font-tabular-nums divide-y divide-border-subtle">
+                  <tbody className="text-body-sm font-tabular-nums divide-y divide-border-subtle/30">
                     {unpaidInvoices.length === 0 ? (
                       <tr>
                         <td colSpan={3} className="py-8 text-center text-on-surface-variant text-body-sm">
@@ -231,14 +237,14 @@ export default function DashboardPage() {
                       unpaidInvoices.map((item) => (
                         <tr
                           key={item.id}
-                          className="hover:bg-surface-container-low transition-colors cursor-pointer group h-[40px]"
+                          className="hover:bg-surface-container-low/40 transition-colors cursor-pointer group h-[40px]"
                         >
-                          <td className="py-2 px-4 text-on-background whitespace-nowrap">
-                            <div className="font-medium text-secondary">{item.invoiceNumber}</div>
+                          <td className="py-1 px-4 text-on-background whitespace-nowrap">
+                            <div className="font-semibold text-secondary hover:underline">{item.invoiceNumber}</div>
                             <div className="text-[11px] text-on-surface-variant truncate max-w-[120px]">{item.customerName}</div>
                           </td>
-                          <td className="py-2 px-4 text-right text-danger-liability font-semibold">{formatCurrency(item.grandTotal)}</td>
-                          <td className="py-2 px-4 text-center">
+                          <td className="py-1 px-4 text-right text-danger-liability font-bold">{formatCurrency(item.grandTotal)}</td>
+                          <td className="py-1 px-4 text-center">
                             {getAgingBadge(item.status, item.dueDate)}
                           </td>
                         </tr>
@@ -247,10 +253,10 @@ export default function DashboardPage() {
                   </tbody>
                 </table>
               </div>
-              <div className="px-5 py-3 border-t border-border-subtle mt-auto bg-surface-container-lowest shrink-0">
+              <div className="px-5 py-3 border-t border-border-subtle/50 mt-auto bg-surface-muted/10 shrink-0">
                 <Link
                   href="/sales"
-                  className="font-label-md text-label-md text-secondary hover:text-primary transition-colors text-center block w-full"
+                  className="font-label-md text-label-md text-secondary hover:text-primary transition-colors text-center block w-full hover:-translate-y-0.5 duration-200"
                 >
                   Lihat Semua Penjualan
                 </Link>
