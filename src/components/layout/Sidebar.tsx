@@ -26,7 +26,7 @@ const navGroups: NavGroup[] = [
   {
     title: 'PEMBUKUAN & PAJAK',
     items: [
-      { label: 'Buku Besar', href: '/accounting', icon: 'account_balance' },
+      { label: 'Akuntansi', href: '/accounting', icon: 'account_balance' },
       { label: 'Aset Tetap', href: '/fixed-assets', icon: 'precision_manufacturing' },
       { label: 'Modul Pajak', href: '/tax', icon: 'gavel' },
     ],

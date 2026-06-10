@@ -50,6 +50,7 @@ interface AppContextType {
   payPurchaseInvoice: (id: string) => void;
   addBankAccount: (bank: Omit<BankAccount, 'id' | 'balance' | 'changePercent'> & { balance: number }) => void;
   addCashTransaction: (tx: { accountId: string; description: string; category: string; amount: number; type: 'IN' | 'OUT'; date?: string }) => void;
+  postJournalEntry: (entry: { date: string; referenceNumber: string; description: string; lines: { accountId: string; accountName: string; debit: number; credit: number }[] }) => void;
   customers: Customer[];
   vendors: Vendor[];
 }
@@ -542,6 +543,55 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
     save('fincorp_txs', updatedTxs);
   };
 
+  const postJournalEntry = (entry: {
+    date: string;
+    referenceNumber: string;
+    description: string;
+    lines: {
+      accountId: string;
+      accountName: string;
+      debit: number;
+      credit: number;
+    }[];
+  }) => {
+    const updatedAccounts = accounts.map(acc => {
+      let balanceChange = 0;
+      entry.lines.forEach(line => {
+        if (line.accountId === acc.id) {
+          const isAssetOrExpense = acc.type === 'ASSET' || acc.type === 'EXPENSE';
+          if (isAssetOrExpense) {
+            balanceChange += (line.debit - line.credit);
+          } else {
+            balanceChange += (line.credit - line.debit);
+          }
+        }
+      });
+      if (balanceChange !== 0) {
+        return { ...acc, balance: acc.balance + balanceChange };
+      }
+      return acc;
+    });
+
+    setAccounts(updatedAccounts);
+    save('fincorp_accounts', updatedAccounts);
+
+    const newTransactions: CashTransaction[] = entry.lines.map((line, idx) => ({
+      id: `tx-jv-${Date.now()}-${idx}`,
+      date: new Date(entry.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+      description: `${entry.description} (Jurnal: ${line.accountName})`,
+      accountId: line.accountId,
+      accountName: line.accountName,
+      category: 'Jurnal Umum',
+      amount: line.debit > 0 ? line.debit : line.credit,
+      type: line.debit > 0 ? 'IN' as const : 'OUT' as const,
+      balance: 0,
+    }));
+
+    const updatedTxs = [...newTransactions, ...recentTransactions];
+    setRecentTransactions(updatedTxs);
+    save('fincorp_txs', updatedTxs);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -567,6 +617,7 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
         payPurchaseInvoice,
         addBankAccount,
         addCashTransaction,
+        postJournalEntry,
         customers,
         vendors
       }}
