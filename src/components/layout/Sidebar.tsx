@@ -43,6 +43,7 @@ const navGroups: NavGroup[] = [
     items: [
       { label: 'Laporan Keuangan', href: '/reports', icon: 'assessment' },
       { label: 'Tenggat Waktu', href: '/deadlines', icon: 'event_upcoming' },
+      { label: 'Daftar Perusahaan', href: '/companies', icon: 'corporate_fare' },
       { label: 'Pengaturan', href: '/settings', icon: 'settings' },
     ],
   },
