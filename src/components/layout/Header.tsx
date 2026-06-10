@@ -119,11 +119,6 @@ export default function Header({ showSearch = true, showNotifications = true }: 
         <Link href="/dashboard" className="xl:hidden font-headline-md text-headline-md text-primary font-black tracking-wider uppercase">
           FinCorp
         </Link>
-
-        {/* Clean spacing border on desktop */}
-        <div className="hidden xl:block font-label-md text-label-md text-on-surface-variant font-medium tracking-wider">
-          PT FinCorp Indonesia
-        </div>
       </div>
 
       {/* Right Section */}
