@@ -165,12 +165,22 @@
   background-color: var(--color-surface-container) !important;
 }
 
+.dark .text-slate-950,
+.dark .text-gray-950,
+.dark .text-neutral-950,
+.dark .text-zinc-950,
+.dark .text-stone-950,
+.dark .text-indigo-950,
+.dark .text-indigo-900,
+.dark .text-blue-950,
+.dark .text-blue-900,
 .dark .text-slate-900,
 .dark .text-gray-900,
 .dark .text-neutral-900,
 .dark .text-slate-800,
 .dark .text-gray-800,
-.dark .text-neutral-800 {
+.dark .text-neutral-800,
+.dark .text-black {
   color: var(--color-on-surface) !important;
 }
 
@@ -220,6 +230,61 @@
 
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #334155;
+}
+
+/* Sidebar Specific Contrast Rules for Dark Mode */
+.dark aside,
+.dark aside * {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.dark aside a:hover,
+.dark aside a:hover * {
+  color: #ffffff !important;
+}
+
+.dark aside .bg-secondary,
+.dark aside .bg-secondary * {
+  color: #ffffff !important;
+  background-color: var(--color-secondary) !important;
+}
+
+/* Hardcoded White text on Bright background fixes in Dark Mode */
+.dark .bg-secondary.text-white {
+  color: #050811 !important; /* Dark text on light blue */
+}
+
+.dark .bg-warning-deadline.text-white {
+  color: #3b1e04 !important; /* Dark brown text on bright amber */
+}
+
+.dark .bg-error.text-white {
+  color: #5c0003 !important; /* Dark red text on bright red */
+}
+
+/* Gradient overrides for Dark Mode */
+.dark .bg-gradient-premium {
+  background: linear-gradient(135deg, #0d1628 0%, #050811 100%) !important;
+}
+
+.dark .bg-gradient-secondary-premium {
+  background: #8ab4f8 !important; /* Solid bright light blue */
+  color: #050811 !important;
+  border-color: #8ab4f8 !important;
+}
+
+.dark .bg-gradient-secondary-premium * {
+  color: #050811 !important;
+}
+
+.dark .bg-gradient-accent-premium {
+  background: #4ade80 !important; /* Solid bright green */
+  color: #052e16 !important;
+  border-color: #4ade80 !important;
+}
+
+.dark .bg-gradient-accent-premium * {
+  color: #052e16 !important;
 }
 
 @theme inline {
