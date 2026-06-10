@@ -13,7 +13,8 @@ export default function AccountingPage() {
     recentTransactions,
     runDepreciation,
     postJournalEntry,
-    fixedAssets
+    fixedAssets,
+    showToast
   } = useApp();
 
   // General States
@@ -210,14 +211,14 @@ export default function AccountingPage() {
     setJournalRef(`JV-2026-${nextNum.toString().padStart(4, '0')}`);
     setIsJournalModalOpen(false);
     setIsAdjusted(true);
-    alert('Jurnal Voucher berhasil di-posting ke Buku Besar.');
+    showToast('Jurnal Voucher berhasil di-posting ke Buku Besar.', 'success');
   };
 
   // Run Depreciation Trigger
   const handleRunDepreciation = () => {
     runDepreciation();
     setIsDepreciated(true);
-    alert('Jurnal Penyesuaian Depresiasi Aset Bulan Ini Berhasil Dibuat!');
+    showToast('Jurnal Penyesuaian Depresiasi Aset Bulan Ini Berhasil Dibuat!', 'success');
   };
 
   // Tutup Buku Trigger
@@ -228,7 +229,7 @@ export default function AccountingPage() {
       }
     }
     setIsPeriodClosed(true);
-    alert('Periode Keuangan Des 2026 Berhasil Ditutup & Kunci Transaksi Aktif!');
+    showToast('Periode Keuangan Des 2026 Berhasil Ditutup & Kunci Transaksi Aktif!', 'success');
   };
 
   const accountingModules = [

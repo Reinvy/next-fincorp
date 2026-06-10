@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import { useApp } from '@/context/AppContext';
+import { ToastContainer } from '@/components/ui';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -18,9 +20,13 @@ export default function Layout({
   showMobileHeader = true,
 }: LayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { toasts, dismissToast } = useApp();
 
   return (
     <div className="flex h-screen overflow-hidden bg-surface">
+      {/* Toast Container for global notification toasts */}
+      <ToastContainer toasts={toasts} onDismiss={dismissToast} />
+
       {/* Sidebar with responsive drawer props */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 

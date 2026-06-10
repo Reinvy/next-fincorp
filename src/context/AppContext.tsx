@@ -27,6 +27,13 @@ import type {
   InvoiceItem
 } from '@/data/types';
 
+export interface ToastItem {
+  id: string;
+  message: string;
+  type: 'success' | 'error' | 'warning' | 'info';
+  title?: string;
+}
+
 interface AppContextType {
   theme: 'light' | 'dark';
   toggleTheme: () => void;
@@ -54,6 +61,9 @@ interface AppContextType {
   postJournalEntry: (entry: { date: string; referenceNumber: string; description: string; lines: { accountId: string; accountName: string; debit: number; credit: number }[] }) => void;
   customers: Customer[];
   vendors: Vendor[];
+  toasts: ToastItem[];
+  showToast: (message: string, type?: 'success' | 'error' | 'warning' | 'info', title?: string) => void;
+  dismissToast: (id: string) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -71,6 +81,25 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
   const [alerts, setAlerts] = useState<AlertItem[]>(mockAlerts);
   const [customers, setCustomers] = useState<Customer[]>(mockCustomers);
   const [vendors, setVendors] = useState<Vendor[]>(mockVendors);
+  const [toasts, setToasts] = useState<ToastItem[]>([]);
+
+  const dismissToast = (id: string) => {
+    setToasts(prev => prev.filter(t => t.id !== id));
+  };
+
+  const showToast = (
+    message: string,
+    type: 'success' | 'error' | 'warning' | 'info' = 'success',
+    title?: string
+  ) => {
+    const id = `toast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const newToast: ToastItem = { id, message, type, title };
+    setToasts(prev => [...prev, newToast]);
+
+    setTimeout(() => {
+      dismissToast(id);
+    }, 4000);
+  };
 
   // Initialize state from localStorage on client-side mount
   useEffect(() => {
@@ -661,7 +690,10 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
         addCashTransaction,
         postJournalEntry,
         customers,
-        vendors
+        vendors,
+        toasts,
+        showToast,
+        dismissToast
       }}
     >
       {children}

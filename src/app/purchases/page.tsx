@@ -47,7 +47,7 @@ const parseInvoiceDate = (dateStr: string): Date => {
 };
 
 export default function PurchasesPage() {
-  const { purchaseInvoices, addPurchaseInvoice, payPurchaseInvoice, vendors } = useApp();
+  const { purchaseInvoices, addPurchaseInvoice, payPurchaseInvoice, vendors, showToast } = useApp();
 
   // Search & Filter States
   const [searchQuery, setSearchQuery] = useState('');
@@ -187,7 +187,7 @@ export default function PurchasesPage() {
     if (confirm(`Apakah Anda yakin ingin mencatat pelunasan Faktur Pembelian ${invoice.invoiceNumber}? Saldo Kas/Bank akan berkurang sebesar Rp ${invoice.grandTotal.toLocaleString('id-ID')}.`)) {
       payPurchaseInvoice(invoice.id);
       setSelectedInvoice(null);
-      alert(`Pembayaran Faktur Pembelian ${invoice.invoiceNumber} berhasil dicatat.`);
+      showToast(`Pembayaran Faktur Pembelian ${invoice.invoiceNumber} berhasil dicatat.`, 'success');
     }
   };
 

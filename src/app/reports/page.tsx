@@ -47,7 +47,7 @@ const parseInvoiceDate = (dateStr: string): Date => {
 };
 
 export default function ReportsListPage() {
-  const { salesInvoices, purchaseInvoices, bankAccounts, accounts, fixedAssets } = useApp();
+  const { salesInvoices, purchaseInvoices, bankAccounts, accounts, fixedAssets, showToast } = useApp();
 
   // Search & Category States
   const [searchQuery, setSearchQuery] = useState('');
@@ -413,7 +413,7 @@ export default function ReportsListPage() {
         ]);
         break;
       default:
-        alert('Format ekspor belum didukung untuk laporan ini.');
+        showToast('Format ekspor belum didukung untuk laporan ini.', 'warning');
         return;
     }
 

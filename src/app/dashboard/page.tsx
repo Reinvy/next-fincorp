@@ -17,7 +17,8 @@ export default function DashboardPage() {
     dismissAlert,
     paySalesInvoice,
     payPurchaseInvoice,
-    company
+    company,
+    showToast
   } = useApp();
 
   // States
@@ -641,7 +642,7 @@ export default function DashboardPage() {
                 variant="outline" 
                 icon="mail" 
                 onClick={() => {
-                  alert(`Pengingat tagihan berhasil terkirim via Email & WhatsApp ke ${selectedInvoice.customerName}!`);
+                  showToast(`Pengingat tagihan berhasil terkirim via Email & WhatsApp ke ${selectedInvoice.customerName}!`, 'success');
                 }}
               >
                 Kirim Pengingat
@@ -650,7 +651,7 @@ export default function DashboardPage() {
                 <Button 
                   onClick={() => {
                     paySalesInvoice(selectedInvoice.id);
-                    alert('Faktur berhasil dilunasi! Saldo bank dan transaksi kas diperbarui otomatis.');
+                    showToast('Faktur berhasil dilunasi! Saldo bank dan transaksi kas diperbarui otomatis.', 'success');
                     setSelectedInvoice(null);
                   }}
                   className="bg-gradient-success-premium text-white"
@@ -744,7 +745,7 @@ export default function DashboardPage() {
               <Button 
                 onClick={() => {
                   payPurchaseInvoice(selectedPurchase.id);
-                  alert('Tagihan pembelian berhasil dilunasi! Saldo bank dikurangi dan transaksi pengeluaran kas dicatat.');
+                  showToast('Tagihan pembelian berhasil dilunasi! Saldo bank dikurangi dan transaksi pengeluaran kas dicatat.', 'success');
                   setSelectedPurchase(null);
                 }}
                 className="bg-gradient-warning-premium text-white"

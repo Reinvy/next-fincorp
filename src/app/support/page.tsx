@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Layout } from '@/components/layout';
 import { PageHeader, Button } from '@/components/ui';
+import { useApp } from '@/context/AppContext';
 
 interface SupportTicket {
   id: string;
@@ -70,6 +71,7 @@ const defaultTickets: SupportTicket[] = [
 ];
 
 export default function SupportPage() {
+  const { showToast } = useApp();
   // Search & Accordion states
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(null);
@@ -98,7 +100,7 @@ export default function SupportPage() {
   const handleSaveTicket = (e: React.FormEvent) => {
     e.preventDefault();
     if (!ticketSubject || !ticketDescription) {
-      alert('Mohon lengkapi subjek dan deskripsi kendala.');
+      showToast('Mohon lengkapi subjek dan deskripsi kendala.', 'warning');
       return;
     }
 
@@ -122,7 +124,7 @@ export default function SupportPage() {
     setTicketPriority('MEDIUM');
     setTicketCategory('Akuntansi');
     
-    alert(`Tiket Bantuan "${newTicket.id}" berhasil dikirim! Tim Technical Support akan menindaklanjuti kendala Anda.`);
+    showToast(`Tiket Bantuan "${newTicket.id}" berhasil dikirim! Tim Technical Support akan menindaklanjuti kendala Anda.`, 'success');
   };
 
   // Filter FAQs based on search query

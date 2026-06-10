@@ -29,7 +29,8 @@ export default function Header({
     dismissAlert,
     salesInvoices,
     purchaseInvoices,
-    bankAccounts
+    bankAccounts,
+    showToast
   } = useApp();
 
   // Search through sales invoices, purchase invoices, and bank accounts
@@ -97,8 +98,10 @@ export default function Header({
 
   const handleLogout = () => {
     if (confirm('Apakah Anda yakin ingin keluar dari sistem?')) {
-      alert('Simulasi Logout Berhasil. Sesi Anda telah diakhiri.');
-      window.location.reload();
+      showToast('Simulasi Logout Berhasil. Sesi Anda telah diakhiri.', 'success');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     }
   };
 

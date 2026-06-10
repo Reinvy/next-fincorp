@@ -10,7 +10,7 @@ import type { InvoiceItem } from '@/data/types';
 
 export default function SalesInvoicePage() {
   const router = useRouter();
-  const { customers, addSalesInvoice } = useApp();
+  const { customers, addSalesInvoice, showToast } = useApp();
 
   const [selectedCustomerId, setSelectedCustomerId] = useState('');
   const [invoiceDate, setInvoiceDate] = useState('2026-10-27');
@@ -120,7 +120,7 @@ export default function SalesInvoicePage() {
   // Submit invoice
   const handleSubmit = (status: 'PAID' | 'UNPAID' | 'DRAFT') => {
     if (!selectedCustomerId) {
-      alert('Harap pilih pelanggan terlebih dahulu.');
+      showToast('Harap pilih pelanggan terlebih dahulu.', 'warning');
       return;
     }
 

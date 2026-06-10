@@ -22,7 +22,7 @@ const parsePurchaseYear = (dateStr: string): number => {
 };
 
 export default function FixedAssetsPage() {
-  const { fixedAssets, addFixedAsset, runDepreciation, disposeFixedAsset } = useApp();
+  const { fixedAssets, addFixedAsset, runDepreciation, disposeFixedAsset, showToast } = useApp();
 
   // Search & Filter State
   const [searchQuery, setSearchQuery] = useState('');
@@ -89,13 +89,13 @@ export default function FixedAssetsPage() {
     setPurchasePrice(0);
     setUsefulLife(4);
     setIsModalOpen(false);
-    alert(`Aset "${assetName}" berhasil didaftarkan ke sistem.`);
+    showToast(`Aset "${assetName}" berhasil didaftarkan ke sistem.`, 'success');
   };
 
   // Run Depreciation Action
   const handleRunDepreciationClick = () => {
     runDepreciation();
-    alert('Proses penyusutan bulanan selesai dijalankan dan dicatat ke jurnal akuntansi.');
+    showToast('Proses penyusutan bulanan selesai dijalankan dan dicatat ke jurnal akuntansi.', 'success');
   };
 
   // Asset Disposal Action (Write-off)
@@ -107,7 +107,7 @@ export default function FixedAssetsPage() {
     if (confirm(confirmMsg)) {
       disposeFixedAsset(asset.id);
       setSelectedAsset(null);
-      alert(`Aset "${asset.name}" berhasil dihapuskan.`);
+      showToast(`Aset "${asset.name}" berhasil dihapuskan.`, 'success');
     }
   };
 

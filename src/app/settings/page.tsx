@@ -10,7 +10,7 @@ import type { User } from '@/data/types';
 type SettingsTab = 'company' | 'fiscal' | 'users' | 'backup';
 
 export default function SettingsPage() {
-  const { company, updateCompany } = useApp();
+  const { company, updateCompany, showToast } = useApp();
   const [activeTab, setActiveTab] = useState<SettingsTab>('company');
 
   // Company Profile states
@@ -89,7 +89,7 @@ export default function SettingsPage() {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
-        alert('Ukuran berkas melebihi batas 2MB.');
+        showToast('Ukuran berkas melebihi batas 2MB.', 'error');
         return;
       }
       const reader = new FileReader();
@@ -120,7 +120,7 @@ export default function SettingsPage() {
     } else {
       localStorage.removeItem('fincorp_company_logo');
     }
-    alert('Profil legalitas dan kontak perusahaan berhasil diperbarui.');
+    showToast('Profil legalitas dan kontak perusahaan berhasil diperbarui.', 'success');
   };
 
   // Handle Saving Fiscal Preferences
@@ -135,14 +135,14 @@ export default function SettingsPage() {
       isClosingLocked
     };
     localStorage.setItem('fincorp_settings', JSON.stringify(settings));
-    alert('Konfigurasi tahun fiskal dan preferensi operasional berhasil diperbarui.');
+    showToast('Konfigurasi tahun fiskal dan preferensi operasional berhasil diperbarui.', 'success');
   };
 
   // Handle Users Management
   const handleAddUser = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newUserName || !newUserEmail) {
-      alert('Mohon lengkapi nama dan email pengguna.');
+      showToast('Mohon lengkapi nama dan email pengguna.', 'warning');
       return;
     }
 
@@ -163,7 +163,7 @@ export default function SettingsPage() {
     setNewUserEmail('');
     setNewUserRole('ACCOUNTANT');
     setIsUserModalOpen(false);
-    alert(`Pengguna baru "${newUserName}" berhasil didaftarkan.`);
+    showToast(`Pengguna baru "${newUserName}" berhasil didaftarkan.`, 'success');
   };
 
   const handleDeleteUser = (userId: string, userName: string) => {
@@ -171,7 +171,7 @@ export default function SettingsPage() {
       const updatedUsers = usersList.filter(u => u.id !== userId);
       setUsersList(updatedUsers);
       localStorage.setItem('fincorp_users', JSON.stringify(updatedUsers));
-      alert(`Hak akses pengguna "${userName}" berhasil dihapus.`);
+      showToast(`Hak akses pengguna "${userName}" berhasil dihapus.`, 'success');
     }
   };
 

@@ -17,7 +17,7 @@ const parseInvoiceDate = (dateStr: string): Date => {
 };
 
 export default function SalesPage() {
-  const { salesInvoices, paySalesInvoice } = useApp();
+  const { salesInvoices, paySalesInvoice, showToast } = useApp();
 
   // Search & Filter States
   const [searchQuery, setSearchQuery] = useState('');
@@ -90,7 +90,7 @@ export default function SalesPage() {
     if (confirm(`Apakah Anda yakin ingin mencatat pelunasan Faktur ${invoice.invoiceNumber}? Saldo Bank BCA Utama akan bertambah sebesar Rp ${invoice.grandTotal.toLocaleString('id-ID')}.`)) {
       paySalesInvoice(invoice.id);
       setSelectedInvoice(null);
-      alert(`Faktur ${invoice.invoiceNumber} berhasil dilunasi.`);
+      showToast(`Faktur ${invoice.invoiceNumber} berhasil dilunasi.`, 'success');
     }
   };
 

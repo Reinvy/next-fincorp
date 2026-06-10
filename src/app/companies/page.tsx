@@ -53,7 +53,7 @@ const defaultCompanies: Company[] = [
 ];
 
 export default function CompaniesPage() {
-  const { company, updateCompany } = useApp();
+  const { company, updateCompany, showToast } = useApp();
 
   // Companies List state
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -129,7 +129,7 @@ export default function CompaniesPage() {
   const handleAddCompany = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newName || !newNpwp || !newAddress) {
-      alert('Nama, NPWP, dan Alamat wajib diisi.');
+      showToast('Nama, NPWP, dan Alamat wajib diisi.', 'warning');
       return;
     }
 
@@ -166,7 +166,7 @@ export default function CompaniesPage() {
     setNewFiscalStart(1);
     setIsAddModalOpen(false);
 
-    alert(`Perusahaan / Cabang baru "${newCompany.name}" berhasil didaftarkan.`);
+    showToast(`Perusahaan / Cabang baru "${newCompany.name}" berhasil didaftarkan.`, 'success');
   };
 
   // Edit Company Details
@@ -189,7 +189,7 @@ export default function CompaniesPage() {
   const handleSaveEditCompany = (e: React.FormEvent) => {
     e.preventDefault();
     if (!editName || !editNpwp || !editAddress) {
-      alert('Nama, NPWP, dan Alamat wajib diisi.');
+      showToast('Nama, NPWP, dan Alamat wajib diisi.', 'warning');
       return;
     }
 
@@ -222,7 +222,7 @@ export default function CompaniesPage() {
     setCompanies(updated);
     localStorage.setItem('fincorp_companies', JSON.stringify(updated));
     setIsEditModalOpen(false);
-    alert('Detail data perusahaan berhasil diperbarui.');
+    showToast('Detail data perusahaan berhasil diperbarui.', 'success');
   };
 
   return (

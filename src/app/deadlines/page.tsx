@@ -24,7 +24,8 @@ export default function DeadlinesPage() {
     bankAccounts,
     paySalesInvoice,
     payPurchaseInvoice,
-    addCashTransaction
+    addCashTransaction,
+    showToast
   } = useApp();
 
   // Working Date (Simulation Date: 15 December 2026)
@@ -374,7 +375,7 @@ export default function DeadlinesPage() {
 
     const account = bankAccounts.find(b => b.id === selectedBankAccount);
     if (!account) {
-      alert('Pilih rekening pembayaran.');
+      showToast('Pilih rekening pembayaran.', 'warning');
       return;
     }
 
@@ -383,7 +384,7 @@ export default function DeadlinesPage() {
     // Validation
     if (selectedPaymentItem.category === 'AP' || selectedPaymentItem.category === 'TAX') {
       if (account.balance < amount) {
-        alert('Saldo kas/bank tidak mencukupi untuk melakukan pembayaran.');
+        showToast('Saldo kas/bank tidak mencukupi untuk melakukan pembayaran.', 'error');
         return;
       }
     }
@@ -432,7 +433,7 @@ export default function DeadlinesPage() {
       }
     }
 
-    alert(`Pelunasan berhasil diproses menggunakan rekening ${account.name}!`);
+    showToast(`Pelunasan berhasil diproses menggunakan rekening ${account.name}!`, 'success');
     setSelectedPaymentItem(null);
   };
 
@@ -482,7 +483,7 @@ export default function DeadlinesPage() {
   const handleAddDeadlineSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newDeadlineName) {
-      alert('Masukkan nama agenda.');
+      showToast('Masukkan nama agenda.', 'warning');
       return;
     }
 
@@ -508,7 +509,7 @@ export default function DeadlinesPage() {
     setNewDeadlineNotes('');
     setIsAddModalOpen(false);
 
-    alert('Agenda tenggat waktu baru berhasil ditambahkan!');
+    showToast('Agenda tenggat waktu baru berhasil ditambahkan!', 'success');
   };
 
   return (

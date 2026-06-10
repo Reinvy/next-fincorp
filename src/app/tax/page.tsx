@@ -7,7 +7,7 @@ import { useApp } from '@/context/AppContext';
 import { formatCurrency, pphSummary, sptTimeline } from '@/data';
 
 export default function TaxPage() {
-  const { salesInvoices, purchaseInvoices, addCashTransaction, bankAccounts, company } = useApp();
+  const { salesInvoices, purchaseInvoices, addCashTransaction, bankAccounts, company, showToast } = useApp();
 
   // General States
   const [tableTab, setTableTab] = useState<'KELUARAN' | 'MASUKAN'>('KELUARAN');
@@ -94,14 +94,14 @@ export default function TaxPage() {
 
     const bcaAccount = bankAccounts.find(b => b.name.includes('BCA')) || bankAccounts[0];
     if (!bcaAccount) {
-      alert('Rekening Kas & Bank tidak tersedia untuk pembayaran.');
+      showToast('Rekening Kas & Bank tidak tersedia untuk pembayaran.', 'error');
       return;
     }
 
     const rawPayable = Math.max(0, ppnOut - ppnIn);
 
     if (bcaAccount.balance < rawPayable) {
-      alert('Saldo Bank BCA tidak mencukupi untuk membayar PPN Kurang Bayar.');
+      showToast('Saldo Bank BCA tidak mencukupi untuk membayar PPN Kurang Bayar.', 'error');
       return;
     }
 
@@ -118,7 +118,7 @@ export default function TaxPage() {
     setIsPpnPaid(true);
     localStorage.setItem('fincorp_ppn_paid_Des2026', 'true');
     setIsBillingModalOpen(false);
-    alert(`Pembayaran PPN sebesar Rp ${rawPayable.toLocaleString('id-ID')} berhasil disetorkan ke Kas Negara. Status SPT Masa PPN berubah menjadi NIHIL.`);
+    showToast(`Pembayaran PPN sebesar Rp ${rawPayable.toLocaleString('id-ID')} berhasil disetorkan ke Kas Negara. Status SPT Masa PPN berubah menjadi NIHIL.`, 'success');
   };
 
   // Relative progress bars percentages

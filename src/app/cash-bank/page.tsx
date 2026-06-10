@@ -7,7 +7,7 @@ import { useApp } from '@/context/AppContext';
 import { formatCurrency } from '@/data';
 
 export default function CashBankPage() {
-  const { bankAccounts, recentTransactions, addBankTransfer, addBankAccount, addCashTransaction } = useApp();
+  const { bankAccounts, recentTransactions, addBankTransfer, addBankAccount, addCashTransaction, showToast } = useApp();
   
   // Selectable account filter
   const [selectedAccountFilter, setSelectedAccountFilter] = useState('ALL');
@@ -82,7 +82,7 @@ export default function CashBankPage() {
     setTransferDesc('');
     setTransferDate(new Date().toISOString().split('T')[0]);
     setIsTransferModalOpen(false);
-    alert('Transfer antar rekening berhasil diselesaikan.');
+    showToast('Transfer antar rekening berhasil diselesaikan.', 'success');
   };
 
   const handleCreateAccount = (e: React.FormEvent) => {
@@ -110,7 +110,7 @@ export default function CashBankPage() {
     setNewAccType('BANK');
     setNewAccBalance(0);
     setIsAddAccountModalOpen(false);
-    alert(`Rekening "${newAccName}" berhasil didaftarkan.`);
+    showToast(`Rekening "${newAccName}" berhasil didaftarkan.`, 'success');
   };
 
   const handleAutoMatch = () => {
@@ -134,12 +134,12 @@ export default function CashBankPage() {
 
     setBankStatementItems(updatedBS);
     setLedgerStatementItems(updatedLG);
-    alert(`Cocokkan Otomatis Berhasil! ${matchedCount} transaksi identik berhasil dipadankan.`);
+    showToast(`Cocokkan Otomatis Berhasil! ${matchedCount} transaksi identik berhasil dipadankan.`, 'success');
   };
 
   const handleCreateAdjustment = (item: typeof bankStatementItems[0]) => {
     if (!reconcileAccountId) {
-      alert('Harap pilih rekening kas/bank untuk rekonsiliasi.');
+      showToast('Harap pilih rekening kas/bank untuk rekonsiliasi.', 'warning');
       return;
     }
     
@@ -171,7 +171,7 @@ export default function CashBankPage() {
       }
     ]);
 
-    alert(`Jurnal Penyesuaian Berhasil Dibuat! Transaksi "${item.description}" senilai Rp ${item.amount.toLocaleString('id-ID')} telah dibukukan.`);
+    showToast(`Jurnal Penyesuaian Berhasil Dibuat! Transaksi "${item.description}" senilai Rp ${item.amount.toLocaleString('id-ID')} telah dibukukan.`, 'success');
   };
 
   const handleFinishReconciliation = () => {
@@ -182,7 +182,7 @@ export default function CashBankPage() {
       }
     }
     setIsReconcileModalOpen(false);
-    alert('Rekonsiliasi Bank Berhasil Diselesaikan! Saldo kas telah disamakan dengan rekening koran.');
+    showToast('Rekonsiliasi Bank Berhasil Diselesaikan! Saldo kas telah disamakan dengan rekening koran.', 'success');
   };
 
   const handleExportCSV = (accountId: string = 'ALL') => {
