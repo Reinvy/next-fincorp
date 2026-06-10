@@ -262,6 +262,15 @@
   color: #5c0003 !important; /* Dark red text on bright red */
 }
 
+/* Container text color fixes to override hardcoded low contrast dark-on-dark texts */
+.dark .text-primary-container {
+  color: var(--color-on-primary-container) !important;
+}
+
+.dark .text-secondary-container {
+  color: var(--color-on-secondary-container) !important;
+}
+
 /* Gradient overrides for Dark Mode */
 .dark .bg-gradient-premium {
   background: linear-gradient(135deg, #0d1628 0%, #050811 100%) !important;
