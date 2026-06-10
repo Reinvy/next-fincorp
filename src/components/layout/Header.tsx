@@ -9,9 +9,14 @@ import { formatCurrency } from '@/data';
 interface HeaderProps {
   showSearch?: boolean;
   showNotifications?: boolean;
+  onMenuClick?: () => void;
 }
 
-export default function Header({ showSearch = true, showNotifications = true }: HeaderProps) {
+export default function Header({
+  showSearch = true,
+  showNotifications = true,
+  onMenuClick,
+}: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -100,7 +105,7 @@ export default function Header({ showSearch = true, showNotifications = true }: 
   const isAnyDropdownOpen = isNotificationsOpen || isProfileOpen || (isSearchFocused && searchQuery.length > 0);
 
   return (
-    <header className="flex justify-between items-center w-full px-margin-edge h-[64px] glass-header sticky top-0 z-30 shadow-sm">
+    <header className="flex justify-between items-center w-full px-4 sm:px-margin-edge h-[64px] glass-header sticky top-0 z-30 shadow-sm">
       {/* Click Away Overlay */}
       {isAnyDropdownOpen && (
         <div
@@ -114,10 +119,58 @@ export default function Header({ showSearch = true, showNotifications = true }: 
       )}
 
       {/* Left Section */}
-      <div className="flex items-center gap-6 z-20">
-        {/* Mobile Logo */}
-        <Link href="/dashboard" className="xl:hidden font-headline-md text-headline-md text-primary font-black tracking-wider uppercase">
-          FinCorp
+      <div className="flex items-center gap-3 z-20">
+        {/* Menu Toggle Button (Mobile/Tablet only) */}
+        {onMenuClick && (
+          <button
+            onClick={onMenuClick}
+            className="xl:hidden p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-full transition-all duration-300 active:scale-90 flex items-center justify-center shrink-0 cursor-pointer"
+            aria-label="Open Sidebar"
+          >
+            <span className="material-symbols-outlined text-[24px]">menu</span>
+          </button>
+        )}
+
+        {/* Mobile Logo & Brand */}
+        <Link href="/dashboard" className="xl:hidden flex items-center gap-2">
+          {/* A miniature modern logo like in sidebar */}
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-secondary to-secondary-container flex items-center justify-center border border-white/10 shadow-[0_0_10px_rgba(67,93,149,0.35)] relative overflow-hidden shrink-0">
+            <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="shield-glow-header" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFFFFF" />
+                  <stop offset="100%" stopColor="#8AB4F8" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M12 2L4 5V11C4 16.52 7.42 21.68 12 23C16.58 21.68 20 16.52 20 11V5L12 2Z"
+                stroke="url(#shield-glow-header)"
+                strokeWidth="2"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M8 15.5L11 12.5L13.5 15L17 11.5"
+                stroke="white"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M14.5 11.5H17V14"
+                stroke="white"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <circle cx="12" cy="7.5" r="1.2" fill="#34A853" />
+            </svg>
+          </div>
+          <div>
+            <h1 className="text-xs font-black tracking-[0.15em] text-primary uppercase leading-none">
+              FIN<span className="text-secondary font-medium">CORP</span>
+            </h1>
+            <p className="text-[6.5px] font-black text-on-surface-variant/50 uppercase tracking-[0.18em] mt-0.5 leading-none">FISCAL SUITE</p>
+          </div>
         </Link>
       </div>
 
@@ -292,7 +345,7 @@ export default function Header({ showSearch = true, showNotifications = true }: 
           {/* Business switcher / Redirect to companies */}
           <Link
             href="/companies"
-            className="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-full transition-all duration-300 transform active:scale-90"
+            className="hidden sm:inline-flex p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-full transition-all duration-300 transform active:scale-90"
             title="Daftar Perusahaan & Cabang"
           >
             <span className="material-symbols-outlined">business_center</span>
