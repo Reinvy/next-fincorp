@@ -74,15 +74,20 @@ export default function Sidebar() {
 
       {/* Active Tenant Profile Badge */}
       <div className="px-4 mb-4">
-        <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center gap-2.5 shadow-inner">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success-positive opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-success-positive"></span>
-          </span>
-          <span className="text-xs font-semibold text-on-primary/80 truncate" title={company.name}>
-            {company.name}
-          </span>
-        </div>
+        <Link href="/companies" className="block w-full">
+          <div className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-3 flex items-center justify-between shadow-inner transition-all duration-200 cursor-pointer group">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success-positive opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-success-positive"></span>
+              </span>
+              <span className="text-xs font-semibold text-on-primary/80 truncate min-w-0 block" title={company.name}>
+                {company.name}
+              </span>
+            </div>
+            <span className="material-symbols-outlined text-[16px] text-on-primary/40 group-hover:text-on-primary transition-colors duration-200 shrink-0 ml-1">swap_horiz</span>
+          </div>
+        </Link>
       </div>
 
       {/* Main Grouped Navigation */}
