@@ -46,6 +46,10 @@ interface AppContextType {
   addBankTransfer: (transfer: { fromAccountId: string; toAccountId: string; amount: number; description: string; date: string }) => void;
   alerts: AlertItem[];
   dismissAlert: (id: string) => void;
+  paySalesInvoice: (id: string) => void;
+  payPurchaseInvoice: (id: string) => void;
+  addBankAccount: (bank: Omit<BankAccount, 'id' | 'balance' | 'changePercent'> & { balance: number }) => void;
+  addCashTransaction: (tx: { accountId: string; description: string; category: string; amount: number; type: 'IN' | 'OUT'; date?: string }) => void;
   customers: Customer[];
   vendors: Vendor[];
 }
@@ -393,6 +397,151 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
     save('fincorp_alerts', updated);
   };
 
+  const paySalesInvoice = (id: string) => {
+    const updated = salesInvoices.map(inv => {
+      if (inv.id === id) {
+        return { ...inv, status: 'PAID' as const };
+      }
+      return inv;
+    });
+    setSalesInvoices(updated);
+    save('fincorp_sales', updated);
+    
+    // Update Bank Account balance
+    const targetInvoice = salesInvoices.find(inv => inv.id === id);
+    if (targetInvoice && targetInvoice.status !== 'PAID') {
+      const targetBank = bankAccounts.find(b => b.type === 'BANK') || bankAccounts[0];
+      if (targetBank) {
+        const updatedBanks = bankAccounts.map(b => {
+          if (b.id === targetBank.id) {
+            return { ...b, balance: b.balance + targetInvoice.grandTotal };
+          }
+          return b;
+        });
+        setBankAccounts(updatedBanks);
+        save('fincorp_banks', updatedBanks);
+        
+        // Add transaction
+        const tx: CashTransaction = {
+          id: `tx-${Date.now()}`,
+          date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+          description: `Pelunasan Faktur ${targetInvoice.invoiceNumber} - ${targetInvoice.customerName}`,
+          accountId: targetBank.id,
+          accountName: targetBank.name,
+          category: 'Piutang Usaha',
+          amount: targetInvoice.grandTotal,
+          type: 'IN',
+          balance: targetBank.balance + targetInvoice.grandTotal,
+        };
+        const updatedTxs = [tx, ...recentTransactions];
+        setRecentTransactions(updatedTxs);
+        save('fincorp_txs', updatedTxs);
+      }
+    }
+  };
+
+  const payPurchaseInvoice = (id: string) => {
+    const updated = purchaseInvoices.map(inv => {
+      if (inv.id === id) {
+        return { ...inv, status: 'PAID' as const };
+      }
+      return inv;
+    });
+    setPurchaseInvoices(updated);
+    save('fincorp_purchases', updated);
+    
+    // Update Bank Account balance
+    const targetInvoice = purchaseInvoices.find(inv => inv.id === id);
+    if (targetInvoice && targetInvoice.status !== 'PAID') {
+      const targetBank = bankAccounts.find(b => b.type === 'BANK') || bankAccounts[0];
+      if (targetBank) {
+        const updatedBanks = bankAccounts.map(b => {
+          if (b.id === targetBank.id) {
+            return { ...b, balance: b.balance - targetInvoice.grandTotal };
+          }
+          return b;
+        });
+        setBankAccounts(updatedBanks);
+        save('fincorp_banks', updatedBanks);
+        
+        // Add transaction
+        const tx: CashTransaction = {
+          id: `tx-${Date.now()}`,
+          date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+          description: `Pembayaran Pembelian ${targetInvoice.invoiceNumber} - ${targetInvoice.vendorName}`,
+          accountId: targetBank.id,
+          accountName: targetBank.name,
+          category: 'Hutang Usaha',
+          amount: targetInvoice.grandTotal,
+          type: 'OUT',
+          balance: targetBank.balance - targetInvoice.grandTotal,
+        };
+        const updatedTxs = [tx, ...recentTransactions];
+        setRecentTransactions(updatedTxs);
+        save('fincorp_txs', updatedTxs);
+      }
+    }
+  };
+
+  const addBankAccount = (bank: Omit<BankAccount, 'id' | 'balance' | 'changePercent'> & { balance: number }) => {
+    const newId = `bank-${Date.now()}`;
+    const newBank: BankAccount = {
+      id: newId,
+      changePercent: 0,
+      ...bank,
+    };
+    const updatedBanks = [...bankAccounts, newBank];
+    setBankAccounts(updatedBanks);
+    save('fincorp_banks', updatedBanks);
+
+    if (bank.balance > 0) {
+      const tx: CashTransaction = {
+        id: `tx-init-${Date.now()}`,
+        date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+        description: `Saldo Awal Rekening ${bank.name}`,
+        accountId: newId,
+        accountName: bank.name,
+        category: 'Saldo Awal',
+        amount: bank.balance,
+        type: 'IN',
+        balance: bank.balance,
+      };
+      const updatedTxs = [tx, ...recentTransactions];
+      setRecentTransactions(updatedTxs);
+      save('fincorp_txs', updatedTxs);
+    }
+  };
+
+  const addCashTransaction = (tx: { accountId: string; description: string; category: string; amount: number; type: 'IN' | 'OUT'; date?: string }) => {
+    const targetBank = bankAccounts.find(b => b.id === tx.accountId);
+    if (!targetBank) return;
+
+    const change = tx.type === 'IN' ? tx.amount : -tx.amount;
+    const updatedBanks = bankAccounts.map(b => {
+      if (b.id === tx.accountId) {
+        return { ...b, balance: b.balance + change };
+      }
+      return b;
+    });
+    setBankAccounts(updatedBanks);
+    save('fincorp_banks', updatedBanks);
+
+    const newTx: CashTransaction = {
+      id: `tx-adjust-${Date.now()}`,
+      date: tx.date || new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+      description: tx.description,
+      accountId: tx.accountId,
+      accountName: targetBank.name,
+      category: tx.category,
+      amount: tx.amount,
+      type: tx.type,
+      balance: targetBank.balance + change,
+    };
+    const updatedTxs = [newTx, ...recentTransactions];
+    setRecentTransactions(updatedTxs);
+    save('fincorp_txs', updatedTxs);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -414,6 +563,10 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
         addBankTransfer,
         alerts,
         dismissAlert,
+        paySalesInvoice,
+        payPurchaseInvoice,
+        addBankAccount,
+        addCashTransaction,
         customers,
         vendors
       }}
