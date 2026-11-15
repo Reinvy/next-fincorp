@@ -1,1 +1,273 @@
 @import "tailwindcss";
+
+@theme {
+  --color-paper: #f2eadb;
+  --color-paper-deep: #e7dcc7;
+  --color-paper-light: #faf6ec;
+  --color-card: #fffdf7;
+  --color-ink: #211f1a;
+  --color-ink-soft: #5a5345;
+  --color-ink-faint: #8a806d;
+  --color-rule: #d9cdb6;
+  --color-rule-strong: #b8a98d;
+  --color-forest: #1e5a45;
+  --color-forest-deep: #143b2e;
+  --color-forest-soft: #dbe7de;
+  --color-vermilion: #b23a2b;
+  --color-vermilion-soft: #f4dcd6;
+  --color-mustard: #a97b24;
+  --color-mustard-soft: #f2e4c3;
+  --color-sky: #3c6b79;
+  --color-sky-soft: #dbe7ea;
+  --color-gold: #b48a3c;
+  --color-gold-soft: #efe2c2;
+
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    background-image:
+      repeating-linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--color-ink) 4%, transparent) 0,
+        color-mix(in srgb, var(--color-ink) 4%, transparent) 1px,
+        transparent 1px,
+        transparent 28px
+      ),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 22px;
+    font-feature-settings: "ss01" 1;
+  }
+
+  ::selection {
+    background: var(--color-gold-soft);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-forest);
+    outline-offset: 2px;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-rule-strong) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: var(--color-rule-strong);
+    border-radius: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.55;
+    cursor: pointer;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .paper-sheet {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-rule);
+    border-radius: 3px;
+    box-shadow:
+      0 1px 0 var(--color-rule),
+      0 14px 30px -24px rgba(33, 31, 26, 0.45);
+  }
+
+  .ledger-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .ledger-table caption {
+    text-align: left;
+  }
+
+  .ledger-table thead th {
+    background-color: var(--color-paper-deep);
+    border-bottom: 1px solid var(--color-rule-strong);
+    color: var(--color-ink-soft);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    padding: 10px 12px;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .ledger-table tbody td {
+    border-bottom: 1px solid var(--color-rule);
+    height: 44px;
+    padding: 8px 12px;
+    vertical-align: middle;
+  }
+
+  .ledger-table tbody tr:hover {
+    background-color: var(--color-paper-light);
+  }
+
+  .ledger-table .num,
+  .ledger-table th.num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    padding: 3px 7px;
+    text-transform: uppercase;
+    transform: rotate(-1deg);
+  }
+
+  .stamp::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  .stamp-plain {
+    transform: none;
+  }
+
+  .stamp-plain::before {
+    display: none;
+  }
+
+  .double-rule {
+    border-bottom: 3px double var(--color-rule-strong);
+  }
+
+  .stitched {
+    border-top: 1px dashed color-mix(in srgb, var(--color-paper) 28%, transparent);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+
+  .folio::after {
+    content: attr(data-folio);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-ink-faint);
+  }
+
+  .money {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .print-only {
+    display: none;
+  }
+}
+
+@media print {
+  @page {
+    margin: 12mm;
+  }
+
+  body {
+    background: #fff !important;
+    font-size: 10.5pt;
+    color: #000;
+  }
+
+  .no-print,
+  .app-sidebar,
+  .app-header,
+  .app-toast {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block;
+  }
+
+  .print-sheet {
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: #fff;
+  }
+
+  .ledger-table thead {
+    display: table-header-group;
+  }
+
+  .ledger-table thead th,
+  .ledger-table tbody td {
+    border-color: #000 !important;
+    background: #fff !important;
+  }
+
+  .ledger-table tbody tr {
+    break-inside: avoid;
+  }
+
+  .print-avoid-break {
+    break-inside: avoid;
+  }
+
+  .double-rule {
+    border-color: #000;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+}

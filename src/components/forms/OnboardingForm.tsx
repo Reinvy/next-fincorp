@@ -5,11 +5,10 @@ import { useRouter } from "next/navigation";
 import { onboardingAction } from "@/actions/company";
 import { IDLE_STATE } from "@/lib/types";
 import { MONTH_OPTIONS } from "@/lib/constants";
-
-function FieldError({ messages }: { messages?: string[] }) {
-  if (!messages?.length) return null;
-  return <p className="mt-1 text-sm text-red-700">{messages[0]}</p>;
-}
+import { Field } from "@/components/ui/field";
+import { Checkbox, Input, Select, Textarea } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { PaperCard, SectionRule } from "@/components/ui/paper";
 
 export function OnboardingForm() {
   const router = useRouter();
@@ -25,146 +24,95 @@ export function OnboardingForm() {
   const errors = state.status === "error" ? (state.fieldErrors ?? {}) : {};
 
   return (
-    <form action={formAction} className="mx-auto w-full max-w-2xl space-y-6">
+    <form action={formAction} className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Buat perusahaan</h1>
-        <p className="mt-1 text-sm text-neutral-600">
-          Bagan akun standar dan keanggotaan admin dibuat otomatis. Rekening bank ditambahkan setelah ini.
+        <p className="eyebrow">Langkah 1 dari 2</p>
+        <h1 className="mt-1 font-display text-3xl font-semibold tracking-[-0.02em] text-ink">Buat perusahaan</h1>
+        <p className="mt-2 max-w-xl text-sm text-ink-soft">
+          Bagan akun standar dan keanggotaan admin dibuat otomatis. Rekening bank ditambahkan setelah ini dari menu Kas
+          &amp; Bank.
         </p>
       </div>
 
-      <section className="space-y-4 rounded border border-neutral-200 p-4">
-        <h2 className="font-medium">Profil</h2>
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium">
-            Nama perusahaan *
-          </label>
-          <input id="name" name="name" required maxLength={120} className="mt-1 w-full rounded border px-3 py-2" />
-          <FieldError messages={errors.name} />
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label htmlFor="npwp" className="block text-sm font-medium">
-              NPWP
-            </label>
-            <input id="npwp" name="npwp" maxLength={30} className="mt-1 w-full rounded border px-3 py-2" />
+      <PaperCard className="p-4 sm:p-5">
+        <SectionRule label="Profil perusahaan" />
+        <div className="mt-4 space-y-4">
+          <Field label="Nama perusahaan" htmlFor="name" required error={errors.name}>
+            <Input id="name" name="name" required maxLength={120} />
+          </Field>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="NPWP" htmlFor="npwp" error={errors.npwp}>
+              <Input id="npwp" name="npwp" maxLength={30} />
+            </Field>
+            <Field label="NIB" htmlFor="nib" error={errors.nib}>
+              <Input id="nib" name="nib" maxLength={30} />
+            </Field>
+            <Field label="Email" htmlFor="email" error={errors.email}>
+              <Input id="email" name="email" type="email" />
+            </Field>
+            <Field label="Telepon" htmlFor="phone" error={errors.phone}>
+              <Input id="phone" name="phone" maxLength={30} />
+            </Field>
           </div>
-          <div>
-            <label htmlFor="nib" className="block text-sm font-medium">
-              NIB
-            </label>
-            <input id="nib" name="nib" maxLength={30} className="mt-1 w-full rounded border px-3 py-2" />
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium">
-              Email
-            </label>
-            <input id="email" name="email" type="email" className="mt-1 w-full rounded border px-3 py-2" />
-            <FieldError messages={errors.email} />
-          </div>
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium">
-              Telepon
-            </label>
-            <input id="phone" name="phone" maxLength={30} className="mt-1 w-full rounded border px-3 py-2" />
-          </div>
-        </div>
-        <div>
-          <label htmlFor="address" className="block text-sm font-medium">
-            Alamat
-          </label>
-          <textarea id="address" name="address" rows={2} maxLength={240} className="mt-1 w-full rounded border px-3 py-2" />
-        </div>
-        <div className="grid gap-4 sm:grid-cols-3">
-          <div>
-            <label htmlFor="city" className="block text-sm font-medium">
-              Kota
-            </label>
-            <input id="city" name="city" maxLength={80} className="mt-1 w-full rounded border px-3 py-2" />
-          </div>
-          <div>
-            <label htmlFor="province" className="block text-sm font-medium">
-              Provinsi
-            </label>
-            <input id="province" name="province" maxLength={80} className="mt-1 w-full rounded border px-3 py-2" />
-          </div>
-          <div>
-            <label htmlFor="postalCode" className="block text-sm font-medium">
-              Kode pos
-            </label>
-            <input id="postalCode" name="postalCode" maxLength={10} className="mt-1 w-full rounded border px-3 py-2" />
+          <Field label="Alamat" htmlFor="address" error={errors.address}>
+            <Textarea id="address" name="address" rows={2} maxLength={240} />
+          </Field>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <Field label="Kota" htmlFor="city" error={errors.city}>
+              <Input id="city" name="city" maxLength={80} />
+            </Field>
+            <Field label="Provinsi" htmlFor="province" error={errors.province}>
+              <Input id="province" name="province" maxLength={80} />
+            </Field>
+            <Field label="Kode pos" htmlFor="postalCode" error={errors.postalCode}>
+              <Input id="postalCode" name="postalCode" maxLength={10} />
+            </Field>
           </div>
         </div>
-      </section>
+      </PaperCard>
 
-      <section className="space-y-4 rounded border border-neutral-200 p-4">
-        <h2 className="font-medium">Pajak & periode</h2>
-        <div className="flex items-center gap-2">
-          <input id="isPkp" name="isPkp" type="checkbox" className="h-4 w-4" />
-          <label htmlFor="isPkp" className="text-sm">
+      <PaperCard className="p-4 sm:p-5">
+        <SectionRule label="Pajak & periode" />
+        <div className="mt-4 space-y-4">
+          <label className="flex items-center gap-2 text-sm text-ink">
+            <Checkbox id="isPkp" name="isPkp" />
             Perusahaan dikukuhkan sebagai PKP
           </label>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-3">
-          <div>
-            <label htmlFor="pkpNumber" className="block text-sm font-medium">
-              Nomor PKP
-            </label>
-            <input id="pkpNumber" name="pkpNumber" maxLength={40} className="mt-1 w-full rounded border px-3 py-2" />
+          <div className="grid gap-4 sm:grid-cols-3">
+            <Field label="Nomor PKP" htmlFor="pkpNumber" error={errors.pkpNumber}>
+              <Input id="pkpNumber" name="pkpNumber" maxLength={40} />
+            </Field>
+            <Field label="KPP" htmlFor="kpp" error={errors.kpp}>
+              <Input id="kpp" name="kpp" maxLength={80} />
+            </Field>
+            <Field label="Tarif PPN (%)" htmlFor="ppnRate" required error={errors.ppnRate}>
+              <Input id="ppnRate" name="ppnRate" inputMode="decimal" defaultValue="11" required />
+            </Field>
           </div>
-          <div>
-            <label htmlFor="kpp" className="block text-sm font-medium">
-              KPP
-            </label>
-            <input id="kpp" name="kpp" maxLength={80} className="mt-1 w-full rounded border px-3 py-2" />
-          </div>
-          <div>
-            <label htmlFor="ppnRate" className="block text-sm font-medium">
-              Tarif PPN (%)
-            </label>
-            <input
-              id="ppnRate"
-              name="ppnRate"
-              inputMode="decimal"
-              defaultValue="11"
-              required
-              className="mt-1 w-full rounded border px-3 py-2"
-            />
-            <FieldError messages={errors.ppnRate} />
-          </div>
+          <Field label="Bulan awal tahun buku" htmlFor="fiscalYearStartMonth">
+            <Select id="fiscalYearStartMonth" name="fiscalYearStartMonth" defaultValue="1">
+              {MONTH_OPTIONS.map((month) => (
+                <option key={month.value} value={month.value}>
+                  {month.label}
+                </option>
+              ))}
+            </Select>
+          </Field>
         </div>
-        <div>
-          <label htmlFor="fiscalYearStartMonth" className="block text-sm font-medium">
-            Bulan awal tahun buku
-          </label>
-          <select
-            id="fiscalYearStartMonth"
-            name="fiscalYearStartMonth"
-            defaultValue="1"
-            className="mt-1 w-full rounded border px-3 py-2"
-          >
-            {MONTH_OPTIONS.map((month) => (
-              <option key={month.value} value={month.value}>
-                {month.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </section>
+      </PaperCard>
 
       {state.status === "error" ? (
-        <p role="alert" className="text-sm text-red-700">
+        <p role="alert" className="border-l-2 border-vermilion bg-vermilion-soft px-3 py-2 text-[13px] text-vermilion">
           {state.message}
         </p>
       ) : null}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded bg-emerald-800 px-4 py-2 text-white disabled:opacity-60"
-      >
-        {pending ? "Membuat…" : "Buat perusahaan"}
-      </button>
+      <div className="flex items-center gap-3">
+        <Button type="submit" size="lg" disabled={pending}>
+          {pending ? "Membuat…" : "Buat perusahaan"}
+        </Button>
+        <span className="text-xs text-ink-faint">Semua data keuangan disimpan di server, bukan browser.</span>
+      </div>
     </form>
   );
 }

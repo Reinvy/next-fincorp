@@ -4,6 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { Field } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Stamp } from "@/components/ui/paper";
 
 const DEMO_ACCOUNTS = [
   { label: "Admin", email: "admin@fincorp.id", password: "FinCorp#2026" },
@@ -43,16 +47,14 @@ export function LoginForm() {
   }
 
   return (
-    <div className="w-full max-w-md">
-      <h1 className="text-2xl font-semibold">Masuk ke FinCorp</h1>
-      <p className="mt-1 text-sm text-neutral-600">Pembukuan perusahaan dalam satu buku.</p>
+    <div className="w-full">
+      <p className="eyebrow">Buku besar perusahaan</p>
+      <h1 className="mt-1 font-display text-3xl font-semibold leading-tight tracking-[-0.02em] text-ink">Masuk ke FinCorp</h1>
+      <p className="mt-2 text-sm text-ink-soft">Gunakan email dan kata sandi akun perusahaan Anda.</p>
 
       <form onSubmit={onSubmit} className="mt-6 space-y-4">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium">
-            Email
-          </label>
-          <input
+        <Field label="Email" htmlFor="email" required>
+          <Input
             id="email"
             name="email"
             type="email"
@@ -60,14 +62,10 @@ export function LoginForm() {
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2"
           />
-        </div>
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium">
-            Kata sandi
-          </label>
-          <input
+        </Field>
+        <Field label="Kata sandi" htmlFor="password" required>
+          <Input
             id="password"
             name="password"
             type="password"
@@ -75,45 +73,44 @@ export function LoginForm() {
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2"
           />
-        </div>
+        </Field>
         {error ? (
-          <p role="alert" className="text-sm text-red-700">
+          <p role="alert" className="border-l-2 border-vermilion bg-vermilion-soft px-3 py-2 text-[13px] text-vermilion">
             {error}
           </p>
         ) : null}
-        <button
-          type="submit"
-          disabled={pending}
-          className="w-full rounded bg-emerald-800 px-4 py-2 text-white disabled:opacity-60"
-        >
+        <Button type="submit" size="lg" className="w-full" disabled={pending}>
           {pending ? "Memproses…" : "Masuk"}
-        </button>
+        </Button>
       </form>
 
-      <p className="mt-4 text-sm">
+      <p className="mt-4 text-sm text-ink-soft">
         Belum punya akun?{" "}
-        <Link href="/register" className="underline">
+        <Link href="/register" className="text-forest underline underline-offset-4">
           Daftar
         </Link>
       </p>
 
       {process.env.NODE_ENV !== "production" ? (
-        <section className="mt-8 rounded border border-dashed border-neutral-300 p-4">
-          <h2 className="text-sm font-semibold">Akun demo</h2>
-          <ul className="mt-2 space-y-1 text-sm">
+        <section className="mt-8 border-t border-dashed border-rule pt-4">
+          <div className="flex items-center gap-2">
+            <Stamp tone="gold">Demo</Stamp>
+            <span className="text-[11px] text-ink-faint">Akun contoh untuk melihat isi aplikasi.</span>
+          </div>
+          <ul className="mt-2 space-y-1">
             {DEMO_ACCOUNTS.map((account) => (
               <li key={account.email}>
                 <button
                   type="button"
-                  className="underline"
                   onClick={() => {
                     setEmail(account.email);
                     setPassword(account.password);
                   }}
+                  className="flex w-full items-center justify-between gap-3 rounded-[2px] px-1 py-1 text-left text-[12px] hover:bg-paper-light"
                 >
-                  {account.label}: {account.email} / {account.password}
+                  <span className="text-ink">{account.label}</span>
+                  <span className="font-mono text-[10px] text-ink-faint">{account.email}</span>
                 </button>
               </li>
             ))}

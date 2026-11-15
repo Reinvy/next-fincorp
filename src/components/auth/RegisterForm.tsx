@@ -4,6 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { Field } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -41,30 +44,17 @@ export function RegisterForm() {
   }
 
   return (
-    <div className="w-full max-w-md">
-      <h1 className="text-2xl font-semibold">Buat akun FinCorp</h1>
-      <p className="mt-1 text-sm text-neutral-600">Setelah mendaftar, Anda membuat perusahaan pertama.</p>
+    <div className="w-full">
+      <p className="eyebrow">Akun baru</p>
+      <h1 className="mt-1 font-display text-3xl font-semibold leading-tight tracking-[-0.02em] text-ink">Buat akun FinCorp</h1>
+      <p className="mt-2 text-sm text-ink-soft">Setelah mendaftar, Anda membuat perusahaan pertama dan menjadi admin.</p>
 
       <form onSubmit={onSubmit} className="mt-6 space-y-4">
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium">
-            Nama lengkap
-          </label>
-          <input
-            id="name"
-            name="name"
-            required
-            maxLength={120}
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2"
-          />
-        </div>
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium">
-            Email
-          </label>
-          <input
+        <Field label="Nama lengkap" htmlFor="name" required>
+          <Input id="name" name="name" required maxLength={120} value={name} onChange={(event) => setName(event.target.value)} />
+        </Field>
+        <Field label="Email" htmlFor="email" required>
+          <Input
             id="email"
             name="email"
             type="email"
@@ -72,14 +62,10 @@ export function RegisterForm() {
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2"
           />
-        </div>
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium">
-            Kata sandi
-          </label>
-          <input
+        </Field>
+        <Field label="Kata sandi" htmlFor="password" hint="Minimal 8 karakter." required>
+          <Input
             id="password"
             name="password"
             type="password"
@@ -88,14 +74,10 @@ export function RegisterForm() {
             minLength={8}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2"
           />
-        </div>
-        <div>
-          <label htmlFor="confirm" className="block text-sm font-medium">
-            Ulangi kata sandi
-          </label>
-          <input
+        </Field>
+        <Field label="Ulangi kata sandi" htmlFor="confirm" required>
+          <Input
             id="confirm"
             name="confirm"
             type="password"
@@ -104,26 +86,21 @@ export function RegisterForm() {
             minLength={8}
             value={confirm}
             onChange={(event) => setConfirm(event.target.value)}
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2"
           />
-        </div>
+        </Field>
         {error ? (
-          <p role="alert" className="text-sm text-red-700">
+          <p role="alert" className="border-l-2 border-vermilion bg-vermilion-soft px-3 py-2 text-[13px] text-vermilion">
             {error}
           </p>
         ) : null}
-        <button
-          type="submit"
-          disabled={pending}
-          className="w-full rounded bg-emerald-800 px-4 py-2 text-white disabled:opacity-60"
-        >
+        <Button type="submit" size="lg" className="w-full" disabled={pending}>
           {pending ? "Memproses…" : "Daftar"}
-        </button>
+        </Button>
       </form>
 
-      <p className="mt-4 text-sm">
+      <p className="mt-4 text-sm text-ink-soft">
         Sudah punya akun?{" "}
-        <Link href="/login" className="underline">
+        <Link href="/login" className="text-forest underline underline-offset-4">
           Masuk
         </Link>
       </p>
