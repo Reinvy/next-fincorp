@@ -37,6 +37,7 @@ function revalidateSales() {
   revalidatePath("/accounting/trial-balance");
   revalidatePath("/reports");
   revalidatePath("/tax");
+  revalidatePath("/tax/efaktur");
 }
 
 export async function createCustomerAction(prevState: ActionState, formData: FormData): Promise<ActionState> {

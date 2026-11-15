@@ -234,44 +234,50 @@ export async function GET(
       return csvResponse(rows, `efaktur-${period}.csv`);
     }
     case "invoices": {
-      const data = await listSalesInvoices(actor, { page: 1 });
       const rows: Array<Array<string | number>> = [
         ["Nomor", "Tanggal", "Jatuh tempo", "Pelanggan", "Status", "Total", "Dibayar", "Retur", "Sisa", "Faktur pajak"],
       ];
-      for (const row of data.rows) {
-        rows.push([
-          row.number,
-          row.date,
-          row.dueDate,
-          row.customerName,
-          row.status,
-          row.grandTotal.toFixed(2),
-          row.paidAmount.toFixed(2),
-          row.creditedAmount.toFixed(2),
-          row.outstanding.toFixed(2),
-          row.taxInvoiceStatus,
-        ]);
+      for (let page = 1; ; page += 1) {
+        const data = await listSalesInvoices(actor, { page });
+        for (const row of data.rows) {
+          rows.push([
+            row.number,
+            row.date,
+            row.dueDate,
+            row.customerName,
+            row.status,
+            row.grandTotal.toFixed(2),
+            row.paidAmount.toFixed(2),
+            row.creditedAmount.toFixed(2),
+            row.outstanding.toFixed(2),
+            row.taxInvoiceStatus,
+          ]);
+        }
+        if (page >= data.totalPages) break;
       }
       return csvResponse(rows, `faktur-penjualan-${stamp}.csv`);
     }
     case "purchases": {
-      const data = await listPurchaseInvoices(actor, { page: 1 });
       const rows: Array<Array<string | number>> = [
         ["Nomor", "Tanggal", "Jatuh tempo", "Vendor", "Status", "Total", "Dibayar", "Retur", "Sisa", "PPh"],
       ];
-      for (const row of data.rows) {
-        rows.push([
-          row.number,
-          row.date,
-          row.dueDate,
-          row.vendorName,
-          row.status,
-          row.grandTotal.toFixed(2),
-          row.paidAmount.toFixed(2),
-          row.creditedAmount.toFixed(2),
-          row.outstanding.toFixed(2),
-          row.withholdingAmount.toFixed(2),
-        ]);
+      for (let page = 1; ; page += 1) {
+        const data = await listPurchaseInvoices(actor, { page });
+        for (const row of data.rows) {
+          rows.push([
+            row.number,
+            row.date,
+            row.dueDate,
+            row.vendorName,
+            row.status,
+            row.grandTotal.toFixed(2),
+            row.paidAmount.toFixed(2),
+            row.creditedAmount.toFixed(2),
+            row.outstanding.toFixed(2),
+            row.withholdingAmount.toFixed(2),
+          ]);
+        }
+        if (page >= data.totalPages) break;
       }
       return csvResponse(rows, `faktur-pembelian-${stamp}.csv`);
     }
