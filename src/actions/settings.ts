@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { requireActorForAction } from "@/lib/access";
 import { auth } from "@/lib/auth";
-import { prisma, withFinancialTx } from "@/lib/prisma";
+import { withFinancialTx } from "@/lib/prisma";
 import { actionError, success } from "@/lib/actions";
 import { writeAudit } from "@/lib/audit";
 import { DomainError } from "@/lib/db-errors";

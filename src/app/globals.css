@@ -30,6 +30,7 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    overflow-x: clip;
   }
 
   body {
@@ -44,6 +45,7 @@
       ),
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
     background-attachment: fixed;
+    overflow-x: clip;
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-size: 14px;
@@ -107,6 +109,10 @@
       0 14px 30px -24px rgba(33, 31, 26, 0.45);
   }
 
+  .overflow-x-auto {
+    position: relative;
+  }
+
   .ledger-table {
     width: 100%;
     border-collapse: collapse;
@@ -139,6 +145,24 @@
   }
 
   .ledger-table tbody tr:hover {
+    background-color: var(--color-paper-light);
+  }
+
+  .ledger-table thead th:first-child {
+    background-color: var(--color-paper-deep);
+    left: 0;
+    position: sticky;
+    z-index: 2;
+  }
+
+  .ledger-table tbody td:first-child {
+    background-color: var(--color-card);
+    left: 0;
+    position: sticky;
+    z-index: 1;
+  }
+
+  .ledger-table tbody tr:hover td:first-child {
     background-color: var(--color-paper-light);
   }
 
@@ -252,6 +276,7 @@
   .ledger-table tbody td {
     border-color: #000 !important;
     background: #fff !important;
+    position: static;
   }
 
   .ledger-table tbody tr {
