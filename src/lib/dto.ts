@@ -35,6 +35,7 @@ export interface SelectOption {
 }
 
 export interface AccountOption extends SelectOption {
+  name: string;
   code: string;
   type: AccountType;
   reportGroup: ReportGroup;

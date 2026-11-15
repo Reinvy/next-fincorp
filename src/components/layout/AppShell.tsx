@@ -112,11 +112,6 @@ export function AppShell({ user, memberships, activeCompanyId, notificationCount
   const [drawerOpen, setDrawerOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const pathname = usePathname();
-
-  useEffect(() => {
-    setDrawerOpen(false);
-  }, [pathname]);
 
   useEffect(() => {
     if (!drawerOpen) return;
