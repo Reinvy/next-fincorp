@@ -36,11 +36,6 @@ export function toNumber(value: Moneyish | null | undefined): number {
   return D(value).toNumber();
 }
 
-export function toStringValue(value: Moneyish | null | undefined): string {
-  if (value === null || value === undefined) return "0";
-  return D(value).toFixed(2);
-}
-
 export interface FormatIdrOptions {
   negative?: "minus" | "parentheses";
   withSymbol?: boolean;
@@ -74,13 +69,6 @@ export function formatNumberID(value: Moneyish | null | undefined, decimals = 0)
 
 export function formatPercentID(value: Moneyish | null | undefined, decimals = 2): string {
   return `${formatNumberID(value ?? 0, decimals)}%`;
-}
-
-export function formatQuantityID(value: Moneyish | null | undefined, decimals = 4): string {
-  const amount = D(value ?? 0);
-  const fixed = amount.toFixed(decimals);
-  const trimmed = fixed.replace(/\.?0+$/, "");
-  return formatNumberID(trimmed === "" ? "0" : trimmed, Math.min(decimals, (trimmed.split(".")[1] ?? "").length));
 }
 
 /** Divide safely: returns 0 when the denominator is zero. */

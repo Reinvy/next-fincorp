@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { D } from "@/lib/money";
-import { addDays, daysBetween, fiscalYearBounds, formatDateID } from "@/lib/dates";
+import { addDays, daysBetween, fiscalYearBounds } from "@/lib/dates";
 import type { Actor, ReportGroup } from "@/lib/types";
+import { classifyCashFlow } from "@/server/accounting/calc";
 
 type Decimal = ReturnType<typeof D>;
 
@@ -392,12 +393,7 @@ export async function getCashFlow(actor: Actor, from: Date, to: Date): Promise<C
     const counterpartGroups = entry.lines
       .filter((line) => !cashIds.includes(line.accountId))
       .map((line) => line.account.reportGroup);
-    let classification: CashFlowRow["classification"] = "OPERATING";
-    if (counterpartGroups.some((group) => group === "FIXED_ASSET" || group === "ACCUMULATED_DEPRECIATION")) {
-      classification = "INVESTING";
-    } else if (counterpartGroups.some((group) => group === "EQUITY" || group === "LONG_TERM_LIABILITY")) {
-      classification = "FINANCING";
-    }
+    const classification: CashFlowRow["classification"] = classifyCashFlow(counterpartGroups);
     if (classification === "INVESTING") investing = investing.plus(netCash);
     else if (classification === "FINANCING") financing = financing.plus(netCash);
     else operating = operating.plus(netCash);
@@ -521,8 +517,4 @@ export async function getCompanyLetterhead(actor: Actor) {
     },
   });
   return company;
-}
-
-export function describeRange(from: Date, to: Date): string {
-  return `${formatDateID(from)} – ${formatDateID(to)}`;
 }

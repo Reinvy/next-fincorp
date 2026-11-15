@@ -36,11 +36,9 @@ export function FormFeedback({ state, onSuccess, onError, successMessage }: Form
 
     toast.success(successMessage ?? state.message);
     callbacks.current.onSuccess?.();
-    if (state.redirectTo) {
-      router.push(state.redirectTo);
-    } else {
-      router.refresh();
-    }
+    // Server Actions that call revalidatePath already stream a fresh RSC payload.
+    // An extra router.refresh() here remounts the toast host and discards the toast.
+    if (state.redirectTo) router.push(state.redirectTo);
   }, [state, toast, router, successMessage]);
 
   return null;

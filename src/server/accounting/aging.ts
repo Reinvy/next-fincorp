@@ -36,7 +36,7 @@ export interface AgingReport {
   totals: AgingBuckets;
 }
 
-function bucketFor(daysOverdue: number): keyof Omit<AgingBuckets, "total"> {
+export function bucketFor(daysOverdue: number): keyof Omit<AgingBuckets, "total"> {
   if (daysOverdue <= 0) return "current";
   if (daysOverdue <= 30) return "d1_30";
   if (daysOverdue <= 60) return "d31_60";

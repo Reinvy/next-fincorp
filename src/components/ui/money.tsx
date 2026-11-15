@@ -13,10 +13,6 @@ export function Money({
   return <span className={cn("money whitespace-nowrap", className)}>{formatIDR(value, options)}</span>;
 }
 
-export function Quantity({ value, className }: { value: Moneyish | null | undefined; className?: string }) {
-  return <span className={cn("money whitespace-nowrap", className)}>{formatNumberID(value ?? 0, value && String(value).includes(".") ? 2 : 0)}</span>;
-}
-
 export function Delta({
   value,
   suffix = "%",

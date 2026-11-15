@@ -20,20 +20,6 @@ export async function assertPeriodOpen(tx: Tx, companyId: string, date: Date): P
   }
 }
 
-export async function isPeriodClosed(tx: Tx, companyId: string, date: Date): Promise<boolean> {
-  const period = await tx.fiscalPeriod.findUnique({
-    where: {
-      companyId_year_month: {
-        companyId,
-        year: date.getUTCFullYear(),
-        month: date.getUTCMonth() + 1,
-      },
-    },
-    select: { status: true },
-  });
-  return period?.status === "CLOSED";
-}
-
 export interface PeriodRow {
   year: number;
   month: number;

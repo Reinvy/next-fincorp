@@ -12,6 +12,8 @@ import { SearchFilterBar } from "@/components/ui/filter-bar";
 import { Field } from "@/components/ui/field";
 import { Input, Select } from "@/components/ui/input";
 import { TaxInvoiceDialog } from "@/components/forms/SalesDialogs";
+import { DownloadLink } from "@/components/ui/download-link";
+import { buttonStyles } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "e-Faktur" };
@@ -42,7 +44,12 @@ export default async function EfakturPage({
         }
         eyebrow={activeCompany.companyName}
         title="e-Faktur"
-        description="Pencatatan status faktur pajak lokal. Tidak ada koneksi langsung ke DJP; ekspor CSV tersedia dari halaman laporan."
+        description="Pencatatan status faktur pajak lokal. Tidak ada koneksi langsung ke DJP."
+        actions={
+          <DownloadLink href={`/api/export/efaktur?period=${period}`} className={buttonStyles({ variant: "secondary", size: "md" })}>
+            CSV
+          </DownloadLink>
+        }
       />
 
       <PaperCard className="overflow-hidden">

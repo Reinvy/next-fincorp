@@ -35,7 +35,7 @@ export default async function FixedAssetDetailPage({ params }: { params: Promise
       select: { id: true, number: true, date: true },
     }),
   ]);
-  const schedule = projectDepreciation(asset, todayISO().slice(0, 7), 24);
+  const schedule = asset.status === "DISPOSED" ? [] : projectDepreciation(asset, todayISO().slice(0, 7), 24);
   const canEdit = actor.role !== "VIEWER" && asset.status !== "DISPOSED";
 
   return (

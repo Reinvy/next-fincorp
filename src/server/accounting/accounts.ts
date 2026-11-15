@@ -391,12 +391,3 @@ export async function getAccountByCode(tx: Tx, companyId: string, code: string) 
   if (!account) throw new DomainError("INVALID_INPUT", `Akun ${code} tidak ditemukan pada perusahaan ini.`);
   return account;
 }
-
-export async function getAccountById(tx: Tx, companyId: string, id: string) {
-  const account = await tx.glAccount.findFirst({
-    where: { id, companyId },
-    select: { id: true, code: true, name: true, systemRole: true, isActive: true },
-  });
-  if (!account) throw new DomainError("INVALID_INPUT", "Akun tidak ditemukan pada perusahaan ini.");
-  return account;
-}

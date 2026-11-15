@@ -13,6 +13,7 @@ import { LEDGER_PAGE_SIZE } from "@/lib/constants";
 import { BankAccountActiveButton, CashTransactionDialog, TransferDialog } from "@/components/forms/CashDialogs";
 import { ActionLink, KpiCard, PageHeader, PaperCard, SectionRule, Stamp } from "@/components/ui/paper";
 import { PrintButton } from "@/components/print/PrintButton";
+import { DownloadLink } from "@/components/ui/download-link";
 import { Pagination } from "@/components/ui/pagination";
 
 export const dynamic = "force-dynamic";
@@ -82,6 +83,12 @@ export default async function BankAccountDetailPage({
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <PrintButton />
+            <DownloadLink
+              href={`/api/export/general-ledger?account=${account.coaAccountId}&from=${from.toISOString().slice(0, 10)}&to=${to.toISOString().slice(0, 10)}`}
+              className="inline-flex h-9 items-center rounded-[3px] border border-rule-strong bg-card px-3 font-mono text-[11px] uppercase tracking-[0.08em] text-ink hover:bg-paper-light"
+            >
+              CSV
+            </DownloadLink>
             {canEdit ? (
               <>
                 <CashTransactionDialog

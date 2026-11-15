@@ -16,6 +16,7 @@ export const metadata = { title: "Akuntansi" };
 
 export default async function AccountingPage() {
   const { actor, activeCompany } = await requireActorPage();
+  const canEdit = actor.role !== "VIEWER";
   const asOf = dateFromISO(todayISO());
   const [trialBalance, journals, period] = await Promise.all([
     getTrialBalance(actor, asOf),
@@ -50,7 +51,7 @@ export default async function AccountingPage() {
         eyebrow={activeCompany.companyName}
         title="Akuntansi"
         description="Seluruh saldo berasal dari jurnal terposting. Tidak ada saldo yang disimpan terpisah."
-        actions={<ActionLink href="/accounting/journal/new">Jurnal baru</ActionLink>}
+        actions={canEdit ? <ActionLink href="/accounting/journal/new">Jurnal baru</ActionLink> : undefined}
       />
       <AccountingTabs />
 

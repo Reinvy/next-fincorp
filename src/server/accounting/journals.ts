@@ -362,12 +362,3 @@ export async function getLedgerReport(actor: Actor, filters: LedgerFilters): Pro
     total: lines.length,
   };
 }
-
-export function ledgerDefaultRange(today: Date): { from: Date; to: Date } {
-  const year = today.getUTCFullYear();
-  const month = today.getUTCMonth();
-  return {
-    from: new Date(Date.UTC(year, month, 1)),
-    to: new Date(Date.UTC(year, month + 1, 0)),
-  };
-}

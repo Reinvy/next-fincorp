@@ -395,7 +395,11 @@ export async function getPurchaseInvoiceDetail(actor: Actor, invoiceId: string):
       total: D(note.total).toNumber(),
       reason: note.reason,
     })),
-    canVoid: invoice.status === "DRAFT" || (invoice.status === "UNPAID" && invoice.payments.length === 0 && D(invoice.creditedAmount).isZero()),
+    canVoid:
+      invoice.status === "DRAFT" ||
+      (invoice.status === "UNPAID" &&
+        invoice.payments.every((payment) => payment.voidedAt !== null) &&
+        D(invoice.creditedAmount).isZero()),
     canPay: (invoice.status === "UNPAID" || invoice.status === "PARTIAL") && outstanding.greaterThan(0),
     canReturn:
       (invoice.status === "UNPAID" || invoice.status === "PARTIAL") &&

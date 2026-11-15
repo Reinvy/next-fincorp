@@ -402,7 +402,11 @@ export async function getSalesInvoiceDetail(actor: Actor, invoiceId: string): Pr
       total: D(note.total).toNumber(),
       reason: note.reason,
     })),
-    canVoid: invoice.status === "DRAFT" || (invoice.status === "UNPAID" && invoice.payments.length === 0 && D(invoice.creditedAmount).isZero()),
+    canVoid:
+      invoice.status === "DRAFT" ||
+      (invoice.status === "UNPAID" &&
+        invoice.payments.every((payment) => payment.voidedAt !== null) &&
+        D(invoice.creditedAmount).isZero()),
     canPay: (invoice.status === "UNPAID" || invoice.status === "PARTIAL") && outstanding.greaterThan(0),
     canReturn: invoice.status !== "DRAFT" && invoice.status !== "VOID" && outstanding.greaterThan(0),
     canUpdateTax:

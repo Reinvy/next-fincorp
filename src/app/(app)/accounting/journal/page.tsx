@@ -32,6 +32,7 @@ export default async function JournalListPage({
   const to = rawTo ? dateFromISO(rawTo) : undefined;
   const page = Math.max(1, Number.parseInt(firstValue(params.page) ?? "1", 10) || 1);
   const result = await listJournals(actor, { q, status, from, to, page });
+  const canEdit = actor.role !== "VIEWER";
 
   return (
     <>
@@ -39,7 +40,7 @@ export default async function JournalListPage({
         eyebrow={activeCompany.companyName}
         title="Jurnal Umum"
         description="Setiap transaksi menghasilkan satu jurnal double-entry. Jurnal terposting tidak dapat diubah, hanya dibalik."
-        actions={<ActionLink href="/accounting/journal/new">Jurnal baru</ActionLink>}
+        actions={canEdit ? <ActionLink href="/accounting/journal/new">Jurnal baru</ActionLink> : undefined}
       />
       <AccountingTabs />
 

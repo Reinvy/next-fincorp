@@ -1,4 +1,4 @@
-import { dateFromISO, isValidISODate, todayISO } from "@/lib/dates";
+import { dateFromISO, isValidISODate } from "@/lib/dates";
 
 export function firstValue(value: string | string[] | undefined): string | undefined {
   return Array.isArray(value) ? value[0] : value;
@@ -13,8 +13,4 @@ export function intParam(value: string | string[] | undefined, fallback: number)
   const raw = firstValue(value);
   const parsed = raw ? Number.parseInt(raw, 10) : Number.NaN;
   return Number.isFinite(parsed) ? parsed : fallback;
-}
-
-export function todayParam(): Date {
-  return dateFromISO(todayISO());
 }

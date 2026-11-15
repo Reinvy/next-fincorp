@@ -140,18 +140,3 @@ export async function getGroupBalances(
   for (const [group, value] of totals) result.set(group, value.toNumber());
   return result;
 }
-
-export async function getAccountRawBalance(actor: Actor, accountId: string, asOf?: Date): Promise<number> {
-  const aggregate = await prisma.journalLine.aggregate({
-    where: {
-      accountId,
-      journalEntry: {
-        companyId: actor.companyId,
-        status: "POSTED",
-        ...(asOf ? { date: { lte: asOf } } : {}),
-      },
-    },
-    _sum: { debit: true, credit: true },
-  });
-  return D(aggregate._sum.debit ?? 0).minus(D(aggregate._sum.credit ?? 0)).toNumber();
-}

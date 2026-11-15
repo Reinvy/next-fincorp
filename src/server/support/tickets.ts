@@ -196,5 +196,3 @@ export async function updateTicketStatus(actor: Actor, ticketId: string, next: T
     });
   });
 }
-
-export const TICKET_FLOW = FLOW;

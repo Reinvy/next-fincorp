@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, IBM_Plex_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import { HydrationProbe } from "@/components/layout/HydrationProbe";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -33,7 +34,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id" className={`${fraunces.variable} ${inter.variable} ${plexMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <HydrationProbe />
+        {children}
+      </body>
     </html>
   );
 }

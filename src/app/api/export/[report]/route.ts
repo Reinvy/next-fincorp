@@ -15,6 +15,7 @@ import { listSalesInvoices } from "@/server/sales/invoices";
 import { listPurchaseInvoices } from "@/server/purchases/invoices";
 import { listFixedAssets } from "@/server/assets/assets";
 import { getTaxSummary } from "@/server/tax/tax";
+import { listEfakturInvoices } from "@/server/tax/efaktur";
 import { toCsv } from "@/lib/csv";
 
 const KNOWN_REPORTS: Record<string, true> = {
@@ -30,6 +31,7 @@ const KNOWN_REPORTS: Record<string, true> = {
   invoices: true,
   purchases: true,
   assets: true,
+  efaktur: true,
   backup: true,
 };
 
@@ -198,16 +200,38 @@ export async function GET(
     case "general-ledger": {
       const accountId = url.searchParams.get("account");
       if (!accountId) return new NextResponse("Parameter akun wajib", { status: 400 });
-      const data = await getLedgerReport(actor, { accountId, from, to, page: 1 });
+      const first = await getLedgerReport(actor, { accountId, from, to, page: 1 });
       const rows: Array<Array<string | number>> = [
         ["Tanggal", "Jurnal", "Keterangan", "Referensi", "Debit", "Kredit", "Saldo"],
-        ["", "", "Saldo awal", "", "", "", data.opening.toFixed(2)],
+        ["", "", "Saldo awal", "", "", "", first.opening.toFixed(2)],
       ];
-      for (const row of data.rows) {
-        rows.push([row.date, row.number, row.description, row.reference ?? "", row.debit.toFixed(2), row.credit.toFixed(2), row.balance.toFixed(2)]);
+      for (let page = 1; page <= first.totalPages; page += 1) {
+        const data = page === 1 ? first : await getLedgerReport(actor, { accountId, from, to, page });
+        for (const row of data.rows) {
+          rows.push([row.date, row.number, row.description, row.reference ?? "", row.debit.toFixed(2), row.credit.toFixed(2), row.balance.toFixed(2)]);
+        }
       }
-      rows.push(["", "", "Saldo akhir", "", "", "", data.ending.toFixed(2)]);
-      return csvResponse(rows, `buku-besar-${data.account.code}-${from.toISOString().slice(0, 10)}-${to.toISOString().slice(0, 10)}.csv`);
+      rows.push(["", "", "Saldo akhir", "", "", "", first.ending.toFixed(2)]);
+      return csvResponse(rows, `buku-besar-${first.account.code}-${from.toISOString().slice(0, 10)}-${to.toISOString().slice(0, 10)}.csv`);
+    }
+    case "efaktur": {
+      const invoices = await listEfakturInvoices(actor, { period });
+      const rows: Array<Array<string | number>> = [
+        ["Nomor faktur", "Tanggal", "Pelanggan", "NPWP", "Total", "Nomor pajak", "Tanggal pajak", "Status"],
+      ];
+      for (const invoice of invoices) {
+        rows.push([
+          invoice.number,
+          invoice.date,
+          invoice.customerName,
+          invoice.customerNpwp ?? "",
+          invoice.grandTotal.toFixed(2),
+          invoice.taxInvoiceNumber ?? "",
+          invoice.taxInvoiceDate ?? "",
+          invoice.taxInvoiceStatus,
+        ]);
+      }
+      return csvResponse(rows, `efaktur-${period}.csv`);
     }
     case "invoices": {
       const data = await listSalesInvoices(actor, { page: 1 });

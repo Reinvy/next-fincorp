@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from "react";
+import { useSyncExternalStore, type ReactNode } from "react";
 import { CheckCircle2, Info, X, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +19,35 @@ interface ToastApi {
   dismiss: (id: number) => void;
 }
 
-const ToastContext = createContext<ToastApi | null>(null);
+// Module-level store: server-action revalidation can remount the provider, and
+// toasts must survive that remount long enough to be read by the user.
+const EMPTY: ToastItem[] = [];
+let toasts: ToastItem[] = EMPTY;
+let nextId = 1;
+const listeners = new Set<() => void>();
+
+function notify() {
+  for (const listener of listeners) listener();
+}
+
+function dismiss(id: number) {
+  toasts = toasts.filter((toast) => toast.id !== id);
+  notify();
+}
+
+function push(tone: ToastTone, message: string) {
+  const id = nextId++;
+  toasts = [...toasts.slice(-2), { id, tone, message }];
+  notify();
+  window.setTimeout(() => dismiss(id), 4000);
+}
+
+const api: ToastApi = {
+  success: (message) => push("success", message),
+  error: (message) => push("error", message),
+  info: (message) => push("info", message),
+  dismiss,
+};
 
 const toneStyles: Record<ToastTone, { bar: string; icon: ReactNode }> = {
   success: { bar: "border-l-forest", icon: <CheckCircle2 className="h-4 w-4 text-forest" aria-hidden="true" /> },
@@ -27,42 +55,25 @@ const toneStyles: Record<ToastTone, { bar: string; icon: ReactNode }> = {
   info: { bar: "border-l-sky", icon: <Info className="h-4 w-4 text-sky" aria-hidden="true" /> },
 };
 
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
 export function ToastProvider({ children }: { children: ReactNode }) {
-  const [toasts, setToasts] = useState<ToastItem[]>([]);
-  const nextId = useRef(1);
-
-  const dismiss = useCallback((id: number) => {
-    setToasts((current) => current.filter((toast) => toast.id !== id));
-  }, []);
-
-  const push = useCallback(
-    (tone: ToastTone, message: string) => {
-      const id = nextId.current++;
-      setToasts((current) => [...current.slice(-2), { id, tone, message }]);
-      window.setTimeout(() => dismiss(id), 4000);
-    },
-    [dismiss],
-  );
-
-  const api = useMemo<ToastApi>(
-    () => ({
-      success: (message) => push("success", message),
-      error: (message) => push("error", message),
-      info: (message) => push("info", message),
-      dismiss,
-    }),
-    [push, dismiss],
-  );
+  const items = useSyncExternalStore(subscribe, () => toasts, () => EMPTY);
 
   return (
-    <ToastContext.Provider value={api}>
+    <>
       {children}
       <div
         aria-live="polite"
         aria-atomic="false"
         className="app-toast no-print pointer-events-none fixed bottom-4 right-4 z-[60] flex w-[min(92vw,360px)] flex-col gap-2"
       >
-        {toasts.map((toast) => (
+        {items.map((toast) => (
           <div
             key={toast.id}
             className={cn(
@@ -83,12 +94,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           </div>
         ))}
       </div>
-    </ToastContext.Provider>
+    </>
   );
 }
 
 export function useToast(): ToastApi {
-  const context = useContext(ToastContext);
-  if (!context) throw new Error("useToast harus dipakai di dalam ToastProvider.");
-  return context;
+  return api;
 }

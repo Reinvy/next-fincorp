@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { LedgerMark } from "@/components/brand/LedgerMark";
-import { formatDateLongID } from "@/lib/dates";
 
 export interface CompanyLetterhead {
   name: string;
@@ -97,13 +96,5 @@ export function DocumentMeta({ items }: { items: Array<{ label: string; value: R
         </div>
       ))}
     </dl>
-  );
-}
-
-export function PrintPeriod({ from, to }: { from: string; to: string }) {
-  return (
-    <span>
-      Periode {formatDateLongID(from)} – {formatDateLongID(to)}
-    </span>
   );
 }

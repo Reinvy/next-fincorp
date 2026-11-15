@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import { D, roundRp, sum, type Moneyish } from "@/lib/money";
+import type { ReportGroup } from "@/lib/types";
 
 export interface LineAmountInput {
   quantity: string | number;
@@ -63,4 +64,17 @@ export function computeWithholding(input: {
 export function outstandingAmount(total: Moneyish, paid: Moneyish, credited: Moneyish): Decimal {
   const value = D(total).minus(D(paid)).minus(D(credited));
   return value.greaterThan(0) ? value : D(0);
+}
+
+export type CashFlowClass = "OPERATING" | "INVESTING" | "FINANCING";
+
+/** Classify a cash movement by the report groups of its non-cash counterparts. */
+export function classifyCashFlow(counterpartGroups: ReportGroup[]): CashFlowClass {
+  if (counterpartGroups.some((group) => group === "FIXED_ASSET" || group === "ACCUMULATED_DEPRECIATION")) {
+    return "INVESTING";
+  }
+  if (counterpartGroups.some((group) => group === "EQUITY" || group === "LONG_TERM_LIABILITY")) {
+    return "FINANCING";
+  }
+  return "OPERATING";
 }
