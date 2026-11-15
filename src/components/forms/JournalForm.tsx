@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useMemo, useState } from "react";
+import { useActionState, useMemo, useRef, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { saveJournalAction } from "@/actions/journals";
 import { IDLE_STATE, type ActionState } from "@/lib/types";
@@ -31,12 +31,6 @@ export interface JournalDraftData {
   lines: Array<{ accountId: string; description: string | null; debit: number; credit: number }>;
 }
 
-let lineCounter = 0;
-function newLine(): LineState {
-  lineCounter += 1;
-  return { key: `line-${lineCounter}`, accountId: "", description: "", debit: "", credit: "" };
-}
-
 export function JournalForm({
   accounts,
   today,
@@ -46,12 +40,17 @@ export function JournalForm({
   today: string;
   draft?: JournalDraftData;
 }) {
+  const lineCounter = useRef(0);
+  const newLine = (): LineState => {
+    lineCounter.current += 1;
+    return { key: `line-${lineCounter.current}`, accountId: "", description: "", debit: "", credit: "" };
+  };
   const [lines, setLines] = useState<LineState[]>(() =>
     draft
       ? draft.lines.map((line) => {
-          lineCounter += 1;
+          lineCounter.current += 1;
           return {
-            key: `line-${lineCounter}`,
+            key: `line-${lineCounter.current}`,
             accountId: line.accountId,
             description: line.description ?? "",
             debit: line.debit ? String(Math.round(line.debit)) : "",

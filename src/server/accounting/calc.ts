@@ -40,10 +40,10 @@ export function computeInvoiceTotals(items: LineAmountInput[], ppnRate: string |
 
 /** Pro-rata withholding for a purchase payment; the final payment settles the remainder. */
 export function computeWithholding(input: {
-  withholdingAmount: string | number;
-  withheldSoFar: string | number;
-  paymentAmount: string | number;
-  settlementTarget: string | number;
+  withholdingAmount: Moneyish;
+  withheldSoFar: Moneyish;
+  paymentAmount: Moneyish;
+  settlementTarget: Moneyish;
   finalPayment: boolean;
 }): Decimal {
   const withholding = D(input.withholdingAmount);

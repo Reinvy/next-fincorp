@@ -380,6 +380,8 @@ model GlAccount {
   assetsAsAsset FixedAsset[] @relation("AssetAccount")
   assetsAsAccumulated FixedAsset[] @relation("AccumulatedAccount")
   assetsAsDepreciationExpense FixedAsset[] @relation("DepreciationExpenseAccount")
+  purchaseItems     PurchaseInvoiceItem[]
+  debitNoteItems    PurchaseDebitNoteItem[]
 
   @@unique([companyId, code])
   @@index([companyId, type, reportGroup])
@@ -679,6 +681,7 @@ model PurchaseInvoiceItem {
 
   invoice   PurchaseInvoice         @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
   debitItems PurchaseDebitNoteItem[]
+  account   GlAccount               @relation(fields: [accountId], references: [id], onDelete: Restrict)
 
   @@index([invoiceId])
 }
@@ -745,6 +748,7 @@ model PurchaseDebitNoteItem {
 
   debitNote   PurchaseDebitNote    @relation(fields: [debitNoteId], references: [id], onDelete: Cascade)
   invoiceItem PurchaseInvoiceItem? @relation(fields: [invoiceItemId], references: [id], onDelete: SetNull)
+  account     GlAccount            @relation(fields: [accountId], references: [id], onDelete: Restrict)
 
   @@index([debitNoteId])
 }
