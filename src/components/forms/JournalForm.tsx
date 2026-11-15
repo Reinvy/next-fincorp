@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useMemo, useRef, useState } from "react";
+import { useActionState, useId, useMemo, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { saveJournalAction } from "@/actions/journals";
 import { IDLE_STATE, type ActionState } from "@/lib/types";
@@ -40,24 +40,27 @@ export function JournalForm({
   today: string;
   draft?: JournalDraftData;
 }) {
-  const lineCounter = useRef(0);
-  const newLine = (): LineState => {
-    lineCounter.current += 1;
-    return { key: `line-${lineCounter.current}`, accountId: "", description: "", debit: "", credit: "" };
-  };
+  const formId = useId();
+  const newLine = (): LineState => ({
+    key: crypto.randomUUID(),
+    accountId: "",
+    description: "",
+    debit: "",
+    credit: "",
+  });
   const [lines, setLines] = useState<LineState[]>(() =>
     draft
-      ? draft.lines.map((line) => {
-          lineCounter.current += 1;
-          return {
-            key: `line-${lineCounter.current}`,
-            accountId: line.accountId,
-            description: line.description ?? "",
-            debit: line.debit ? String(Math.round(line.debit)) : "",
-            credit: line.credit ? String(Math.round(line.credit)) : "",
-          };
-        })
-      : [newLine(), newLine()],
+      ? draft.lines.map((line, index) => ({
+          key: `${formId}-${index}`,
+          accountId: line.accountId,
+          description: line.description ?? "",
+          debit: line.debit ? String(Math.round(line.debit)) : "",
+          credit: line.credit ? String(Math.round(line.credit)) : "",
+        }))
+      : [
+          { key: `${formId}-0`, accountId: "", description: "", debit: "", credit: "" },
+          { key: `${formId}-1`, accountId: "", description: "", debit: "", credit: "" },
+        ],
   );
   const [state, formAction, pending] = useActionState(saveJournalAction, IDLE_STATE as ActionState);
 

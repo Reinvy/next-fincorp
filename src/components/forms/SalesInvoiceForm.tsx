@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useMemo, useRef, useState } from "react";
+import { useActionState, useId, useMemo, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { saveSalesInvoiceAction } from "@/actions/sales";
 import { IDLE_STATE, type ActionState } from "@/lib/types";
@@ -46,14 +46,12 @@ export function SalesInvoiceForm({
   ppnRate: string;
   isPkp: boolean;
 }) {
-  const rowCounter = useRef(0);
-  const [rows, setRows] = useState<RowState[]>(() => {
-    rowCounter.current += 1;
-    return [{ key: `row-${rowCounter.current}`, description: "", quantity: "1", unitPrice: "", discountPercent: "0" }];
-  });
+  const formId = useId();
+  const [rows, setRows] = useState<RowState[]>(() => [
+    { key: `${formId}-0`, description: "", quantity: "1", unitPrice: "", discountPercent: "0" },
+  ]);
   function emptyRow(): RowState {
-    rowCounter.current += 1;
-    return { key: `row-${rowCounter.current}`, description: "", quantity: "1", unitPrice: "", discountPercent: "0" };
+    return { key: crypto.randomUUID(), description: "", quantity: "1", unitPrice: "", discountPercent: "0" };
   }
   const [rowPpnRate, setRowPpnRate] = useState(isPkp ? ppnRate : "0");
   const [state, formAction, pending] = useActionState(saveSalesInvoiceAction, IDLE_STATE as ActionState);

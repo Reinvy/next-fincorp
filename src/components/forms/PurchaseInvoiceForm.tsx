@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useMemo, useRef, useState } from "react";
+import { useActionState, useId, useMemo, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { savePurchaseInvoiceAction } from "@/actions/purchases";
 import { IDLE_STATE, type ActionState } from "@/lib/types";
@@ -52,14 +52,12 @@ export function PurchaseInvoiceForm({
   ppnRate: string;
   defaultWithholdingType?: string;
 }) {
-  const counter = useRef(0);
-  const [rows, setRows] = useState<RowState[]>(() => {
-    counter.current += 1;
-    return [{ key: `prow-${counter.current}`, accountId: "", description: "", quantity: "1", unitPrice: "", discountPercent: "0" }];
-  });
+  const formId = useId();
+  const [rows, setRows] = useState<RowState[]>(() => [
+    { key: `${formId}-0`, accountId: "", description: "", quantity: "1", unitPrice: "", discountPercent: "0" },
+  ]);
   function emptyRow(): RowState {
-    counter.current += 1;
-    return { key: `prow-${counter.current}`, accountId: "", description: "", quantity: "1", unitPrice: "", discountPercent: "0" };
+    return { key: crypto.randomUUID(), accountId: "", description: "", quantity: "1", unitPrice: "", discountPercent: "0" };
   }
   const [ppn, setPpn] = useState(ppnRate);
   const [withholdingType, setWithholdingType] = useState(defaultWithholdingType);
