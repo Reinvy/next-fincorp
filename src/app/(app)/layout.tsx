@@ -1,10 +1,12 @@
 import { requireActorPage } from "@/lib/access";
 import { AppShell } from "@/components/layout/AppShell";
+import { countAlerts } from "@/server/accounting/alerts";
 
 export const dynamic = "force-dynamic";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const { user, memberships, activeCompany } = await requireActorPage();
+  const { user, memberships, activeCompany, actor } = await requireActorPage();
+  const notificationCount = await countAlerts(actor, user.id);
 
   return (
     <AppShell
@@ -15,7 +17,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         role: membership.role,
       }))}
       activeCompanyId={activeCompany.companyId}
-      notificationCount={0}
+      notificationCount={notificationCount}
     >
       {children}
     </AppShell>

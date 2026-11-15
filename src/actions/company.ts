@@ -56,3 +56,29 @@ export async function switchCompanyAction(companyId: string): Promise<ActionStat
     return actionError(error, "Gagal mengganti perusahaan.");
   }
 }
+
+const additionalCompanySchema = z.object({
+  name: requiredText(120, "Nama perusahaan"),
+  npwp: optionalText(30),
+  city: optionalText(80),
+  isPkp: z.preprocess((value) => value === "on" || value === "true", z.boolean()),
+  ppnRate: percentStringSchema,
+  fiscalYearStartMonth: z.coerce.number().int().min(1).max(12),
+});
+
+export async function createAdditionalCompanyAction(
+  prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  void prevState;
+  try {
+    const user = await requireUserForAction();
+    const parsed = additionalCompanySchema.parse(Object.fromEntries(formData));
+    const created = await prisma.$transaction((tx) => createCompanyForUser(tx, user.id, parsed));
+    await setActiveCompanyCookie(created.companyId);
+    revalidatePath("/", "layout");
+    return success("Perusahaan baru dibuat. Anda menjadi admin di perusahaan ini.", "/dashboard");
+  } catch (error) {
+    return actionError(error, "Gagal membuat perusahaan baru.");
+  }
+}
