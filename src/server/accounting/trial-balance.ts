@@ -68,7 +68,7 @@ export async function getTrialBalance(actor: Actor, asOf: Date): Promise<TrialBa
     if (!row) continue;
     const raw = D(row._sum.debit ?? 0).minus(D(row._sum.credit ?? 0));
     if (raw.isZero()) continue;
-    const debit = raw.isPositive() ? raw.toNumber() : 0;
+    const debit = raw.greaterThan(0) ? raw.toNumber() : 0;
     const credit = raw.isNegative() ? raw.abs().toNumber() : 0;
     const list = byGroup.get(account.reportGroup) ?? [];
     list.push({
