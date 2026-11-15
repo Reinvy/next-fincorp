@@ -40,6 +40,7 @@ export type SystemRole =
   | "SALES_RETURN"
   | "PURCHASE_RETURN"
   | "OTHER_INCOME"
+  | "OTHER_EXPENSE"
   | "COST_OF_GOODS_SOLD"
   | "DEPRECIATION_EXPENSE"
   | "BANK_FEE"
