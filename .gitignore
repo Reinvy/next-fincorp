@@ -12,10 +12,17 @@
 
 # testing
 /coverage
+/test-results
+/playwright-report
+/blob-report
+/.env.test
 
 # next.js
 /.next/
 /out/
+
+# prisma generated client
+/src/generated/prisma
 
 # production
 /build

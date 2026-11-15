@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: fincorp-db
+    ports: ["5433:5432"]
+    environment:
+      POSTGRES_USER: fincorp
+      POSTGRES_PASSWORD: fincorp
+      POSTGRES_DB: fincorp
+    volumes:
+      - fincorp_pgdata:/var/lib/postgresql/data
+      - ./docker/init-test-db.sql:/docker-entrypoint-initdb.d/01-test-db.sql:ro,Z
+volumes:
+  fincorp_pgdata:

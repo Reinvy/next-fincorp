@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: "standalone",
+  allowedDevOrigins: ["localhost", "127.0.0.1"],
+  serverExternalPackages: ["@prisma/client", "@prisma/adapter-pg", "pg"],
+  experimental: {
+    serverActions: { bodySizeLimit: "4mb" },
+  },
 };
 
 export default nextConfig;
