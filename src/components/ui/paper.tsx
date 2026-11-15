@@ -37,7 +37,7 @@ export function PageHeader({
   breadcrumbs?: ReactNode;
 }) {
   return (
-    <header className="mb-6">
+    <header className="no-print mb-6">
       {breadcrumbs ? <div className="mb-2">{breadcrumbs}</div> : null}
       {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
       <div className="mt-1 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">

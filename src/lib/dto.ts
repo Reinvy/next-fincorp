@@ -228,6 +228,7 @@ export interface SalesInvoiceDetail extends SalesInvoiceListItem {
   canVoid: boolean;
   canPay: boolean;
   canReturn: boolean;
+  canUpdateTax: boolean;
 }
 
 export interface PurchaseInvoiceListItem {
